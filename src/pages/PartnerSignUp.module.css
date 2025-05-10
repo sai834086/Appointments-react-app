@@ -1,0 +1,87 @@
+.pageContainer {
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  align-items: center;
+  background: #f4f7fc;
+}
+/* Navbar */
+.header {
+  display: flex;
+  height: 12vh;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  background-color: #2c3e50;
+}
+.logoContainer {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+.logoContainer p {
+  display: flex;
+  justify-content: center;
+  color: rgb(176, 192, 198);
+  width: 100%;
+  font-style: italic;
+  font-size: 30px;
+  font-weight: 600;
+}
+.navbar ul {
+  display: flex;
+  gap: 30px;
+  font-weight: 400;
+  justify-content: center;
+  align-items: center;
+  list-style-type: none;
+  text-decoration: none;
+}
+.navbar a {
+  color: rgb(251, 251, 251);
+  text-decoration: none;
+  font-size: 22px;
+}
+.navbar a:hover {
+  color: rgb(154, 3, 3);
+  transition-duration: 0.1s;
+  cursor: pointer;
+}
+.navbar {
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  height: 10vh;
+  margin-right: 15px;
+}
+.pageContainer2 {
+  margin: 0;
+  background-color: rgb(253, 253, 253);
+  height: 100vh;
+  width: 100%;
+}
+.stepsDisplay {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+  height: 8vh;
+  background-color: silver;
+}
+.eachStep {
+  background-color: rgb(159, 151, 151);
+  color: white;
+  font-weight: bold;
+  padding: 5px 10px 5px 10px;
+  border-radius: 15px;
+  border: none;
+}
+.activeStep {
+  background-color: rgb(154, 3, 3);
+  color: white;
+  font-weight: bold;
+  padding: 5px 10px 5px 10px;
+  border-radius: 15px;
+  border: none;
+}

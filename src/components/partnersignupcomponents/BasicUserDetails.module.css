@@ -1,0 +1,59 @@
+.signUpHead {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 10vh;
+  font-size: 30px;
+  font-weight: bold;
+  padding: 10px;
+  color: rgb(154, 3, 3);
+  font-family: Arial, sans-serif;
+  font-style: italic;
+}
+.signUpDetails {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  height: 65vh;
+  margin-top: 20px;
+}
+.eachField {
+  display: flex;
+  gap: 20px;
+}
+.eachField label {
+  display: flex;
+  width: 200px;
+  font-size: 20px;
+  font-weight: bold;
+  color: rgb(156, 64, 64);
+}
+.eachField input {
+  display: flex;
+  width: 300px;
+  height: 30px;
+  border-radius: 5px;
+  border: 1px solid rgb(0, 0, 0);
+}
+.eachField input:focus {
+  outline: none;
+  border: 1px solid rgb(154, 3, 3);
+}
+.nextButton Button {
+  width: 200px;
+}
+.error {
+  color: red;
+  font-size: 15px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+.passwordHint {
+    display: flex;
+    justify-content: center;
+  width: 100%;
+  color: rgb(163, 101, 101);
+  font-size: 15px;
+  margin-top: 10px;
+}

@@ -1,0 +1,140 @@
+.mainContainer {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  row-gap: 30px;
+}
+
+.formContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px 40px;
+}
+
+.eachField {
+  display: flex;
+  flex-direction: column;
+}
+
+.eachField label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #9c4040;
+  margin-bottom: 6px;
+}
+
+.eachField input,
+.eachField select {
+  padding: 8px 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  transition: border-color 0.2s;
+}
+
+.eachField input:focus,
+.eachField select:focus {
+  outline: none;
+  border-color: #9a0303;
+}
+
+/* Availability Section */
+.availabilityContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.availabilityField {
+  background: #f4f4f4;
+  padding: 20px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+}
+
+.availabilityField h4 {
+  font-size: 1.1rem;
+  color: #9c4040;
+  margin-bottom: 12px;
+}
+
+.availabilityInputs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 15px 25px;
+  margin-bottom: 15px;
+}
+
+.availabilityInputs label {
+  align-self: center;
+}
+
+/* Break Time Section */
+.breakTimeContainer {
+  display: grid;
+  grid-template-columns: 140px 140px auto;
+  gap: 15px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.breakTimeContainer input {
+  padding: 6px;
+  border-radius: 5px;
+}
+
+.breakTimeContainer button {
+  padding: 6px 12px;
+  background: #d9534f;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.breakTimeContainer button:hover {
+  background: #c9302c;
+}
+
+/* Add Break Button */
+.addBreakBtn {
+  padding: 6px 14px;
+  background: #0275d8;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.addBreakBtn:hover {
+  background: #025aa5;
+}
+
+/* Submit Button */
+.button {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.button button {
+  padding: 10px 24px;
+  background: #5cb85c;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.button button:hover {
+  background: #449d44;
+}

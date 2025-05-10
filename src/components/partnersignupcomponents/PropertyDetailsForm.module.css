@@ -1,0 +1,55 @@
+.mainContainer {
+  width: 100%;
+  height: 80vh;
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  margin-left: 50px;
+}
+
+.form button {
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+  height: 40px;
+  margin-top: 20px;
+}
+.formContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  flex-flow: wrap;
+  margin: 40px;
+}
+.eachField {
+  display: flex;
+  margin-right: 30px;
+  
+}
+.eachField label {
+  display: flex;
+  width: 160px;
+  font-size: 20px;
+  font-weight: bold;
+  color: rgb(156, 64, 64);
+}
+.eachField input {
+  display: flex;
+  width: 250px;
+  height: 30px;
+  border-radius: 5px;
+  border: 1px solid rgb(0, 0, 0);
+}
+.eachField input:focus {
+  outline: none;
+  border: 1px solid rgb(154, 3, 3);
+}
+.addressStart {
+  display: flex;
+  gap: 50px;
+  font-size: 20px;
+  color: rgb(156, 64, 64);
+}
