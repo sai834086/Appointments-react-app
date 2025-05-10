@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import Logo from "../components/Logo";
 import { NavLink } from "react-router-dom";
 import Button from "../components/Button";
-import BasicUserDetails from "../components/partnersignupcomponents/basicuserdetails";
+import BasicUserDetails from "../components/partnersignupcomponents/BasicUserDetails";
 import PropertyDetails from "../components/partnersignupcomponents/PropertyDetails";
 import EmployeeDetails from "../components/partnersignupcomponents/EmployeeDetails";
 
