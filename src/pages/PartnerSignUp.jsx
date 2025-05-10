@@ -9,7 +9,6 @@ import EmployeeDetails from "../components/partnersignupcomponents/EmployeeDetai
 
 export default function PartnerSignUp() {
   const [currentStep, setCurrentStep] = useState(1);
-  const [propertyDetails, setPropertyDetails] = useState([]);
   const [partnerUserDetails, setPartnerUserDetails] = useState({
     basicUserDetails: {},
     propertyDetails: [

@@ -14,7 +14,6 @@ export default function PropertyDetails({
   const [passPropertyDetails, setPassPropertyDetails] = useState(
     passBackPropertyDetails
   );
-  const [active, setActive] = useState(false);
 
 
   const handlePropertyDetails = (propertyDetails) => {
