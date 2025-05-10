@@ -1,4 +1,4 @@
-import styles from "./PartnerSignup.module.css";
+import styles from "./PartnerSignUp.module.css";
 import React, { useState, useEffect } from "react";
 import Logo from "../components/Logo";
 import { NavLink } from "react-router-dom";
