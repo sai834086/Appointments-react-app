@@ -9,7 +9,7 @@ export default function DashBoard() {
     async function fetchData() {
       try {
         const response = await axios.get("/Appointments/AllUsers", {
-          baseURL: "http://localhost:8010",
+          baseURL: "https://3.144.98.14:8010/",
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
