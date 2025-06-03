@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://3.144.98.14:8010/",
+  baseURL: "https://api.timesetandbook.com",
 });
 
 export default function SignupPage() {

@@ -6,7 +6,7 @@ import axios from "axios";
 import styles from "./LoginPage.module.css";
 
 const api = axios.create({
-  baseURL: "http://3.144.98.14:8010/",
+  baseURL: "https://api.timesetandbook.com",
 });
 
 export default function LoginPage() {
