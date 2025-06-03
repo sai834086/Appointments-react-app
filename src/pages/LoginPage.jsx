@@ -6,7 +6,7 @@ import axios from "axios";
 import styles from "./LoginPage.module.css";
 
 const api = axios.create({
-  baseURL: "https://3.144.98.14:8010/",
+  baseURL: "http://3.144.98.14:8010/",
 });
 
 export default function LoginPage() {
