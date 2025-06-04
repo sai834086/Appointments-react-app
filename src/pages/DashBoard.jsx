@@ -1,42 +1,45 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import { useEffect } from "react";
+import api from "../api";
+import { useState } from "react";
+
+import { useNavigate } from "react-router-dom";
 
 export default function DashBoard() {
-  const [data, setData] = useState(null);
+  const [data, setData] = useState([]);
   const token = localStorage.getItem("token");
+  const navigate = useNavigate();
 
   useEffect(() => {
-    async function fetchData() {
-      try {
-        const response = await axios.get("/Appointments/AllUsers", {
-          baseURL: "https://api.timesetandbook.com",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        });
-        setData(response.data);
-      } catch (error) {
-        console.error("API request failed:", error);
+    const fetchData = async () => {
+      if (token) {
+        try {
+          const response = await api.get("/Appointments/AllUsers", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          });
+          setData(response.data);
+        } catch (error) {
+          if (error.message === "Request failed with status code 401")
+            if (error.message === "Request failed with status code 401") {
+              alert("Session Expired, Please Login again");
+              navigate("/login");
+            } else {
+              alert(
+                "An error occurred while fetching data. Please try again later."
+              );
+              navigate("/login");
+            }
+          navigate("/login");
+        }
       }
-    }
-
-    if (token) {
-      fetchData();
-    }
-  }, [token]); // Run effect when token changes
-
-  if (!token) {
-    return <div>Please log in.</div>;
-  }
-
-  if (!data) {
-    return <div>Loading...</div>;
-  }
+    };
+    fetchData();
+  }, [navigate, token]);
 
   return (
     <div>
-      <div>hello</div>
       <pre>{JSON.stringify(data, null, 2)}</pre>
     </div>
   );

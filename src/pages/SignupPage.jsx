@@ -4,11 +4,7 @@ import Logo from "../components/Logo";
 import { NavLink } from "react-router-dom";
 import Button from "../components/Button";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-
-const api = axios.create({
-  baseURL: "https://api.timesetandbook.com",
-});
+import api from "../api";
 
 export default function SignupPage() {
   const [firstName, setFirstName] = useState("");

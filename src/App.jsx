@@ -7,12 +7,13 @@ import ApplicationHomePage from "./pages/ApplicationHomePage";
 import DashBoard from "./pages/DashBoard";
 import styles from "./index.module.css";
 import PartnerSignUp from "./pages/PartnerSignUp";
+import Personal from "./pages/Personal";
 
 export default function App() {
   return (
     <BrowserRouter className={styles.app}>
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<Personal />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/userSignup" element={<SignupPage />} />
         <Route path="/App" element={<ApplicationHomePage />}>

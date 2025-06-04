@@ -2,12 +2,8 @@ import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import Logo from "../components/Logo";
 import Button from "../components/Button";
-import axios from "axios";
 import styles from "./LoginPage.module.css";
-
-const api = axios.create({
-  baseURL: "https://api.timesetandbook.com",
-});
+import api from "../api";
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
@@ -25,7 +21,6 @@ export default function LoginPage() {
       setError("Both email and password are required.");
       return;
     }
-
     setLoading(true);
     try {
       const loginResponse = await api.post("Appointments/UserLogin", {
@@ -33,7 +28,6 @@ export default function LoginPage() {
         password,
       });
 
-      console.log(loginResponse.data.token);
       if (loginResponse.data.token) {
         localStorage.setItem("token", loginResponse.data.token);
         localStorage.setItem(
