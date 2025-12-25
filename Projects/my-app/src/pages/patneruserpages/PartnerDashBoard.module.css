@@ -1,0 +1,712 @@
+/* Custom Scrollbar Styles */
+:global(*) {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(102, 126, 234, 0.6) rgba(255, 255, 255, 0.1);
+}
+
+:global(*::-webkit-scrollbar) {
+  width: 12px;
+  height: 12px;
+}
+
+:global(*::-webkit-scrollbar-track) {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  margin: 2px;
+}
+
+:global(*::-webkit-scrollbar-thumb) {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border-radius: 10px;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+:global(*::-webkit-scrollbar-thumb:hover) {
+  background: linear-gradient(135deg, #5a6fd8, #6a42a0);
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+:global(*::-webkit-scrollbar-thumb:active) {
+  background: linear-gradient(135deg, #4e63c6, #5d3a8e);
+}
+
+:global(*::-webkit-scrollbar-corner) {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Special scrollbar for property cards */
+.PropertiesSection::-webkit-scrollbar,
+.PropertyCard::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.PropertiesSection::-webkit-scrollbar-thumb,
+.PropertyCard::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    135deg,
+    rgba(102, 126, 234, 0.7),
+    rgba(118, 75, 162, 0.7)
+  );
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.PropertiesSection::-webkit-scrollbar-track,
+.PropertyCard::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 6px;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow-x: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+    sans-serif;
+}
+
+.MainContainer {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+.HeaderContainer {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.BodyContainer {
+  padding: 32px 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+  scroll-behavior: smooth;
+}
+
+/* Welcome Section */
+.WelcomeSection {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border-radius: 24px;
+  padding: 40px 32px;
+  margin-bottom: 32px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.WelcomeContent {
+  margin-bottom: 32px;
+}
+
+.WelcomeTitle {
+  font-size: 36px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0 0 12px 0;
+  line-height: 1.2;
+}
+
+.WelcomeSubtitle {
+  font-size: 18px;
+  color: #6b7280;
+  margin: 0;
+  font-weight: 400;
+}
+
+.QuickStats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.StatCard {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  padding: 24px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+}
+
+.StatIcon {
+  font-size: 32px;
+  opacity: 0.9;
+}
+
+.StatContent h3 {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0 0 4px 0;
+}
+
+.StatContent p {
+  font-size: 14px;
+  margin: 0;
+  opacity: 0.8;
+}
+
+/* Action Section */
+.ActionSection {
+  margin-bottom: 32px;
+}
+
+.AddPropertyButton {
+  display: flex;
+  justify-content: center;
+}
+
+.AddPropertyButton button {
+  background: linear-gradient(135deg, #10b981, #059669);
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  border-radius: 16px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+}
+
+.AddPropertyButton button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 35px rgba(16, 185, 129, 0.4);
+  background: linear-gradient(135deg, #059669, #047857);
+}
+
+.ButtonIcon {
+  font-size: 20px;
+  font-weight: 400;
+}
+
+/* Success Message */
+.SuccessMessage {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  padding: 24px 32px;
+  margin-bottom: 32px;
+  box-shadow: 0 8px 32px rgba(16, 185, 129, 0.2);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  animation: slideInSuccess 0.5s ease-out;
+}
+
+.SuccessContent {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.SuccessIcon {
+  font-size: 32px;
+  animation: bounceSuccess 0.6s ease-out;
+}
+
+.SuccessText h4 {
+  color: #059669;
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0 0 4px 0;
+}
+
+.SuccessText p {
+  color: #047857;
+  font-size: 14px;
+  margin: 0;
+  opacity: 0.9;
+}
+
+@keyframes slideInSuccess {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bounceSuccess {
+  0%,
+  20%,
+  53%,
+  80%,
+  100% {
+    transform: scale(1);
+  }
+  40%,
+  43% {
+    transform: scale(1.2);
+  }
+  70% {
+    transform: scale(1.1);
+  }
+  90% {
+    transform: scale(1.05);
+  }
+}
+
+/* Properties Section */
+.PropertiesSection {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border-radius: 24px;
+  padding: 32px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.SectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid #f3f4f6;
+}
+
+.SectionHeader h2 {
+  color: #1f2937;
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.PropertyCount {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.PropertiesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 24px;
+}
+
+.PropertyCard {
+  background: white;
+  border: 1px solid #f0f0f0;
+  border-radius: 20px;
+  padding: 0;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  overflow: hidden;
+  position: relative;
+}
+
+.PropertyCard::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+}
+
+.PropertyCard:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
+}
+
+.PropertyHeader {
+  padding: 24px 24px 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.PropertyHeader h3 {
+  margin: 0;
+  color: #1f2937;
+  font-size: 20px;
+  font-weight: 700;
+  flex-grow: 1;
+}
+
+.PropertyStatus {
+  background: #10b981;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.PropertyDetails {
+  padding: 0 24px 20px 24px;
+}
+
+.AddressSection {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.AddressIcon {
+  font-size: 16px;
+  margin-top: 2px;
+}
+
+.AddressSection p {
+  margin: 0;
+  color: #1f2937;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.LocationInfo {
+  margin: 4px 0 2px 24px;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.CountryInfo {
+  margin: 0 0 0 24px;
+  color: #9ca3af;
+  font-size: 13px;
+}
+
+.PropertyActions {
+  padding: 20px 24px 24px 24px;
+  display: flex;
+  gap: 12px;
+  border-top: 1px solid #f3f4f6;
+}
+
+.ViewButton,
+.EditButton {
+  flex: 1;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.ViewButton {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+}
+
+.ViewButton:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.EditButton {
+  background: #f3f4f6;
+  color: #6b7280;
+}
+
+.EditButton:hover {
+  background: #e5e7eb;
+  color: #374151;
+}
+
+.NoProperties {
+  text-align: center;
+  padding: 60px 40px;
+  background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+  border: 2px dashed #cbd5e1;
+  border-radius: 24px;
+  color: #64748b;
+}
+
+.EmptyIcon {
+  font-size: 64px;
+  margin-bottom: 24px;
+  opacity: 0.7;
+}
+
+.NoProperties h3 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #334155;
+  margin: 0 0 12px 0;
+}
+
+.NoProperties p {
+  font-size: 16px;
+  margin: 0 0 32px 0;
+  color: #64748b;
+  line-height: 1.6;
+}
+
+.GetStartedButton {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border: none;
+  color: white;
+  padding: 14px 28px;
+  border-radius: 16px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+}
+
+.GetStartedButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .BodyContainer {
+    padding: 24px 20px;
+  }
+
+  .WelcomeSection {
+    padding: 32px 24px;
+  }
+
+  .PropertiesSection {
+    padding: 24px 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .BodyContainer {
+    padding: 20px 16px;
+  }
+
+  .WelcomeTitle {
+    font-size: 28px;
+  }
+
+  .WelcomeSubtitle {
+    font-size: 16px;
+  }
+
+  .WelcomeSection {
+    padding: 24px 20px;
+  }
+
+  .QuickStats {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .StatCard {
+    padding: 20px;
+  }
+
+  .PropertiesGrid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .PropertiesSection {
+    padding: 24px 16px;
+  }
+
+  .SectionHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .PropertyActions {
+    flex-direction: column;
+  }
+
+  .AddPropertyButton button {
+    padding: 14px 24px;
+    font-size: 15px;
+  }
+
+  .SuccessMessage {
+    padding: 20px 24px;
+    margin-bottom: 24px;
+  }
+
+  .SuccessContent {
+    gap: 12px;
+  }
+
+  .SuccessIcon {
+    font-size: 28px;
+  }
+
+  .SuccessText h4 {
+    font-size: 16px;
+  }
+
+  .SuccessText p {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .WelcomeTitle {
+    font-size: 24px;
+  }
+
+  .PropertyHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .PropertyStatus {
+    align-self: flex-start;
+  }
+
+  .NoProperties {
+    padding: 40px 24px;
+  }
+
+  .EmptyIcon {
+    font-size: 48px;
+  }
+}
+
+/* Success Message Styles */
+.SuccessMessage {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: linear-gradient(135deg, #4caf50, #45a049);
+  color: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(76, 175, 80, 0.3);
+  z-index: 1000;
+  animation: slideInRight 0.5s ease-out;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  max-width: 400px;
+  min-width: 300px;
+}
+
+.SuccessContent {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 20px;
+}
+
+.SuccessIcon {
+  font-size: 24px;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.SuccessText {
+  flex: 1;
+}
+
+.SuccessText h4 {
+  margin: 0 0 8px 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+}
+
+.SuccessText p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Informational Notes Styles */
+.InfoNote {
+  background: linear-gradient(135deg, #fffbeb, #fef3c7);
+  border: 1px solid #f59e0b;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 32px;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  box-shadow: 0 4px 20px rgba(245, 158, 11, 0.1);
+}
+
+.InfoIcon {
+  font-size: 24px;
+  color: #f59e0b;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.InfoContent h4 {
+  color: #92400e;
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+}
+
+.InfoContent p {
+  color: #b45309;
+  font-size: 14px;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.PropertyInfoNote {
+  background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+  border: 1px solid #0ea5e9;
+  border-radius: 12px;
+  padding: 16px;
+  margin-top: 12px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  box-shadow: 0 2px 12px rgba(14, 165, 233, 0.1);
+}
+
+.PropertyInfoNote .InfoIcon {
+  font-size: 20px;
+  color: #0ea5e9;
+}
+
+.PropertyInfoNote .InfoContent h5 {
+  color: #0c4a6e;
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0 0 4px 0;
+}
+
+.PropertyInfoNote .InfoContent p {
+  color: #075985;
+  font-size: 13px;
+  margin: 0;
+  line-height: 1.4;
+}

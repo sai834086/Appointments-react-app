@@ -1,0 +1,31 @@
+/* Dashboard Container */
+.dashboardContainer {
+  background-color: white;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+.headerContainer {
+  width: 100%;
+}
+.headBodyContainer {
+  display: flex;
+  justify-content: center;
+  flex: 1;
+}
+.bodyContainer {
+  background-color: rgb(255, 255, 255);
+  width: 50%;
+  flex: 1;
+}
+/* Mobile Styles */
+@media (max-width: 768px) {
+  .dashboardContainer {
+    width: 100%;
+  }
+  .bodyContainer {
+    width: 100%;
+  }
+}

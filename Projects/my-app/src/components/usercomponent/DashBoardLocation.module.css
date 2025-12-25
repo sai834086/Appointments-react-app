@@ -1,0 +1,147 @@
+/* Location Section */
+.locationSection {
+  display: flex;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+}
+
+.locationContainer {
+  margin: 0;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);
+  border: none;
+  border-radius: 32px;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  box-shadow: 0 8px 24px rgba(0, 102, 204, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  max-width: 350px;
+  position: relative;
+  overflow: hidden;
+}
+
+.locationContainer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  transition: left 0.6s ease;
+  pointer-events: none;
+}
+
+.locationContainer:hover::before {
+  left: 100%;
+}
+
+.locationContainer:hover {
+  background: linear-gradient(135deg, #f0f9ff 0%, #e6f2ff 100%);
+  border-color: transparent;
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 12px 32px rgba(0, 102, 204, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.locationContainer:active {
+  transform: translateY(-1px) scale(0.99);
+}
+
+.locationText {
+  color: #0066cc;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  letter-spacing: 0.4px;
+  flex: 1;
+  text-align: center;
+  transition: all 0.4s ease;
+}
+
+.locationContainer:hover .locationText {
+  color: #0052a3;
+  font-weight: 800;
+}
+
+.locationIcon {
+  color: #0066cc;
+  border: none;
+  margin: 0;
+  padding: 0;
+  font-size: 1.1rem;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: rgba(0, 102, 204, 0.08);
+  border-radius: 50%;
+}
+
+.locationContainer:hover .locationIcon {
+  transform: scale(1.25) rotate(12deg);
+  background: rgba(0, 102, 204, 0.15);
+  color: #0052a3;
+}
+
+.arrowIcon {
+  color: #0066cc;
+  font-size: 0.95rem;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.7;
+}
+
+.locationContainer:hover .arrowIcon {
+  transform: translateX(6px) scale(1.2);
+  color: #0052a3;
+  opacity: 1;
+}
+
+/* Location Dropdown Styles */
+
+/* Mobile Styles for Location */
+@media (max-width: 768px) {
+  .locationSection {
+    padding: 0;
+    margin: 0;
+  }
+
+  .locationContainer {
+    padding: 6px 12px;
+    gap: 8px;
+    max-width: 100%;
+    border-radius: 26px;
+    border: none;
+  }
+
+  .locationText {
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  .locationIcon {
+    font-size: 0.9rem;
+    width: 30px;
+    height: 30px;
+  }
+
+  .arrowIcon {
+    font-size: 0.85rem;
+  }
+}

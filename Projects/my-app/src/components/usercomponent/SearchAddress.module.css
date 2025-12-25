@@ -1,0 +1,94 @@
+.searchAddressContainer {
+  background-color: white;
+}
+
+.header {
+  display: flex;
+  margin: 0;
+  padding: 5px 0px 20px 0px;
+  border-bottom: 1px solid #e2e8f0;
+}
+.backButton {
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-left: 10px;
+}
+
+.searchContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 60px;
+  margin-top: 10px;
+  padding-bottom: 30px;
+  border-bottom-style: double;
+  border-bottom-color: #e2e8f0;
+}
+.searchInputWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 10px;
+  border-radius: 20px;
+  border: 1px solid #e0dfdf;
+  width: 60%;
+}
+.searchInputWrapper:focus-within {
+  border-color: #0a0a0a;
+  scale: 1.02;
+  transition: all 0.5s ease;
+}
+.searchInput {
+  padding: 8px;
+  flex: 1;
+  font-size: 0.875rem;
+  border: none;
+  outline: none;
+  border-radius: 20px;
+}
+.currentLocationSection {
+  padding-bottom: 30px;
+  border-bottom-style: double;
+  border-bottom-color: #e2e8f0;
+}
+.currentLocationSection h4 {
+  margin-left: 20px;
+  font-weight: 400;
+}
+.currentLocationButton {
+  margin-left: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: white;
+  border: 1px solid #0a0a0a;
+  border-radius: 60px;
+  padding: 8px;
+}
+
+.currentLocationText {
+  color: #183d65;
+}
+.savedAddressesSection h4 {
+  margin-left: 20px;
+  font-weight: 400;
+}
+@media (max-width: 600px) {
+  .backButton {
+    font-size: 0.9rem;
+  }
+  .searchInputWrapper {
+    width: 80%;
+  }
+}
