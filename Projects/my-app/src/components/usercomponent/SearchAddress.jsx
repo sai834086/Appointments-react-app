@@ -68,12 +68,7 @@ export default function SearchAddress({
 
         autocompleteRef.current = autocomplete;
       })
-      .catch((error) => {
-        console.error(
-          "Failed to initialize Google Places Autocomplete:",
-          error
-        );
-      });
+      .catch((error) => {});
   }, [onAddressSelected]);
 
   useEffect(() => {
@@ -81,9 +76,7 @@ export default function SearchAddress({
       .then(() => {
         initializeAutocomplete();
       })
-      .catch((error) => {
-        console.error("Failed to load Google Maps:", error);
-      });
+      .catch((error) => {});
 
     return () => {
       if (autocompleteRef.current) {
@@ -103,7 +96,6 @@ export default function SearchAddress({
         await onUseCurrentLocation();
       }
     } catch (error) {
-      console.error("Error getting current location:", error);
     } finally {
       setIsLoadingLocation(false);
     }

@@ -5,7 +5,6 @@ import {
   getEmployeesForService,
 } from "../../api/userService";
 import DashBoardHeader from "../../components/usercomponent/DashBoardHeader";
-import Footer from "../../components/usercomponent/Footer";
 import styles from "./ServicesPage.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilter, faTimes } from "@fortawesome/free-solid-svg-icons";
@@ -13,7 +12,7 @@ import { faFilter, faTimes } from "@fortawesome/free-solid-svg-icons";
 const ServicesPage = () => {
   const location = useLocation();
   const partnerId = location.state?.partnerId;
-  const propertyId = location.state?.propertyId;
+
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -30,26 +29,39 @@ const ServicesPage = () => {
       setError(null);
       try {
         const response = await getAllServicesByPartner(partnerId);
-        const data = response.data.data;
+        const data = response.data.data["property with services"] || [];
 
-        // Transform the data to match our structure
-        if (data && typeof data === "object") {
-          const servicesArray = [];
-          Object.entries(data).forEach(([propertyName, servicesList]) => {
-            if (Array.isArray(servicesList)) {
-              servicesList.forEach((service) => {
-                servicesArray.push({
-                  ...service,
-                  propertyName: propertyName,
-                });
+        // Transform the response data
+        const servicesArray = [];
+        if (Array.isArray(data)) {
+          data.forEach((propertyWithServices) => {
+            const property = propertyWithServices;
+            const services = propertyWithServices.servicesResponses || [];
+
+            services.forEach((service) => {
+              servicesArray.push({
+                id: service.serviceId,
+                serviceId: service.serviceId,
+                name: service.serviceName,
+                serviceName: service.serviceName,
+                eachServiceTimeInMinus: service.eachServiceTimeInMinus,
+                serviceFee: service.serviceFee,
+                description: service.description,
+                propertyId: property.propertyId,
+                propertyName: property.propertyName,
+                buildingNo: property.buildingNo,
+                street: property.street,
+                city: property.city,
+                state: property.state,
+                country: property.country,
               });
-            }
+            });
           });
-          setServices(servicesArray);
         }
+        setServices(servicesArray);
       } catch (err) {
-        console.error("Error fetching services:", err);
         setError("Failed to load services. Please try again.");
+        console.error("Error fetching services:", err);
       } finally {
         setLoading(false);
       }
@@ -65,28 +77,23 @@ const ServicesPage = () => {
     setSelectedService(service);
     setLoadingEmployees(true);
     try {
-      console.log("Selected service:", service);
-      console.log(
-        "Property ID:",
-        propertyId,
-        "Service ID:",
-        service.id || service.serviceId
-      );
-
-      if (!propertyId) {
-        console.error("Property ID not found");
+      if (!service.propertyId) {
         setEmployees([]);
         setLoadingEmployees(false);
         return;
       }
 
       const serviceId = service.id || service.serviceId;
-      const response = await getEmployeesForService(propertyId, serviceId);
-      console.log("Employees response:", response);
-      setEmployees(response.data.data.allEmployees || []);
+      const response = await getEmployeesForService(
+        service.propertyId,
+        serviceId
+      );
+      const fetchedEmployees =
+        response.data.data.allEmployees || response.data.data || [];
+      setEmployees(fetchedEmployees);
     } catch (err) {
-      console.error("Error fetching employees:", err);
       setEmployees([]);
+      console.error("Error fetching employees:", err);
     } finally {
       setLoadingEmployees(false);
     }
@@ -126,7 +133,6 @@ const ServicesPage = () => {
         <div className={styles.pageWrapper}>
           <div className={styles.errorMsg}>No partner selected.</div>
         </div>
-        <Footer />
       </div>
     );
   }
@@ -253,7 +259,24 @@ const ServicesPage = () => {
               {Object.entries(servicesByProperty).map(
                 ([propertyName, propertyServices]) => (
                   <section key={propertyName} className={styles.propertyGroup}>
-                    <h2 className={styles.propertyTitle}>{propertyName}</h2>
+                    <div className={styles.propertyHeader}>
+                      <h2 className={styles.propertyTitle}>{propertyName}</h2>
+                      {propertyServices[0] && (
+                        <div className={styles.propertyDetails}>
+                          <p className={styles.address}>
+                            {[
+                              propertyServices[0].buildingNo,
+                              propertyServices[0].street,
+                              propertyServices[0].city,
+                              propertyServices[0].state,
+                              propertyServices[0].country,
+                            ]
+                              .filter(Boolean)
+                              .join(", ")}
+                          </p>
+                        </div>
+                      )}
+                    </div>
                     <div className={styles.servicesGrid}>
                       {propertyServices.map((service, idx) => (
                         <div
@@ -400,14 +423,19 @@ const ServicesPage = () => {
               ) : employees.length > 0 ? (
                 <div className={styles.employeesList}>
                   {employees.map((employee) => (
-                    <div key={employee.id} className={styles.employeeItem}>
+                    <div
+                      key={employee.employeeId}
+                      className={styles.employeeItem}
+                    >
                       <div className={styles.employeeInfo}>
-                        <h3>{employee.employeeName || employee.name}</h3>
+                        <h3>
+                          {employee.firstName} {employee.lastName}
+                        </h3>
                         {employee.email && <p>{employee.email}</p>}
                         {employee.phone && <p>{employee.phone}</p>}
                       </div>
                       <button className={styles.bookBtn}>
-                        Book with {employee.employeeName || employee.name}
+                        Book with {employee.firstName} {employee.lastName}
                       </button>
                     </div>
                   ))}

@@ -6,8 +6,8 @@ import { faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons";
 
 const PartnersList = ({ partners }) => {
   const navigate = useNavigate();
-  const handlePartnerClicked = (partnerId) => {
-    navigate("/services", { state: { partnerId } });
+  const handlePartnerClicked = (partner) => {
+    navigate("/services", { state: { partnerId: partner.id } });
   };
 
   if (!partners || partners.length === 0) {
@@ -25,7 +25,7 @@ const PartnersList = ({ partners }) => {
           <button
             className={styles.partnerCard}
             key={partner.id || idx}
-            onClick={() => handlePartnerClicked(partner.id)}
+            onClick={() => handlePartnerClicked(partner)}
           >
             <div className={styles.partnerHeader}>
               <div className={styles.partnerAvatar}>

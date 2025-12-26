@@ -49,8 +49,6 @@ export default function MapWithSearchBarMarker({ autoFill }) {
         const { latitude, longitude, accuracy } = pos.coords;
         const coords = { lat: latitude, lng: longitude };
 
-        console.log("Got position:", coords, "Accuracy:", accuracy, "meters");
-
         if (!map) {
           setLocLoading(false);
           return;
@@ -94,7 +92,6 @@ export default function MapWithSearchBarMarker({ autoFill }) {
           .finally(() => setLocLoading(false));
       },
       (error) => {
-        console.error("Geolocation error:", error);
         let errorMessage = "Unable to detect location.";
         switch (error.code) {
           case error.PERMISSION_DENIED:
@@ -129,7 +126,6 @@ export default function MapWithSearchBarMarker({ autoFill }) {
     }
 
     const initMap = async () => {
-      console.log("Initializing map...");
       const google = await loadGoogleMapsScript();
 
       const mapInstance = new google.maps.Map(mapRef.current, {

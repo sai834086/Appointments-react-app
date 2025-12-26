@@ -44,7 +44,7 @@ export default function EditEmployeeModal({
 
     switch (name) {
       case "firstName":
-        if (!value.trim()) {
+        if (!value || !value.trim()) {
           fieldErrors[name] = "First name required";
         } else if (!patterns.firstName.test(value)) {
           fieldErrors[name] = "First name must contain only letters";
@@ -52,7 +52,7 @@ export default function EditEmployeeModal({
         break;
 
       case "lastName":
-        if (!value.trim()) {
+        if (!value || !value.trim()) {
           fieldErrors[name] = "Last name required";
         } else if (!patterns.lastName.test(value)) {
           fieldErrors[name] = "Last name must contain only letters";
@@ -61,7 +61,7 @@ export default function EditEmployeeModal({
 
       case "email":
         // Email is optional - only validate if provided
-        if (value.trim()) {
+        if (value && value.trim()) {
           if (value.length > 45) {
             fieldErrors[name] = "Email must be 45 characters or less";
           } else if (!patterns.email.test(value)) {
@@ -72,7 +72,7 @@ export default function EditEmployeeModal({
 
       case "phoneNumber":
         // Phone number is optional - only validate if provided
-        if (value.trim()) {
+        if (value && value.trim()) {
           if (!patterns.phoneNumber.test(value)) {
             fieldErrors[name] = "Phone number must be 10 digits";
           }
@@ -81,7 +81,7 @@ export default function EditEmployeeModal({
 
       case "appointmentsOpenTillInMonths":
         // Appointments duration is optional - only validate if provided
-        if (value.trim()) {
+        if (value && value.trim()) {
           if (!patterns.appointmentsOpenTillInMonths.test(value)) {
             fieldErrors[name] = "Must be a single digit (0-9)";
           }
@@ -147,13 +147,17 @@ export default function EditEmployeeModal({
       // Get employeeId first
       const employeeId = employee.id || employee.employeeId;
 
-      // Prepare data with null values for empty optional fields
+      // Prepare data with employeeId and null values for empty optional fields
       const requestData = {
+        employeeId,
         ...formData,
-        email: formData.email.trim() || null,
-        phoneNumber: formData.phoneNumber.trim() || null,
-        appointmentsOpenTillInMonths:
-          formData.appointmentsOpenTillInMonths.trim() || null,
+        email: formData.email ? formData.email.trim() || null : null,
+        phoneNumber: formData.phoneNumber
+          ? formData.phoneNumber.trim() || null
+          : null,
+        appointmentsOpenTillInMonths: formData.appointmentsOpenTillInMonths
+          ? formData.appointmentsOpenTillInMonths.trim() || null
+          : null,
       };
 
       const response = await updateEmployee(

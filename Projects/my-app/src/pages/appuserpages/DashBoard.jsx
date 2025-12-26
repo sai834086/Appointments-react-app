@@ -6,7 +6,6 @@ import DashboardHeader from "../../components/usercomponent/DashBoardHeader";
 import DashboardSearch from "../../components/usercomponent/DashBoardSearch";
 import DashBoardLocation from "../../components/usercomponent/DashBoardLocation";
 import PartnersList from "../../components/usercomponent/PartnersList";
-import Footer from "../../components/usercomponent/Footer";
 import { useCallback } from "react";
 import SearchAddress from "../../components/usercomponent/SearchAddress";
 
@@ -50,8 +49,8 @@ export default function DashBoard() {
             );
           }
         } catch (error) {
-          console.error("Reverse geocoding error:", error);
           alert("Unable to retrieve your location. Please try again.");
+          console.error("Reverse geocoding error:", error);
         }
       },
       (error) => {
@@ -152,8 +151,6 @@ export default function DashBoard() {
   };
 
   const handleAddressSelected = (selectedAddress) => {
-    console.log("Selected address from SearchAddress:", selectedAddress);
-
     setUserAddress(selectedAddress);
     localStorage.setItem("userAddress", JSON.stringify(selectedAddress));
     setLocationClicked(false); // Go back to main dashboard
@@ -190,7 +187,6 @@ export default function DashBoard() {
           )}
         </div>
       </div>
-      <Footer />
     </div>
   );
 }

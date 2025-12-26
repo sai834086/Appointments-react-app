@@ -99,7 +99,6 @@ export const reverseGeocode = async (latitude, longitude) => {
     if (!response.ok) throw new Error("Failed to fetch geocode data");
     return await response.json();
   } catch (error) {
-    console.error("reverseGeocode error:", error);
     return { status: "ERROR", results: [] };
   }
 };
@@ -114,7 +113,6 @@ export const loadGoogleMapsScript = () => {
     const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
     if (!GOOGLE_MAPS_API_KEY) {
-      console.error("Google Maps API key not configured");
       reject(new Error("Google Maps API key not found"));
       return;
     }
@@ -166,36 +164,34 @@ export const initializePlacesAutocompleteReact = (inputElement) => {
 
 /* Property Services End Points */
 export const addPropertyService = (propertyId, data) =>
-  api.post(`partnerUser/addPropertyService/${propertyId}`, data);
+  api.post(`partnerUser/addService/${propertyId}`, data);
 
 export const getPropertyServices = (propertyId) =>
-  api.get(`partnerUser/getPropertyServices/${propertyId}`);
+  api.get(`partnerUser/getServices/${propertyId}`);
 
 export const updatePropertyService = (propertyId, serviceId, data) =>
-  api.patch(
-    `partnerUser/updatePropertyService/${propertyId}/${serviceId}`,
-    data
-  );
+  api.patch(`partnerUser/updateService/${propertyId}/${serviceId}`, data);
 
 export const deletePropertyService = (propertyId, serviceId) =>
-  api.delete(`partnerUser/deletePropertyService/${propertyId}/${serviceId}`);
+  api.delete(`partnerUser/deleteService/${propertyId}/${serviceId}`);
 
 /* Employee Services End Points */
 export const addServicesToEmployee = (employeeId, propertyId, serviceIds) =>
-  api.post(`partnerUser/addServicesToEmployee/${propertyId}/${employeeId}`, {
-    serviceIds,
-  });
+  api.put(
+    `partnerUser/addServicesToEmployee/${employeeId}/${propertyId}`,
+    serviceIds
+  );
 
-export const getEmployeeServices = (employeeId, propertyId) =>
-  api.get(`partnerUser/getEmployeeServices/${propertyId}/${employeeId}`);
+export const getEmployeeServices = (employeeId) =>
+  api.get(`PartnerUser/getServicesToEmployees/${employeeId}`);
 
 export const deleteEmployeeService = (employeeId, propertyId, serviceId) =>
   api.delete(
-    `partnerUser/deleteEmployeeService/${propertyId}/${employeeId}/${serviceId}`
+    `partnerUser/removeServiceFromEmployee/${propertyId}/${employeeId}/${serviceId}`
   );
 
 // Alias for compatibility with Employee.jsx
 export const removeServiceFromEmployee = (propertyId, employeeId, serviceId) =>
   api.delete(
-    `partnerUser/deleteEmployeeService/${propertyId}/${employeeId}/${serviceId}`
+    `partnerUser/removeServiceFromEmployee/${propertyId}/${employeeId}/${serviceId}`
   );

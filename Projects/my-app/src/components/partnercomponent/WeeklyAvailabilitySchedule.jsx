@@ -2,7 +2,6 @@ import { useState, useEffect, useMemo } from "react";
 import {
   updateAvailabilityAndRefreshEmployee,
   addOffTimeRequest,
-  deleteOffTime,
 } from "../../api/authService";
 import StyleSheet from "./WeeklyAvailabilitySchedule.module.css";
 
@@ -26,7 +25,6 @@ export default function WeeklyAvailabilitySchedule({
     offTimeFrom: "",
     offTimeTo: "",
   });
-  const [deletingOffTime, setDeletingOffTime] = useState(null);
 
   // Day configuration with emojis
   const dayConfig = {
@@ -167,71 +165,6 @@ export default function WeeklyAvailabilitySchedule({
     setAddingOffTime(null);
     setOffTimeForm({ offTimeFrom: "", offTimeTo: "" });
     setErrors({});
-  };
-
-  // Handle delete off time confirmation
-  const handleDeleteOffTime = (offTime, availabilityId) => {
-    setDeletingOffTime({ ...offTime, availabilityId });
-  };
-
-  // Confirm and delete off time
-  const confirmDeleteOffTime = async () => {
-    if (!deletingOffTime || !deletingOffTime.offTimeId) {
-      return;
-    }
-
-    try {
-      setLoading(true);
-      await deleteOffTime(deletingOffTime.offTimeId);
-
-      // Update local state to remove the deleted off time
-      setOffTimes((prevOffTimes) => {
-        const updatedOffTimes = { ...prevOffTimes };
-        const availabilityId = deletingOffTime.availabilityId;
-
-        if (updatedOffTimes[availabilityId]) {
-          updatedOffTimes[availabilityId] = updatedOffTimes[
-            availabilityId
-          ].filter(
-            (offTime) => offTime.offTimeId !== deletingOffTime.offTimeId
-          );
-        }
-
-        return updatedOffTimes;
-      });
-
-      setDeletingOffTime(null);
-
-      // Notify parent component if callback provided
-      if (onAvailabilityUpdated) {
-        onAvailabilityUpdated();
-      }
-    } catch (error) {
-      let errorMessage = "Failed to delete off time. Please try again.";
-
-      // Check if it's a 500 error indicating endpoint not implemented
-      if (
-        error.response?.status === 500 &&
-        error.response?.data?.message?.includes("No static resource")
-      ) {
-        errorMessage =
-          "Delete functionality is not yet available on the server. Please contact support.";
-      } else if (error.response?.status === 404) {
-        errorMessage =
-          "Delete endpoint not found. This feature may not be implemented yet.";
-      }
-
-      setErrors({
-        general: errorMessage,
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Cancel delete off time
-  const cancelDeleteOffTime = () => {
-    setDeletingOffTime(null);
   };
 
   const handleEditDay = (day) => {
@@ -678,21 +611,6 @@ export default function WeeklyAvailabilitySchedule({
                                         {formatTimeToAMPM(offTime.offTimeFrom)}{" "}
                                         - {formatTimeToAMPM(offTime.offTimeTo)}
                                       </span>
-                                      <button
-                                        className={
-                                          StyleSheet.DeleteOffTimeButton
-                                        }
-                                        onClick={() =>
-                                          handleDeleteOffTime(
-                                            offTime,
-                                            availabilityId
-                                          )
-                                        }
-                                        disabled={loading}
-                                        title="Delete off time"
-                                      >
-                                        🗑️
-                                      </button>
                                     </div>
                                   ));
                                 } else {
@@ -787,38 +705,6 @@ export default function WeeklyAvailabilitySchedule({
           );
         })}
       </div>
-
-      {/* Delete Confirmation Dialog */}
-      {deletingOffTime && (
-        <div className={StyleSheet.DeleteConfirmationOverlay}>
-          <div className={StyleSheet.DeleteConfirmationDialog}>
-            <h3>Confirm Delete</h3>
-            <p>Are you sure you want to delete this off time period?</p>
-            <p>
-              <strong>
-                {formatTimeToAMPM(deletingOffTime.offTimeFrom)} -{" "}
-                {formatTimeToAMPM(deletingOffTime.offTimeTo)}
-              </strong>
-            </p>
-            <div className={StyleSheet.DeleteConfirmationButtons}>
-              <button
-                className={StyleSheet.ConfirmDeleteButton}
-                onClick={confirmDeleteOffTime}
-                disabled={loading}
-              >
-                {loading ? "Deleting..." : "Yes, Delete"}
-              </button>
-              <button
-                className={StyleSheet.CancelDeleteButton}
-                onClick={cancelDeleteOffTime}
-                disabled={loading}
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
