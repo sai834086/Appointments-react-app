@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   getAllServicesByPartner,
   getEmployeesForService,
@@ -11,6 +11,7 @@ import { faFilter, faTimes } from "@fortawesome/free-solid-svg-icons";
 
 const ServicesPage = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const partnerId = location.state?.partnerId;
 
   const [services, setServices] = useState([]);
@@ -74,7 +75,6 @@ const ServicesPage = () => {
 
   // Handle Select button click - Fetch employees for service
   const handleSelectService = async (service) => {
-    setSelectedService(service);
     setLoadingEmployees(true);
     try {
       if (!service.propertyId) {
@@ -90,7 +90,14 @@ const ServicesPage = () => {
       );
       const fetchedEmployees =
         response.data.data.allEmployees || response.data.data || [];
-      setEmployees(fetchedEmployees);
+
+      // Navigate to employees page with service and employees data
+      navigate("/employees", {
+        state: {
+          service: service,
+          employees: fetchedEmployees,
+        },
+      });
     } catch (err) {
       setEmployees([]);
       console.error("Error fetching employees:", err);
@@ -176,6 +183,13 @@ const ServicesPage = () => {
         {/* Main Content */}
         <main className={styles.content}>
           <div className={styles.contentHeader}>
+            <button
+              className={styles.backButton}
+              onClick={() => navigate(-1)}
+              title="Go back"
+            >
+              &lt;
+            </button>
             <h1 className={styles.title}>Available Services</h1>
             <button
               className={styles.mobileFilterToggle}
@@ -284,60 +298,65 @@ const ServicesPage = () => {
                           className={styles.serviceCard}
                         >
                           <div className={styles.cardHeader}>
-                            <div>
+                            <div className={styles.headerTop}>
                               <h3 className={styles.serviceName}>
                                 {service.name || service.serviceName}
                               </h3>
-                              {service.category && (
-                                <p className={styles.category}>
-                                  {service.category}
-                                </p>
-                              )}
+                              <button
+                                className={styles.selectBtn}
+                                onClick={() => handleSelectService(service)}
+                              >
+                                Select
+                              </button>
                             </div>
-                            {service.serviceFee || service.price ? (
-                              <div className={styles.priceTag}>
-                                $
-                                {parseFloat(
-                                  service.serviceFee || service.price
-                                ).toFixed(2)}
-                              </div>
-                            ) : null}
+                            {service.category && (
+                              <p className={styles.category}>
+                                {service.category}
+                              </p>
+                            )}
                           </div>
 
                           <div className={styles.cardMeta}>
-                            <div className={styles.metaContent}>
-                              {service.eachServiceTimeInMinus ||
-                              service.duration ? (
-                                <span className={styles.meta}>
-                                  <span className={styles.metaIcon}>⏱️</span>
-                                  <span>
-                                    {service.eachServiceTimeInMinus ||
-                                      service.duration}{" "}
-                                    mins
-                                  </span>
+                            {service.eachServiceTimeInMinus ||
+                            service.duration ? (
+                              <span className={styles.meta}>
+                                <span className={styles.metaIcon}>⏱️</span>
+                                <span>
+                                  {service.eachServiceTimeInMinus ||
+                                    service.duration}{" "}
+                                  mins
                                 </span>
+                              </span>
+                            ) : null}
+                            {service.employeeName && (
+                              <span className={styles.meta}>
+                                <span className={styles.metaIcon}>👤</span>
+                                <span>{service.employeeName}</span>
+                              </span>
+                            )}
+                            {service.status && (
+                              <span className={styles.meta}>
+                                <span className={styles.metaIcon}>📊</span>
+                                <span className={styles.badge}>
+                                  {service.status}
+                                </span>
+                              </span>
+                            )}
+                          </div>
+                          <div className={styles.cardFooter}>
+                            <div className={styles.feeSection}>
+                              <span className={styles.feeLabel}>
+                                Consulting Fee
+                              </span>
+                              {service.serviceFee || service.price ? (
+                                <div className={styles.priceTag}>
+                                  $
+                                  {parseFloat(
+                                    service.serviceFee || service.price
+                                  ).toFixed(2)}
+                                </div>
                               ) : null}
-                              {service.employeeName && (
-                                <span className={styles.meta}>
-                                  <span className={styles.metaIcon}>👤</span>
-                                  <span>{service.employeeName}</span>
-                                </span>
-                              )}
-                              {service.status && (
-                                <span className={styles.meta}>
-                                  <span className={styles.metaIcon}>📊</span>
-                                  <span className={styles.badge}>
-                                    {service.status}
-                                  </span>
-                                </span>
-                              )}
                             </div>
-                            <button
-                              className={styles.selectBtn}
-                              onClick={() => handleSelectService(service)}
-                            >
-                              Select
-                            </button>
                           </div>
 
                           {service.description && (

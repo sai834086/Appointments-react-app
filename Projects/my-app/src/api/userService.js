@@ -13,8 +13,13 @@ export const getEmployeesToAppUser = (data) => {
   return api.get(`appUser/getAllEmployees/${data.propertyId}`);
 };
 
-export const getAvailabilityToAppUser = (employeeId) =>
-  api.get(`appUser/getAvailability/${employeeId}`);
+export const getAvailabilityToAppUser = (employeeId) => {
+  return api.get(`appUser/getAvailability/${employeeId}`).then((response) => {
+    console.log("getAvailabilityToAppUser response:", response);
+    console.log("response.data:", response.data);
+    return response;
+  });
+};
 
 export const getAllServicesByPartner = (partnerId) =>
   api.get(`appUser/getAllServices/${partnerId}`);

@@ -107,6 +107,33 @@
   gap: 1rem;
 }
 
+.backButton {
+  background: #0052a3;
+  color: white;
+  border: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  font-size: 1.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding: 0;
+}
+
+.backButton:hover {
+  background: #003d7a;
+  transform: scale(1.05);
+}
+
+.backButton:active {
+  transform: scale(0.98);
+}
+
 .title {
   font-size: 2rem;
   font-weight: 800;
@@ -362,10 +389,16 @@
 
 .cardHeader {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 1rem;
+  flex-direction: column;
+  gap: 0.8rem;
   margin-bottom: 0.8rem;
+}
+
+.headerTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
 }
 
 .headerRight {
@@ -380,7 +413,7 @@
   font-size: 1.15rem;
   font-weight: 800;
   color: #0052a3;
-  margin: 0 0 0.4rem 0;
+  margin: 0;
   flex: 1;
   letter-spacing: -0.2px;
 }
@@ -394,14 +427,10 @@
 }
 
 .priceTag {
-  background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
-  color: white;
-  padding: 0.6rem 1rem;
-  border-radius: 10px;
-  font-weight: 800;
-  font-size: 1.05rem;
+  color: #0052a3;
+  font-weight: 700;
+  font-size: 1.1rem;
   white-space: nowrap;
-  box-shadow: 0 4px 12px rgba(0, 102, 204, 0.2);
 }
 
 .description {
@@ -418,9 +447,8 @@
 
 .cardMeta {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
+  flex-direction: column;
+  gap: 0.6rem;
   margin-bottom: 1.2rem;
   padding: 0.8rem 0;
   border-top: 1px solid #f0f0f0;
@@ -436,9 +464,24 @@
 
 .cardFooter {
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start;
   margin-top: auto;
-  padding-top: 1rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid #f0f0f0;
+}
+
+.feeSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.feeLabel {
+  color: #666;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .meta {
