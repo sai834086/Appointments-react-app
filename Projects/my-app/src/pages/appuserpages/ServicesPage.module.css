@@ -4,7 +4,7 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
   min-height: 100vh;
 }
 
@@ -26,19 +26,20 @@
 
 .filterBox {
   background: white;
-  border-radius: 20px;
+  border-radius: 16px;
   padding: 1.5rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   position: sticky;
   top: 2rem;
+  border: 1px solid #e2e8f0;
 }
 
 .filterTitle {
-  font-size: 1.3rem;
+  font-size: 1.1rem;
   font-weight: 800;
-  color: #0052a3;
+  color: #0066cc;
   margin: 0 0 1.5rem 0;
-  letter-spacing: -0.3px;
+  letter-spacing: -0.2px;
 }
 
 .filterOptions {
@@ -53,14 +54,14 @@
   justify-content: space-between;
   gap: 0.8rem;
   background: white;
-  border: 2px solid #e8f2ff;
+  border: 2px solid #e0e7ff;
   padding: 0.75rem 1rem;
   border-radius: 12px;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: all 0.3s ease;
   color: #555;
   font-weight: 600;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
 }
 
 .filterBtn:hover {
@@ -73,7 +74,7 @@
   background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
   color: white;
   border-color: transparent;
-  box-shadow: 0 8px 20px rgba(0, 102, 204, 0.25);
+  box-shadow: 0 4px 12px rgba(0, 102, 204, 0.2);
   font-weight: 700;
 }
 
@@ -82,7 +83,7 @@
   color: #0066cc;
   padding: 0.3rem 0.6rem;
   border-radius: 8px;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   font-weight: 700;
   min-width: 32px;
   text-align: center;
@@ -102,19 +103,19 @@
 .contentHeader {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   margin-bottom: 2rem;
-  gap: 1rem;
+  gap: 1.5rem;
 }
 
 .backButton {
-  background: #0052a3;
+  background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
   color: white;
   border: none;
   width: 44px;
   height: 44px;
-  border-radius: 8px;
-  font-size: 1.5rem;
+  border-radius: 12px;
+  font-size: 1.3rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -123,89 +124,41 @@
   justify-content: center;
   flex-shrink: 0;
   padding: 0;
+  box-shadow: 0 2px 8px rgba(0, 102, 204, 0.15);
 }
 
 .backButton:hover {
-  background: #003d7a;
-  transform: scale(1.05);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 102, 204, 0.25);
 }
 
 .backButton:active {
-  transform: scale(0.98);
+  transform: translateY(0);
 }
 
 .title {
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-weight: 800;
-  color: #0052a3;
+  color: #0066cc;
   margin: 0;
-  letter-spacing: -0.5px;
+  letter-spacing: -0.3px;
+  flex: 1;
 }
 
 .mobileFilterToggle {
   display: none;
-  width: 56px;
-  height: 56px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
   border: none;
-  border-radius: 16px;
+  border-radius: 12px;
   color: white;
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-  box-shadow: 0 10px 40px rgba(102, 126, 234, 0.4),
-    0 0 0 0 rgba(102, 126, 234, 0.1);
-  position: relative;
-  overflow: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 102, 204, 0.15);
   align-items: center;
   justify-content: center;
-}
-
-.mobileFilterToggle::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: rgba(255, 255, 255, 0.25);
-  transition: left 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.mobileFilterToggle::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(
-    circle,
-    rgba(255, 255, 255, 0.15) 0%,
-    transparent 70%
-  );
-  transform: translate(-50%, -50%);
-  opacity: 0;
-  transition: opacity 0.4s ease;
-}
-
-.mobileFilterToggle:hover {
-  transform: translateY(-6px) scale(1.05);
-  box-shadow: 0 16px 50px rgba(102, 126, 234, 0.5),
-    0 0 30px rgba(102, 126, 234, 0.2);
-}
-
-.mobileFilterToggle:hover::before {
-  left: 100%;
-}
-
-.mobileFilterToggle:hover::after {
-  opacity: 1;
-}
-
-.mobileFilterToggle:active {
-  transform: translateY(-2px) scale(0.98);
-  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
 }
 
 /* ========== MOBILE FILTER OVERLAY ========== */
@@ -233,11 +186,11 @@
   left: 0;
   right: 0;
   background: white;
-  border-radius: 24px 24px 0 0;
+  border-radius: 20px 20px 0 0;
   padding: 1.5rem;
   max-height: 70vh;
   overflow-y: auto;
-  animation: slideUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: slideUp 0.3s ease;
 }
 
 @keyframes slideUp {
@@ -259,9 +212,9 @@
 }
 
 .mobileFilterTop h3 {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: 800;
-  color: #0052a3;
+  color: #0066cc;
   margin: 0;
 }
 
@@ -272,7 +225,7 @@
   border: none;
   border-radius: 10px;
   color: #0066cc;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   cursor: pointer;
   transition: all 0.3s ease;
   display: flex;
@@ -299,7 +252,7 @@
   transition: all 0.3s ease;
   color: #555;
   font-weight: 600;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   text-align: left;
 }
 
@@ -311,18 +264,23 @@
   background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
   color: white;
   border-color: transparent;
-  box-shadow: 0 8px 20px rgba(0, 102, 204, 0.25);
+  box-shadow: 0 4px 12px rgba(0, 102, 204, 0.2);
 }
 
 /* ========== SERVICES LIST ========== */
 .servicesList {
   display: flex;
   flex-direction: column;
-  gap: 3rem;
+  gap: 2.5rem;
 }
 
 .propertyGroup {
   animation: fadeInUp 0.5s ease;
+  background: linear-gradient(135deg, #f0f5ff 0%, #e8eef9 100%);
+  border-radius: 14px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 102, 204, 0.08);
+  border: 1px solid #d4e0f5;
 }
 
 @keyframes fadeInUp {
@@ -337,11 +295,31 @@
 }
 
 .propertyTitle {
-  font-size: 1.4rem;
+  font-size: 1.1rem;
   font-weight: 800;
-  color: #0052a3;
-  margin: 0 0 1.5rem 0;
-  letter-spacing: -0.3px;
+  color: #0066cc;
+  margin: 0 0 0.3rem 0;
+  letter-spacing: -0.2px;
+}
+
+.propertyHeader {
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid #e8eef9;
+}
+
+.propertyDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.address {
+  color: #666;
+  font-size: 0.85rem;
+  margin: 0;
+  font-weight: 500;
+  line-height: 1.4;
 }
 
 .servicesGrid {
@@ -355,8 +333,8 @@
   background: white;
   border-radius: 16px;
   padding: 1.5rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -374,7 +352,7 @@
   background: linear-gradient(90deg, #0066cc 0%, #0052a3 100%);
   transform: scaleX(0);
   transform-origin: left;
-  transition: transform 0.4s ease;
+  transition: transform 0.3s ease;
 }
 
 .serviceCard:hover::before {
@@ -382,9 +360,9 @@
 }
 
 .serviceCard:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 12px 32px rgba(0, 102, 204, 0.18);
-  border-color: #e8f2ff;
+  transform: translateY(-6px);
+  box-shadow: 0 8px 24px rgba(0, 102, 204, 0.12);
+  border-color: #e0e7ff;
 }
 
 .cardHeader {
@@ -396,7 +374,7 @@
 
 .headerTop {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 1rem;
 }
@@ -405,21 +383,21 @@
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 0.8rem;
+  gap: 0.6rem;
   min-width: 100px;
 }
 
 .serviceName {
-  font-size: 1.15rem;
+  font-size: 0.95rem;
   font-weight: 800;
-  color: #0052a3;
+  color: #0066cc;
   margin: 0;
   flex: 1;
-  letter-spacing: -0.2px;
+  letter-spacing: -0.1px;
 }
 
 .category {
-  font-size: 0.85rem;
+  font-size: 0.75rem;
   color: #0066cc;
   font-weight: 600;
   margin: 0;
@@ -427,16 +405,16 @@
 }
 
 .priceTag {
-  color: #0052a3;
+  color: #0066cc;
   font-weight: 700;
-  font-size: 1.1rem;
+  font-size: 0.95rem;
   white-space: nowrap;
 }
 
 .description {
   color: #666;
-  font-size: 0.9rem;
-  line-height: 1.6;
+  font-size: 0.8rem;
+  line-height: 1.5;
   margin: 0 0 1rem 0;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -478,15 +456,15 @@
 
 .feeLabel {
   color: #666;
-  font-size: 0.85rem;
+  font-size: 0.75rem;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.4px;
 }
 
 .meta {
   color: #555;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   font-weight: 500;
   display: flex;
   align-items: center;
@@ -495,6 +473,7 @@
 
 .metaIcon {
   font-size: 1rem;
+  color: #0066cc;
 }
 
 .badge {
@@ -504,56 +483,32 @@
   padding: 0.2rem 0.6rem;
   border-radius: 6px;
   font-weight: 600;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   text-transform: capitalize;
 }
 
-.ctaBtn {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  border: none;
-  padding: 0.6rem 1.2rem;
-  border-radius: 8px;
-  font-weight: 700;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.25);
-  white-space: nowrap;
-}
-
-.ctaBtn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.35);
-}
-
-.ctaBtn:active {
-  transform: translateY(0);
-  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
-}
-
 .selectBtn {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
   color: white;
   border: none;
-  padding: 0.6rem 1.2rem;
+  padding: 0.55rem 1rem;
   border-radius: 8px;
   font-weight: 700;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.25);
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 102, 204, 0.15);
   white-space: nowrap;
+  margin-left: auto;
 }
 
 .selectBtn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.35);
+  box-shadow: 0 4px 16px rgba(0, 102, 204, 0.25);
 }
 
 .selectBtn:active {
   transform: translateY(0);
-  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
 }
 
 /* ========== CARD DESCRIPTION ========== */
@@ -762,10 +717,10 @@
 
 /* ========== RESPONSIVE DESIGN ========== */
 
-/* TABLET */
+/* TABLET - 1024px and below */
 @media (max-width: 1024px) {
   .pageWrapper {
-    gap: 1.5rem;
+    gap: 1.2rem;
     padding: 1.5rem 1rem;
   }
 
@@ -778,7 +733,7 @@
   }
 
   .title {
-    font-size: 1.7rem;
+    font-size: 1.5rem;
   }
 
   .servicesGrid {
@@ -791,19 +746,18 @@
   }
 
   .serviceName {
-    font-size: 1.05rem;
+    font-size: 1rem;
   }
 
   .priceTag {
-    padding: 0.5rem 0.8rem;
     font-size: 1rem;
   }
 }
 
-/* MOBILE - SHOW FILTER BUTTON */
+/* TABLET PORTRAIT - 768px and below */
 @media (max-width: 768px) {
   .mainContainer {
-    padding-bottom: 80px;
+    padding-bottom: 60px;
   }
 
   .pageWrapper {
@@ -825,16 +779,30 @@
   }
 
   .contentHeader {
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.2rem;
   }
 
   .title {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
+  }
+
+  .propertyGroup {
+    padding: 1.2rem;
+    border-radius: 12px;
   }
 
   .propertyTitle {
-    font-size: 1.2rem;
-    margin-bottom: 1rem;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .propertyHeader {
+    margin-bottom: 1.2rem;
+    padding-bottom: 0.8rem;
+  }
+
+  .address {
+    font-size: 0.8rem;
   }
 
   .servicesGrid {
@@ -847,28 +815,39 @@
   }
 
   .cardHeader {
-    gap: 0.8rem;
+    gap: 0.7rem;
   }
 
   .serviceName {
-    font-size: 1rem;
+    font-size: 0.9rem;
+  }
+
+  .selectBtn {
+    padding: 0.5rem 0.9rem;
+    font-size: 0.75rem;
+  }
+
+  .meta {
+    font-size: 0.75rem;
+  }
+
+  .description {
+    font-size: 0.78rem;
+  }
+
+  .feeLabel {
+    font-size: 0.7rem;
   }
 
   .priceTag {
-    padding: 0.4rem 0.7rem;
-    font-size: 0.95rem;
-  }
-
-  .ctaBtn {
-    padding: 0.7rem 1.2rem;
     font-size: 0.9rem;
   }
 }
 
-/* SMALL MOBILE */
+/* SMALL MOBILE - 480px and below */
 @media (max-width: 480px) {
   .mainContainer {
-    padding-bottom: 100px;
+    padding-bottom: 80px;
   }
 
   .pageWrapper {
@@ -877,65 +856,119 @@
 
   .contentHeader {
     margin-bottom: 1rem;
+    gap: 0.5rem;
   }
 
   .title {
-    font-size: 1.3rem;
+    font-size: 1.05rem;
+    flex: 1;
+  }
+
+  .backButton {
+    width: 38px;
+    height: 38px;
+    font-size: 1rem;
   }
 
   .mobileFilterToggle {
-    width: 48px;
-    height: 48px;
-    font-size: 1.2rem;
+    width: 38px;
+    height: 38px;
+    font-size: 0.9rem;
+  }
+
+  .propertyGroup {
+    padding: 1rem;
+    border-radius: 10px;
   }
 
   .propertyTitle {
-    font-size: 1.1rem;
-    margin-bottom: 0.8rem;
+    font-size: 0.9rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .propertyHeader {
+    margin-bottom: 1rem;
+    padding-bottom: 0.6rem;
+  }
+
+  .address {
+    font-size: 0.75rem;
   }
 
   .servicesGrid {
     grid-template-columns: 1fr;
-    gap: 0.8rem;
+    gap: 0.75rem;
   }
 
   .serviceCard {
-    padding: 0.9rem;
+    padding: 0.8rem;
+  }
+
+  .headerTop {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .headerRight {
+    align-items: flex-start;
+    width: 100%;
   }
 
   .serviceName {
-    font-size: 0.95rem;
+    font-size: 0.85rem;
+  }
+
+  .category {
+    font-size: 0.7rem;
   }
 
   .priceTag {
-    padding: 0.4rem 0.6rem;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
   }
 
   .description {
-    font-size: 0.85rem;
-    margin-bottom: 0.8rem;
+    font-size: 0.75rem;
+    margin-bottom: 0.6rem;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
   }
 
   .cardMeta {
-    margin-bottom: 1rem;
-    padding: 0.6rem 0;
+    margin-bottom: 0.75rem;
+    padding: 0.5rem 0;
     gap: 0.4rem;
   }
 
   .meta {
-    font-size: 0.85rem;
+    font-size: 0.7rem;
+    gap: 0.4rem;
   }
 
-  .ctaBtn {
-    padding: 0.65rem 1rem;
-    font-size: 0.85rem;
+  .feeLabel {
+    font-size: 0.65rem;
+  }
+
+  .selectBtn {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.7rem;
+    margin-top: 0.8rem;
+    width: 100%;
   }
 
   .loading,
   .empty,
   .errorBox {
-    padding: 2rem 1rem;
+    padding: 1.5rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .mobileFilterTop h3 {
+    font-size: 1rem;
+  }
+
+  .mobileFilterBtn {
+    font-size: 0.85rem;
+    padding: 0.8rem 0.9rem;
   }
 }
 

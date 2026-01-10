@@ -6,22 +6,62 @@ import {
   faCalendarAlt,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import AccountDropdown from "./AccountDropdown";
 
 export default function DashBoardHeader() {
   const [activeNavItem, setActiveNavItem] = useState("Home");
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const accountButtonRef = useRef(null);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // Update active nav item based on current route
+  useEffect(() => {
+    if (location.pathname === "/dashboard") {
+      setActiveNavItem("Home");
+    } else if (location.pathname === "/bookings") {
+      setActiveNavItem("Bookings");
+    } else if (location.pathname === "/account") {
+      setActiveNavItem("Account");
+    }
+  }, [location.pathname]);
+
+  // Handle window resize
+  useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth;
+      setWindowWidth(width);
+      setIsMobile(width < 768);
+      // Close dropdown if resizing to mobile
+      if (width < 768) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const handleNavClick = (navItem) => {
     setActiveNavItem(navItem);
-    console.log(`Navigated to: ${navItem}`);
-    // Add navigation logic here
     if (navItem === "Home") {
       navigate("/dashboard");
+    } else if (navItem === "Bookings") {
+      navigate("/bookings");
+    } else if (navItem === "Account") {
+      if (isMobile) {
+        // On mobile, navigate to full account page
+        navigate("/account");
+      } else {
+        // On desktop, toggle dropdown
+        setIsDropdownOpen(!isDropdownOpen);
+      }
     }
-    // Add other navigation logic as needed
   };
   return (
     <div>
@@ -55,14 +95,27 @@ export default function DashBoardHeader() {
               >
                 Bookings
               </button>
-              <button
-                className={`${styles.navItem} ${
-                  activeNavItem === "Account" ? styles.active : ""
-                }`}
-                onClick={() => handleNavClick("Account")}
+
+              {/* Account Button with Dropdown */}
+              <div
+                className={styles.accountButtonContainer}
+                ref={accountButtonRef}
               >
-                Account
-              </button>
+                <button
+                  className={`${styles.navItem} ${
+                    activeNavItem === "Account" || isDropdownOpen
+                      ? styles.active
+                      : ""
+                  }`}
+                  onClick={() => handleNavClick("Account")}
+                >
+                  Account
+                </button>
+                <AccountDropdown
+                  isOpen={isDropdownOpen && !isMobile}
+                  onClose={() => setIsDropdownOpen(false)}
+                />
+              </div>
             </nav>
 
             {/* Notifications Button - Top Right */}

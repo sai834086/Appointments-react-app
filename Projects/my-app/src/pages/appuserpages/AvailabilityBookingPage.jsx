@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { getAvailabilityToAppUser } from "../../api/userService";
+import {
+  getAvailabilityToAppUser,
+  getAvailableSlots,
+  bookAppointment,
+} from "../../api/userService";
 import DashBoardHeader from "../../components/usercomponent/DashBoardHeader";
 import styles from "./AvailabilityBookingPage.module.css";
-import { Calendar } from "lucide-react";
+import { Calendar, Info } from "lucide-react";
 
 const AvailabilityBookingPage = () => {
   const location = useLocation();
@@ -19,6 +23,19 @@ const AvailabilityBookingPage = () => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [showCalendar, setShowCalendar] = useState(false);
   const [openTillDate, setOpenTillDate] = useState(null);
+  const [availableSlots, setAvailableSlots] = useState(null);
+  const [slotsLoading, setSlotsLoading] = useState(false);
+  const [slotsError, setSlotsError] = useState(null);
+  const [refreshCount, setRefreshCount] = useState(0);
+  const [showRefreshLimit, setShowRefreshLimit] = useState(false);
+  const [refreshCountdown, setRefreshCountdown] = useState(60);
+  const [showRefreshInfo, setShowRefreshInfo] = useState(false);
+  const [selectedSlot, setSelectedSlot] = useState(null);
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [confirmationCountdown, setConfirmationCountdown] = useState(30);
+  const [bookingLoading, setBookingLoading] = useState(false);
+  const [bookingError, setBookingError] = useState(null);
+  const [bookingSuccess, setBookingSuccess] = useState(null);
 
   // Day mapping
   const dayNames = [
@@ -51,16 +68,65 @@ const AvailabilityBookingPage = () => {
 
         // Calculate cutoff date based on appointmentsOpenTillInMonths field
         // Sets the cutoff to exactly N months from today
+        let cutoff = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000); // Default to 1 year from now
         if (employeeAvailability?.appointmentsOpenTillInMonths) {
           const today = new Date();
-          const cutoffDate = new Date(
+          cutoff = new Date(
             today.getFullYear(),
             today.getMonth() +
               employeeAvailability.appointmentsOpenTillInMonths,
             today.getDate() // Same day, N months later
           );
-          setOpenTillDate(cutoffDate);
-          console.log("Cutoff Date (3 months from today):", cutoffDate);
+          console.log("Cutoff Date:", cutoff);
+        }
+        setOpenTillDate(cutoff);
+
+        // Find the first available date and fetch its slots
+        const today = new Date();
+        let dateToSelect = null;
+
+        // Check if today is available, then check future dates
+        const dayNames = [
+          "SUNDAY",
+          "MONDAY",
+          "TUESDAY",
+          "WEDNESDAY",
+          "THURSDAY",
+          "FRIDAY",
+          "SATURDAY",
+        ];
+        for (let i = 0; i <= 7; i++) {
+          const checkDate = new Date(today);
+          checkDate.setDate(today.getDate() + i);
+          const dayName = dayNames[checkDate.getDay()];
+
+          if (
+            employeeAvailability?.availableDays?.includes(dayName) &&
+            checkDate <= cutoff
+          ) {
+            dateToSelect = checkDate;
+            break;
+          }
+        }
+
+        if (dateToSelect) {
+          setSelectedDate(dateToSelect);
+
+          // Fetch slots for the first available date
+          try {
+            const slotsResponse = await getAvailableSlots(
+              service.serviceId,
+              employee.employeeId,
+              dateToSelect
+            );
+            const slots = slotsResponse.data?.data?.["Availabile Slots"];
+            setAvailableSlots(slots);
+            console.log("Available Slots for first available date:", slots);
+          } catch (slotsErr) {
+            console.error("Error fetching slots:", slotsErr);
+          }
+        } else {
+          console.warn("No available dates found for this employee");
         }
       } catch (err) {
         setError("Failed to load availability");
@@ -71,7 +137,114 @@ const AvailabilityBookingPage = () => {
     };
 
     fetchAvailability();
-  }, [employee, navigate]);
+  }, [employee, service, navigate]);
+
+  // Fetch available slots when a date is selected
+  useEffect(() => {
+    if (selectedDate && service && employee) {
+      setSlotsLoading(true);
+      setSlotsError(null);
+      const fetchSlots = async () => {
+        try {
+          const response = await getAvailableSlots(
+            service.serviceId,
+            employee.employeeId,
+            selectedDate
+          );
+          const slots = response.data?.data?.["Availabile Slots"];
+          setAvailableSlots(slots);
+          console.log("Available Slots:", slots);
+        } catch (err) {
+          setSlotsError("Failed to load available slots");
+          console.error("Error fetching slots:", err);
+        } finally {
+          setSlotsLoading(false);
+        }
+      };
+      fetchSlots();
+    }
+  }, [selectedDate, service, employee]);
+
+  // Auto-refresh slots every minute with 15 refresh limit
+  useEffect(() => {
+    if (!selectedDate || !service || !employee || refreshCount >= 15) {
+      return;
+    }
+
+    // Initial countdown reset
+    setRefreshCountdown(60);
+
+    const refreshInterval = setInterval(() => {
+      setRefreshCount((prev) => {
+        const newCount = prev + 1;
+        if (newCount >= 15) {
+          setShowRefreshLimit(true);
+          clearInterval(refreshInterval);
+        }
+        return newCount;
+      });
+
+      // Reset countdown to 60 after refresh
+      setRefreshCountdown(60);
+
+      // Fetch latest slots
+      (async () => {
+        try {
+          const response = await getAvailableSlots(
+            service.serviceId,
+            employee.employeeId,
+            selectedDate
+          );
+          const slots = response.data?.data?.["Availabile Slots"];
+          setAvailableSlots(slots);
+          console.log("Auto-refreshed Available Slots:", slots);
+        } catch (err) {
+          console.error("Error auto-refreshing slots:", err);
+        }
+      })();
+    }, 60000); // Refresh every 60 seconds (1 minute)
+
+    return () => clearInterval(refreshInterval);
+  }, [selectedDate, service, employee, refreshCount]);
+
+  // Countdown timer for next refresh
+  useEffect(() => {
+    if (!selectedDate || refreshCount >= 15) {
+      return;
+    }
+
+    const countdownInterval = setInterval(() => {
+      setRefreshCountdown((prev) => {
+        if (prev <= 1) {
+          return 60; // Reset to 60 when it reaches 0
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(countdownInterval);
+  }, [selectedDate, refreshCount]);
+
+  // Confirmation countdown timer - auto-close after 30 seconds
+  useEffect(() => {
+    if (!showConfirmation) {
+      return;
+    }
+
+    setConfirmationCountdown(30); // Reset to 30 when modal opens
+
+    const confirmationInterval = setInterval(() => {
+      setConfirmationCountdown((prev) => {
+        if (prev <= 1) {
+          setShowConfirmation(false);
+          return 30;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(confirmationInterval);
+  }, [showConfirmation]);
 
   const isAvailableDay = (date) => {
     if (!availability?.availableDays) return false;
@@ -104,6 +277,19 @@ const AvailabilityBookingPage = () => {
     }
 
     return days;
+  };
+
+  // Format time from 24-hour to 12-hour format with AM/PM
+  const formatTo12Hour = (time24) => {
+    if (!time24) return "";
+    const parts = time24.split(":");
+    if (parts.length < 2) return time24;
+    let hours = parseInt(parts[0]);
+    const minutes = parts[1];
+    const ampm = hours >= 12 ? "PM" : "AM";
+    hours = hours % 12;
+    hours = hours ? hours : 12;
+    return `${hours}:${minutes} ${ampm}`;
   };
 
   const goToPreviousMonth = () => {
@@ -282,7 +468,12 @@ const AvailabilityBookingPage = () => {
                           } ${isSelected ? styles.selected : ""} ${
                             isToday ? styles.today : ""
                           } ${!isWithinBookingWindow ? styles.disabled : ""}`}
-                          onClick={() => canBook && setSelectedDate(date)}
+                          onClick={() => {
+                            if (canBook) {
+                              setSelectedDate(date);
+                              setShowCalendar(false);
+                            }
+                          }}
                           disabled={!canBook}
                           title={
                             isPast
@@ -304,18 +495,93 @@ const AvailabilityBookingPage = () => {
             )}
 
             {selectedDate && (
-              <div className={styles.selectedDateCard}>
-                <h3>Selected Date</h3>
-                <p className={styles.selectedDate}>
-                  {selectedDate.toLocaleDateString("en-US", {
-                    weekday: "long",
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  })}
-                </p>
-                <button className={styles.proceedBtn}>Continue to Book</button>
-              </div>
+              <>
+                <div className={styles.selectedDateCard}>
+                  <h3>Selected Date</h3>
+                  <p className={styles.selectedDate}>
+                    {selectedDate.toLocaleDateString("en-US", {
+                      weekday: "long",
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })}
+                  </p>
+                </div>
+
+                {/* Available Slots */}
+                {slotsLoading ? (
+                  <div className={styles.loading}>
+                    Loading available slots...
+                  </div>
+                ) : slotsError ? (
+                  <div className={styles.error}>{slotsError}</div>
+                ) : availableSlots ? (
+                  <div className={styles.slotsContainer}>
+                    <div className={styles.slotsHeader}>
+                      <h3 className={styles.slotsTitle}>
+                        Available Time Slots
+                      </h3>
+                      {selectedDate && refreshCount < 15 && (
+                        <div className={styles.refreshInfo}>
+                          <span className={styles.refreshCount}>
+                            Auto-refresh: {refreshCount} / 15
+                          </span>
+                          <span className={styles.refreshTimer}>
+                            Next in {refreshCountdown}s
+                          </span>
+                          <button
+                            className={styles.infoButton}
+                            onClick={() => setShowRefreshInfo(!showRefreshInfo)}
+                            title="Auto-refresh information"
+                          >
+                            <Info size={18} />
+                          </button>
+                          {showRefreshInfo && (
+                            <div className={styles.infoTooltip}>
+                              <p>
+                                <strong>Auto-Refresh Information</strong>
+                              </p>
+                              <ul>
+                                <li>
+                                  Available slots auto-reload every 1 minute
+                                </li>
+                                <li>
+                                  Auto-refresh limit: 15 times (~15 minutes)
+                                </li>
+                                <li>
+                                  After reaching the limit, you must reload the
+                                  page
+                                </li>
+                              </ul>
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                    <div className={styles.slotsList}>
+                      {availableSlots.availabileSlots &&
+                      availableSlots.availabileSlots.length > 0 ? (
+                        availableSlots.availabileSlots.map((slot, index) => (
+                          <button
+                            key={index}
+                            className={styles.slotButton}
+                            onClick={() => {
+                              setSelectedSlot(slot);
+                              setShowConfirmation(true);
+                            }}
+                          >
+                            {formatTo12Hour(slot)}
+                          </button>
+                        ))
+                      ) : (
+                        <p className={styles.noSlots}>
+                          No available slots for this date
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                ) : null}
+              </>
             )}
           </>
         ) : (
@@ -325,6 +591,210 @@ const AvailabilityBookingPage = () => {
               Click the calendar icon above to select a date
             </div>
           )
+        )}
+
+        {/* Slot Confirmation Modal */}
+        {showConfirmation && selectedSlot && (
+          <div
+            className={styles.confirmationBackdrop}
+            onClick={() => setShowConfirmation(false)}
+          >
+            <div
+              className={styles.confirmationModal}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <h2>Confirm Your Booking</h2>
+
+              <div className={styles.confirmationDetails}>
+                <div className={styles.confirmationRow}>
+                  <span className={styles.label}>Service:</span>
+                  <span className={styles.value}>{service.serviceName}</span>
+                </div>
+
+                <div className={styles.confirmationRow}>
+                  <span className={styles.label}>Employee:</span>
+                  <span className={styles.value}>
+                    {employee.firstName} {employee.lastName}
+                  </span>
+                </div>
+
+                <div className={styles.confirmationRow}>
+                  <span className={styles.label}>Date:</span>
+                  <span className={styles.value}>
+                    {selectedDate.toLocaleDateString("en-US", {
+                      weekday: "short",
+                      year: "numeric",
+                      month: "short",
+                      day: "numeric",
+                    })}
+                  </span>
+                </div>
+
+                <div className={styles.confirmationRow}>
+                  <span className={styles.label}>Time Slot:</span>
+                  <span className={styles.valueHighlight}>
+                    {formatTo12Hour(selectedSlot)}
+                  </span>
+                </div>
+              </div>
+
+              <div className={styles.confirmationFooter}>
+                <p className={styles.countdownText}>
+                  Auto-closing in <strong>{confirmationCountdown}s</strong>
+                </p>
+
+                <div className={styles.confirmationButtons}>
+                  <button
+                    className={styles.cancelButton}
+                    onClick={() => setShowConfirmation(false)}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    className={styles.confirmButton}
+                    onClick={async () => {
+                      setBookingLoading(true);
+                      setBookingError(null);
+
+                      try {
+                        // Prepare appointment request
+                        const appointmentRequest = {
+                          employeeId: employee.employeeId,
+                          serviceId: service.serviceId,
+                          date: selectedDate.toISOString().split("T")[0],
+                          startTime: selectedSlot,
+                        };
+
+                        console.log("Booking appointment:", appointmentRequest);
+
+                        const response = await bookAppointment(
+                          appointmentRequest
+                        );
+                        const confirmationNumber =
+                          response.data?.data?.["confirmation number"];
+
+                        setBookingSuccess(confirmationNumber);
+                        setShowConfirmation(false);
+
+                        console.log(
+                          "Booking successful! Confirmation:",
+                          confirmationNumber
+                        );
+                      } catch (err) {
+                        console.error("Booking error:", err);
+                        setBookingError(
+                          err.response?.data?.message ||
+                            "Failed to book appointment"
+                        );
+                      } finally {
+                        setBookingLoading(false);
+                      }
+                    }}
+                    disabled={bookingLoading}
+                  >
+                    {bookingLoading ? "Processing..." : "Book"}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Refresh Limit Modal */}
+        {showRefreshLimit && (
+          <div className={styles.refreshLimitBackdrop}>
+            <div className={styles.refreshLimitModal}>
+              <h2>Auto-Refresh Limit Reached</h2>
+              <p>
+                The page has auto-refreshed 15 times. Please reload the page to
+                continue viewing updates.
+              </p>
+              <button
+                className={styles.reloadButton}
+                onClick={() => window.location.reload()}
+              >
+                Reload Page
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Booking Error Modal */}
+        {bookingError && (
+          <div
+            className={styles.errorBackdrop}
+            onClick={() => setBookingError(null)}
+          >
+            <div
+              className={styles.errorModal}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <h2>Booking Failed</h2>
+              <p>{bookingError}</p>
+              <button
+                className={styles.closeErrorButton}
+                onClick={() => setBookingError(null)}
+              >
+                Try Again
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Booking Success Modal */}
+        {bookingSuccess && (
+          <div className={styles.successBackdrop}>
+            <div className={styles.successModal}>
+              <div className={styles.successDetails}>
+                <p className={styles.successText}>Confirmed</p>
+
+                <div className={styles.confirmationNumber}>
+                  <span className={styles.confirmationLabel}>
+                    Confirmation Number:
+                  </span>
+                  <span className={styles.confirmationCode}>
+                    {bookingSuccess}
+                  </span>
+                </div>
+
+                <div className={styles.bookingInfo}>
+                  <div className={styles.infoItem}>
+                    <strong>Service:</strong> {service.serviceName}
+                  </div>
+                  <div className={styles.infoItem}>
+                    <strong>Employee:</strong> {employee.firstName}{" "}
+                    {employee.lastName}
+                  </div>
+                  <div className={styles.infoItem}>
+                    <strong>Date:</strong>{" "}
+                    {selectedDate.toLocaleDateString("en-US", {
+                      weekday: "long",
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })}
+                  </div>
+                  <div className={styles.infoItem}>
+                    <strong>Time:</strong> {formatTo12Hour(selectedSlot)}
+                  </div>
+                </div>
+
+                <p className={styles.successNote}>
+                  A confirmation email has been sent to your registered email
+                  address.
+                </p>
+              </div>
+
+              <div className={styles.successButtons}>
+                <button
+                  className={styles.backToDashboardButton}
+                  onClick={() => navigate("/bookings")}
+                >
+                  View in Bookings
+                </button>
+              </div>
+            </div>
+          </div>
         )}
       </div>
     </div>

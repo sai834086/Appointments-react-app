@@ -68,7 +68,7 @@
 }
 
 .serviceName {
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   font-weight: 800;
   color: #1a2a4a;
   margin: 0 0 0.5rem 0;
@@ -76,20 +76,20 @@
 
 .serviceInfo {
   color: #666;
-  font-size: 0.95rem;
+  font-size: 0.85rem;
   margin: 0 0 0.8rem 0;
 }
 
 .servicePrice {
   color: #667eea;
   font-weight: 700;
-  font-size: 1rem;
+  font-size: 0.9rem;
   margin: 0;
 }
 
 .servicePrice span {
   color: #667eea;
-  font-size: 1.15rem;
+  font-size: 1rem;
   font-weight: 800;
 }
 
@@ -154,7 +154,7 @@
 }
 
 .employeeName {
-  font-size: 1.15rem;
+  font-size: 1rem;
   font-weight: 800;
   color: #1a2a4a;
   margin: 0 0 0.5rem 0;
@@ -163,7 +163,7 @@
 .employeeEmail,
 .employeePhone {
   color: #666;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   margin: 0.3rem 0;
 }
 
@@ -171,10 +171,10 @@
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   border: none;
-  padding: 0.8rem 1.5rem;
+  padding: 0.75rem 1.2rem;
   border-radius: 10px;
   font-weight: 700;
-  font-size: 0.95rem;
+  font-size: 0.85rem;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
   box-shadow: 0 6px 16px rgba(102, 126, 234, 0.3);
@@ -219,16 +219,18 @@
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
   .pageWrapper {
-    padding: 1rem;
+    padding: 1rem 0.75rem;
   }
 
   .pageHeader {
     flex-direction: column;
     gap: 1rem;
+    margin-bottom: 1.5rem;
   }
 
   .title {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
   }
 
   .employeesList {
@@ -240,10 +242,94 @@
   }
 
   .serviceName {
-    font-size: 1rem;
+    font-size: 0.95rem;
+  }
+
+  .serviceInfo {
+    font-size: 0.8rem;
+  }
+
+  .servicePrice {
+    font-size: 0.8rem;
   }
 
   .servicePrice span {
+    font-size: 0.9rem;
+  }
+
+  .employeeCard {
+    padding: 1.2rem;
+  }
+
+  .employeeName {
+    font-size: 0.9rem;
+  }
+
+  .employeeEmail,
+  .employeePhone {
+    font-size: 0.75rem;
+  }
+
+  .bookBtn {
+    padding: 0.6rem 1rem;
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .pageWrapper {
+    padding: 1rem 0.5rem;
+  }
+
+  .backButton {
+    width: 36px;
+    height: 36px;
     font-size: 1rem;
+  }
+
+  .title {
+    font-size: 1.1rem;
+  }
+
+  .serviceDetails {
+    padding: 0.8rem;
+  }
+
+  .serviceName {
+    font-size: 0.85rem;
+  }
+
+  .serviceInfo {
+    font-size: 0.75rem;
+  }
+
+  .servicePrice {
+    font-size: 0.75rem;
+  }
+
+  .servicePrice span {
+    font-size: 0.85rem;
+  }
+
+  .employeeCard {
+    padding: 1rem;
+  }
+
+  .employeeHeader {
+    margin-bottom: 1rem;
+  }
+
+  .employeeName {
+    font-size: 0.85rem;
+  }
+
+  .employeeEmail,
+  .employeePhone {
+    font-size: 0.7rem;
+  }
+
+  .bookBtn {
+    padding: 0.55rem 0.8rem;
+    font-size: 0.7rem;
   }
 }

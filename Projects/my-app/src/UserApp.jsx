@@ -9,6 +9,10 @@ import EmployeesPage from "./pages/appuserpages/EmployeesPage";
 import EmployeePage from "./pages/appuserpages/EmployeePage";
 import AvailabilityPage from "./pages/appuserpages/AvailabilityPage";
 import AvailabilityBookingPage from "./pages/appuserpages/AvailabilityBookingPage";
+import RescheduleBookingPage from "./pages/appuserpages/RescheduleBookingPage";
+import BookingsPage from "./pages/appuserpages/BookingsPage";
+import AccountPage from "./pages/appuserpages/AccountPage";
+import ProfilePage from "./pages/appuserpages/ProfilePage";
 
 export default function UserApp() {
   return (
@@ -60,6 +64,38 @@ export default function UserApp() {
         element={
           <ProtectedRoute>
             <AvailabilityBookingPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/reschedule-booking"
+        element={
+          <ProtectedRoute>
+            <RescheduleBookingPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/bookings"
+        element={
+          <ProtectedRoute>
+            <BookingsPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/account"
+        element={
+          <ProtectedRoute>
+            <AccountPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/profile"
+        element={
+          <ProtectedRoute>
+            <ProfilePage />
           </ProtectedRoute>
         }
       />
