@@ -67,3 +67,10 @@ export const rescheduleAppointment = (rescheduleRequest) => {
 export const getUserDetails = () => {
   return api.get("appUser/userDetails");
 };
+
+export const updateUserProfile = (fieldName, value) => {
+  const updateRequest = {
+    [fieldName]: value,
+  };
+  return api.patch("appUser/update", updateRequest);
+};

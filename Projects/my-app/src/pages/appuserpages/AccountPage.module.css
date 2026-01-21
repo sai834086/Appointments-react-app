@@ -65,23 +65,23 @@
 }
 
 .menuItem:nth-child(1) .menuIcon {
-  background: linear-gradient(135deg, #0052a3 0%, #0066cc 100%);
-  color: white;
+  background: transparent;
+  color: #0066cc;
 }
 
 .menuItem:nth-child(2) .menuIcon {
-  background: linear-gradient(135deg, #0066cc 0%, #0080ff 100%);
-  color: white;
+  background: transparent;
+  color: #0066cc;
 }
 
 .menuItem:nth-child(3) .menuIcon {
-  background: linear-gradient(135deg, #0052a3 0%, #0052a3 100%);
-  color: white;
+  background: transparent;
+  color: #0066cc;
 }
 
 .menuItem:nth-child(4) .menuIcon {
-  background: linear-gradient(135deg, #003d7a 0%, #0052a3 100%);
-  color: white;
+  background: transparent;
+  color: #0066cc;
 }
 
 .menuItem:last-child {
