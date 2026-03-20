@@ -1,7 +1,7 @@
 import { PartnerAuthContext } from "./context/PartnerAuthContext";
 import { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import StyleSheet from "./PartnerDashboard.module.css";
+import StyleSheet from "./PartnerDashBoard.module.css";
 import ProfileIcon from "../../components/partnercomponent/dashboardcomponents/ProfileIcon";
 import Header from "../../components/partnercomponent/Header";
 import PropertyRegister from "../../components/partnercomponent/PropertyRegister";
