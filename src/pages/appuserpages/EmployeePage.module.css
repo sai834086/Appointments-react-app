@@ -1,0 +1,109 @@
+/* EmployeePage.module.css */
+
+.employeeCount {
+  text-align: center;
+  font-size: 1rem;
+  color: #4a5568;
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+.employeesContainer {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.employeesTitle {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: #2d3748;
+  text-align: center;
+}
+
+.loadingMsg {
+  text-align: center;
+  color: #888;
+  font-size: 1.1rem;
+  margin-top: 2rem;
+}
+
+.errorMsg {
+  text-align: center;
+  color: #e53e3e;
+  font-size: 1.1rem;
+  margin-top: 2rem;
+}
+
+.noEmployeesMsg {
+  text-align: center;
+  color: #888;
+  font-size: 1.1rem;
+  margin-top: 2rem;
+}
+
+.employeesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.employeeCard {
+  background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+  border-radius: 1rem;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+  padding: 1.5rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 0.2s, border-color 0.2s, transform 0.2s;
+  border: 1px solid #e2e8f0;
+  cursor: pointer;
+}
+.employeeCard:hover {
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.13);
+  border-color: #a0aec0;
+  transform: translateY(-2px);
+}
+
+.employeeName {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #2b6cb0;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.employeeDetails {
+  margin-top: 0.5rem;
+}
+
+.employeeDetail {
+  font-size: 0.9rem;
+  color: #718096;
+  margin-bottom: 0.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.icon {
+  color: #4a5568;
+  flex-shrink: 0;
+}
+
+@media (max-width: 600px) {
+  .employeesContainer {
+    padding: 1rem 0.2rem;
+  }
+  .employeesGrid {
+    gap: 1rem;
+  }
+  .employeeCard {
+    padding: 1rem 0.7rem;
+  }
+  .employeeName {
+    font-size: 1.1rem;
+  }
+}
