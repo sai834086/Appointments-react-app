@@ -4,11 +4,6 @@ import { useState } from "react";
 
 function PropertyRegister({ isOpen, onClose, onSubmit }) {
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phoneNumber: "",
-    password: "",
     propertyName: "",
     buildingNo: "",
     street: "",
@@ -23,39 +18,6 @@ function PropertyRegister({ isOpen, onClose, onSubmit }) {
 
   // Validation functions matching backend @Pattern annotations
   const validators = {
-    firstName: (value) => {
-      if (!value || value.trim() === "") return null; // Optional field
-      if (!/^[A-Za-z ]{1,44}$/.test(value))
-        return "First name must contain only letters";
-      return null;
-    },
-    lastName: (value) => {
-      if (!value || value.trim() === "") return null; // Optional field
-      if (!/^[A-Za-z ]{1,44}$/.test(value))
-        return "Last name must contain only letters";
-      return null;
-    },
-    email: (value) => {
-      if (!value || value.trim() === "") return null; // Optional field
-      if (value.length > 45) return "Email must be 45 characters or less";
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value))
-        return "Email should be valid";
-      return null;
-    },
-    phoneNumber: (value) => {
-      if (!value || value.trim() === "") return null; // Optional field
-      if (!/^[0-9]{10}$/.test(value)) return "Phone number must be 10 digits";
-      return null;
-    },
-    password: (value) => {
-      if (!value || value.trim() === "") return null; // Optional field
-      if (value.length < 8 || value.length > 20)
-        return "Password must be at least 8 characters";
-      if (!/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@#$%^&+=!]).*$/.test(value)) {
-        return "Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character";
-      }
-      return null;
-    },
     propertyName: (value) => {
       if (!value || value.trim() === "") return "Business name is required";
       if (!/^[A-Za-z' ]{1,44}$/.test(value))
@@ -134,11 +96,6 @@ function PropertyRegister({ isOpen, onClose, onSubmit }) {
       await onSubmit(formData);
       // Reset form on successful submission
       setFormData({
-        firstName: "",
-        lastName: "",
-        email: "",
-        phoneNumber: "",
-        password: "",
         propertyName: "",
         buildingNo: "",
         street: "",
@@ -167,11 +124,6 @@ function PropertyRegister({ isOpen, onClose, onSubmit }) {
 
   const handleClose = () => {
     setFormData({
-      firstName: "",
-      lastName: "",
-      email: "",
-      phoneNumber: "",
-      password: "",
       propertyName: "",
       buildingNo: "",
       street: "",
@@ -201,95 +153,6 @@ function PropertyRegister({ isOpen, onClose, onSubmit }) {
           {errors.general && (
             <div className={styles.generalError}>{errors.general}</div>
           )}
-
-          <div className={styles.section}>
-            <h3>Manager Information (Optional)</h3>
-
-            <div className={styles.row}>
-              <div className={styles.field}>
-                <label>First Name</label>
-                <input
-                  type="text"
-                  value={formData.firstName}
-                  onChange={(e) =>
-                    handleInputChange("firstName", e.target.value)
-                  }
-                  className={
-                    errors.firstName ? styles.inputError : styles.input
-                  }
-                  placeholder="Enter first name"
-                />
-                {errors.firstName && (
-                  <div className={styles.fieldError}>{errors.firstName}</div>
-                )}
-              </div>
-
-              <div className={styles.field}>
-                <label>Last Name</label>
-                <input
-                  type="text"
-                  value={formData.lastName}
-                  onChange={(e) =>
-                    handleInputChange("lastName", e.target.value)
-                  }
-                  className={errors.lastName ? styles.inputError : styles.input}
-                  placeholder="Enter last name"
-                />
-                {errors.lastName && (
-                  <div className={styles.fieldError}>{errors.lastName}</div>
-                )}
-              </div>
-            </div>
-
-            <div className={styles.row}>
-              <div className={styles.field}>
-                <label>Email</label>
-                <input
-                  type="email"
-                  value={formData.email}
-                  onChange={(e) => handleInputChange("email", e.target.value)}
-                  className={errors.email ? styles.inputError : styles.input}
-                  placeholder="Enter email address"
-                />
-                {errors.email && (
-                  <div className={styles.fieldError}>{errors.email}</div>
-                )}
-              </div>
-
-              <div className={styles.field}>
-                <label>Phone Number</label>
-                <input
-                  type="tel"
-                  value={formData.phoneNumber}
-                  onChange={(e) =>
-                    handleInputChange("phoneNumber", e.target.value)
-                  }
-                  className={
-                    errors.phoneNumber ? styles.inputError : styles.input
-                  }
-                  placeholder="Enter 10-digit phone number"
-                  maxLength="10"
-                />
-                {errors.phoneNumber && (
-                  <div className={styles.fieldError}>{errors.phoneNumber}</div>
-                )}
-              </div>
-            </div>
-
-            <div className={styles.field}>
-              <label>Password</label>
-              <input
-                type="password"
-                value={formData.password}
-                onChange={(e) => handleInputChange("password", e.target.value)}
-                className={errors.password ? styles.inputError : styles.input}
-                placeholder="Enter password (8-20 chars, include A-Z, a-z, 0-9, special char)"
-              />
-              {errors.password && (
-                <div className={styles.fieldError}>{errors.password}</div>
-              )}
-            </div>
-          </div>
 
           {/* Property Information Section */}
           <div className={styles.section}>
