@@ -3,8 +3,10 @@ import api from "./api";
 /* App User End Points */
 export const getAllPartners = (data) =>
   api.get(
-    `appUser/getAllPartnerBusinesses/${data.country}/${data.state}/${data.city}`
+    `appUser/getAllPartnerBusinesses/${data.country}/${data.state}/${data.city}`,
   );
+
+export const getAllProperties = () => api.get(`appUser/getAllProperties`);
 
 export const getAllPropertiesToAppUser = (data) =>
   api.get(`appUser/getAllProperties/${data.partnerId}`);
@@ -15,8 +17,6 @@ export const getEmployeesToAppUser = (data) => {
 
 export const getAvailabilityToAppUser = (employeeId) => {
   return api.get(`appUser/getAvailability/${employeeId}`).then((response) => {
-    console.log("getAvailabilityToAppUser response:", response);
-    console.log("response.data:", response.data);
     return response;
   });
 };
@@ -50,8 +50,6 @@ export const bookAppointment = (appointmentRequest) => {
 
 export const getBookings = () => {
   return api.get("appUser/getBookings").then((response) => {
-    console.log("getBookings response:", response);
-    console.log("Bookings data:", response.data);
     return response;
   });
 };

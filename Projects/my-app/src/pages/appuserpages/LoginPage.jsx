@@ -46,7 +46,6 @@ export default function LoginPage() {
         }
       }
     } catch (error) {
-      console.log("Login error response:", error);
       setError("Invalid credentials. Please try again.");
     } finally {
       setLoading(false);

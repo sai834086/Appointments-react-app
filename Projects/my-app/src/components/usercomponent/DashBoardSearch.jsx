@@ -21,7 +21,6 @@ export default function DashBoardSearch() {
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    console.log(`Searching for: ${searchQuery}`);
     // Add search submit logic here
   };
 

@@ -25,10 +25,7 @@ export default function Employee() {
   const location = useLocation();
   useEffect(() => {
     if (location.state?.employees) {
-      console.log(
-        "[Employee.jsx] Employees from navigation state:",
-        location.state.employees
-      );
+      // no-op
     }
   }, [location.state?.employees]);
 
@@ -41,7 +38,7 @@ export default function Employee() {
     return result;
   });
   const [loading, setLoading] = useState(
-    !Array.isArray(location.state?.employees)
+    !Array.isArray(location.state?.employees),
   );
   const [error, setError] = useState(null);
   const [propertyDetails, setPropertyDetails] = useState(null);
@@ -55,11 +52,12 @@ export default function Employee() {
     useState(false);
   const [selectedEmployeeForService, setSelectedEmployeeForService] =
     useState(null);
+  const [showEmployeeTooltip, setShowEmployeeTooltip] = useState(null); // Track which employee's tooltip is shown
   const fetchInProgressRef = useRef(false);
 
   const searchParams = useMemo(
     () => new URLSearchParams(location.search),
-    [location.search]
+    [location.search],
   );
 
   const propertyId = useMemo(() => {
@@ -116,7 +114,7 @@ export default function Employee() {
       window.history.replaceState(
         { ...location.state, propertyId },
         "",
-        newUrl
+        newUrl,
       );
     }
   }, [propertyId, searchParams, location.state]);
@@ -126,7 +124,7 @@ export default function Employee() {
       const response = await getAllProperties();
       const properties = response.data || response || [];
       const property = properties.find(
-        (p) => (p.propertyId || p.id) === propId
+        (p) => (p.propertyId || p.id) === propId,
       );
       if (property) {
         setPropertyDetails(property);
@@ -180,7 +178,7 @@ export default function Employee() {
       propertyDetails,
       location.state?.employees,
       location.state?.propertyDetails,
-    ]
+    ],
   );
 
   useEffect(() => {
@@ -310,7 +308,7 @@ export default function Employee() {
   const handleRemoveServiceFromEmployee = async (service) => {
     if (
       !window.confirm(
-        `Are you sure you want to remove ${service.serviceName} from this employee?`
+        `Are you sure you want to remove ${service.serviceName} from this employee?`,
       )
     ) {
       return;
@@ -402,7 +400,9 @@ export default function Employee() {
       await deleteEmployee(employeeId);
 
       setEmployees((prevEmployees) =>
-        prevEmployees.filter((emp) => (emp.id || emp.employeeId) !== employeeId)
+        prevEmployees.filter(
+          (emp) => (emp.id || emp.employeeId) !== employeeId,
+        ),
       );
 
       setDeletingEmployee(null);
@@ -707,6 +707,43 @@ export default function Employee() {
                               {employee.status === "ACTIVE"
                                 ? "Active"
                                 : "Inactive"}
+                              {employee.status !== "ACTIVE" && (
+                                <>
+                                  <button
+                                    className={StyleSheet.EmployeeInfoButton}
+                                    onClick={() =>
+                                      setShowEmployeeTooltip(
+                                        showEmployeeTooltip === employeeId
+                                          ? null
+                                          : employeeId,
+                                      )
+                                    }
+                                    title="Employee activation info"
+                                  >
+                                    ?
+                                  </button>
+                                  {showEmployeeTooltip === employeeId && (
+                                    <div
+                                      className={
+                                        StyleSheet.EmployeeTooltipPopup
+                                      }
+                                    >
+                                      <button
+                                        className={StyleSheet.TooltipClose}
+                                        onClick={() =>
+                                          setShowEmployeeTooltip(null)
+                                        }
+                                      >
+                                        ×
+                                      </button>
+                                      <p>
+                                        Make your status active by adding
+                                        availability
+                                      </p>
+                                    </div>
+                                  )}
+                                </>
+                              )}
                             </span>
                           </div>
                           <div className={StyleSheet.EmployeeMenu}>
@@ -773,26 +810,7 @@ export default function Employee() {
                         </div>
 
                         {employee.status !== "ACTIVE" && (
-                          <div
-                            className={StyleSheet.StatusNote}
-                            style={{
-                              backgroundColor: "#fef3c7",
-                              border: "1px solid #f59e0b",
-                              borderRadius: "6px",
-                              padding: "8px 12px",
-                              margin: "8px 0",
-                              fontSize: "0.875rem",
-                              color: "#92400e",
-                              display: "flex",
-                              alignItems: "center",
-                              gap: "6px",
-                            }}
-                          >
-                            <span></span>
-                            <span>
-                              Make your status active by adding availability
-                            </span>
-                          </div>
+                          <div className={StyleSheet.EmployeeStatusNote}></div>
                         )}
 
                         <div

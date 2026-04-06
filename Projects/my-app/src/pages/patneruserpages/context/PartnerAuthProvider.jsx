@@ -13,6 +13,10 @@ export const PartnerAuthProvider = ({ children }) => {
     const stored = localStorage.getItem("userProfile");
     return stored ? JSON.parse(stored) : null;
   });
+  const [userType, setUserType] = useState(() => {
+    // "partner" or "manager"
+    return localStorage.getItem("userType") || "partner";
+  });
   const [properties, setProperties] = useState([]);
 
   // Ref to prevent duplicate API calls
@@ -22,8 +26,10 @@ export const PartnerAuthProvider = ({ children }) => {
   const logout = useCallback(() => {
     localStorage.removeItem("token");
     localStorage.removeItem("userProfile");
+    localStorage.removeItem("userType");
     setToken(null);
     setUserProfile(null);
+    setUserType("partner");
     setProperties([]);
   }, []);
 
@@ -77,15 +83,8 @@ export const PartnerAuthProvider = ({ children }) => {
     async (token) => {
       if (!token) return null;
 
-      // Extract partnerId from JWT token
-      const partnerId = extractPartnerIdFromToken(token);
-
-      if (!partnerId) {
-        return null;
-      }
-
       try {
-        const response = await getPartnerProfile(partnerId);
+        const response = await getPartnerProfile();
         const profileData =
           response.data?.data?.partnerUserProfile ||
           response.data?.partnerUserProfile ||
@@ -100,37 +99,45 @@ export const PartnerAuthProvider = ({ children }) => {
         return null;
       }
     },
-    [extractPartnerIdFromToken]
+    [extractPartnerIdFromToken],
   );
 
   // ✅ Login function
-  const login = useCallback(async (token, partnerUserProfile = null) => {
-    try {
-      localStorage.setItem("token", token);
-      if (partnerUserProfile) {
-        localStorage.setItem("userProfile", JSON.stringify(partnerUserProfile));
+  const login = useCallback(
+    async (token, partnerUserProfile = null, type = "partner") => {
+      try {
+        localStorage.setItem("token", token);
+        localStorage.setItem("userType", type);
+        if (partnerUserProfile) {
+          localStorage.setItem(
+            "userProfile",
+            JSON.stringify(partnerUserProfile),
+          );
+        }
+      } catch {
+        /* ignore storage errors */
       }
-    } catch {
-      /* ignore storage errors */
-    }
-    // Clear any previous forced-logout flag for this tab when logging in locally
-    try {
-      sessionStorage.removeItem("loggedOutByOtherTab");
-    } catch {
-      /* ignore */
-    }
-    setToken(token);
+      // Clear any previous forced-logout flag for this tab when logging in locally
+      try {
+        sessionStorage.removeItem("loggedOutByOtherTab");
+      } catch {
+        /* ignore */
+      }
+      setToken(token);
+      setUserType(type);
 
-    if (partnerUserProfile) {
-      setUserProfile(partnerUserProfile);
-    } else {
-      // If no profile provided, fetch it after setting the token
-      setUserProfile(null);
-      // We'll fetch the profile in a separate call after the token is set
-    }
+      if (partnerUserProfile) {
+        setUserProfile(partnerUserProfile);
+      } else {
+        // If no profile provided, fetch it after setting the token
+        setUserProfile(null);
+        // We'll fetch the profile in a separate call after the token is set
+      }
 
-    // Properties will be fetched automatically by the useEffect below
-  }, []);
+      // Properties will be fetched automatically by the useEffect below
+    },
+    [],
+  );
 
   // ✅ Update user profile locally
   const updateProfile = useCallback(
@@ -139,17 +146,17 @@ export const PartnerAuthProvider = ({ children }) => {
       setUserProfile(updated);
       localStorage.setItem("userProfile", JSON.stringify(updated));
     },
-    [userProfile]
+    [userProfile],
   );
 
   // ✅ Refresh user profile from server
   const refreshProfile = useCallback(async () => {
-    if (!userProfile?.partnerId) {
+    if (!userProfile) {
       return null;
     }
 
     try {
-      const response = await getPartnerProfile(userProfile.partnerId);
+      const response = await getPartnerProfile();
       const profileData =
         response.data?.data?.partnerUserProfile ||
         response.data?.partnerUserProfile ||
@@ -163,7 +170,7 @@ export const PartnerAuthProvider = ({ children }) => {
     } catch {
       return null;
     }
-  }, [userProfile?.partnerId]);
+  }, [userProfile]);
 
   // ✅ Refresh properties from server (call this after property changes)
   const refreshProperties = useCallback(async () => {
@@ -265,6 +272,7 @@ export const PartnerAuthProvider = ({ children }) => {
       value={{
         token,
         userProfile,
+        userType,
         properties,
         // legacy aliases kept for components that expect partnerProfile
         partnerProfile: userProfile,

@@ -56,12 +56,9 @@ const RescheduleBookingPage = () => {
         const employeeId = booking.employeeId;
         const serviceId = booking.serviceId;
 
-        console.log("📡 REQUEST 1: Fetching employee availability...");
-        console.log("Employee ID:", employeeId, "Service ID:", serviceId);
-
         if (!employeeId || !serviceId) {
           throw new Error(
-            "Booking data is missing employeeId or serviceId. Please contact support."
+            "Booking data is missing employeeId or serviceId. Please contact support.",
           );
         }
 
@@ -71,8 +68,6 @@ const RescheduleBookingPage = () => {
           response.data?.data?.["employee availability"];
         setAvailability(employeeAvailability);
 
-        console.log("✅ Availability fetched:", employeeAvailability);
-
         // Calculate cutoff date
         let cutoff = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000);
         if (employeeAvailability?.appointmentsOpenTillInMonths) {
@@ -81,7 +76,7 @@ const RescheduleBookingPage = () => {
             today.getFullYear(),
             today.getMonth() +
               employeeAvailability.appointmentsOpenTillInMonths,
-            today.getDate()
+            today.getDate(),
           );
         }
         setOpenTillDate(cutoff);
@@ -100,12 +95,8 @@ const RescheduleBookingPage = () => {
           employeeAvailability?.availableDays?.includes(currentBookingDayName)
         ) {
           dateToSelect = currentBookingDate;
-          console.log("✅ Using current booking date:", dateToSelect);
         } else {
           // If current booking date is not available, find the first available date
-          console.log(
-            "⚠️ Current booking date not available, finding next available date..."
-          );
           for (let i = 0; i <= 7; i++) {
             const checkDate = new Date(today);
             checkDate.setDate(today.getDate() + i);
@@ -116,7 +107,6 @@ const RescheduleBookingPage = () => {
               checkDate <= cutoff
             ) {
               dateToSelect = checkDate;
-              console.log("✅ First available date found:", dateToSelect);
               break;
             }
           }
@@ -124,21 +114,14 @@ const RescheduleBookingPage = () => {
 
         if (dateToSelect) {
           setSelectedDate(dateToSelect);
-
-          // Fetch slots for the selected date
-          console.log(
-            "📡 REQUEST 2: Fetching available time slots for",
-            dateToSelect
-          );
           try {
             const slotsResponse = await getAvailableSlots(
               serviceId,
               employeeId,
-              dateToSelect
+              dateToSelect,
             );
             const slotData = slotsResponse.data?.data?.["Availabile Slots"];
             setAvailableSlots(slotData);
-            console.log("✅ Available slots fetched:", slotData);
           } catch (slotsErr) {
             console.error("❌ Error fetching slots:", slotsErr);
             setSlotsError("Failed to load available times");
@@ -178,22 +161,13 @@ const RescheduleBookingPage = () => {
             throw new Error("Employee or service ID not found");
           }
 
-          console.log("📡 REQUEST: Fetching slots for date", selectedDate);
-          console.log(
-            "Parameters: serviceId=",
-            serviceId,
-            "employeeId=",
-            employeeId
-          );
-
           const response = await getAvailableSlots(
             serviceId,
             employeeId,
-            selectedDate
+            selectedDate,
           );
           const slotData = response.data?.data?.["Availabile Slots"];
           setAvailableSlots(slotData);
-          console.log("✅ Slots fetched:", slotData);
         } catch (err) {
           setSlotsError("Failed to load available times");
           console.error("❌ Error fetching slots:", err);
@@ -283,12 +257,8 @@ const RescheduleBookingPage = () => {
         startTime: selectedSlot, // This is already in HH:MM:SS format from backend
       };
 
-      console.log("📤 Sending reschedule request:", rescheduleRequest);
-
       // Call reschedule API
       const response = await rescheduleAppointment(rescheduleRequest);
-
-      console.log("✅ Reschedule successful:", response);
 
       setRescheduleSuccess(true);
       setRescheduling(false);
@@ -401,8 +371,8 @@ const RescheduleBookingPage = () => {
                         setCurrentDate(
                           new Date(
                             currentDate.getFullYear(),
-                            currentDate.getMonth() - 1
-                          )
+                            currentDate.getMonth() - 1,
+                          ),
                         );
                       }}
                       className={styles.navButton}
@@ -421,8 +391,8 @@ const RescheduleBookingPage = () => {
                           setCurrentDate(
                             new Date(
                               currentDate.getFullYear(),
-                              currentDate.getMonth() + 1
-                            )
+                              currentDate.getMonth() + 1,
+                            ),
                           );
                         }}
                         className={styles.navButton}
@@ -445,7 +415,7 @@ const RescheduleBookingPage = () => {
                         <div key={day} className={styles.weekDay}>
                           {day}
                         </div>
-                      )
+                      ),
                     )}
                   </div>
 
@@ -625,7 +595,7 @@ const RescheduleBookingPage = () => {
                         <p className={styles.timeBoxDateTime}>
                           <span className={styles.date}>
                             {new Date(
-                              booking.appointmentDate
+                              booking.appointmentDate,
                             ).toLocaleDateString("en-US", {
                               weekday: "short",
                               month: "short",

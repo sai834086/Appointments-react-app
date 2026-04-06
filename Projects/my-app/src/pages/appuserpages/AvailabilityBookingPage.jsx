@@ -64,8 +64,6 @@ const AvailabilityBookingPage = () => {
           response.data?.data?.["employee availability"];
         setAvailability(employeeAvailability);
 
-        console.log("Availability Response:", employeeAvailability);
-
         // Calculate cutoff date based on appointmentsOpenTillInMonths field
         // Sets the cutoff to exactly N months from today
         let cutoff = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000); // Default to 1 year from now
@@ -75,9 +73,8 @@ const AvailabilityBookingPage = () => {
             today.getFullYear(),
             today.getMonth() +
               employeeAvailability.appointmentsOpenTillInMonths,
-            today.getDate() // Same day, N months later
+            today.getDate(), // Same day, N months later
           );
-          console.log("Cutoff Date:", cutoff);
         }
         setOpenTillDate(cutoff);
 
@@ -117,11 +114,10 @@ const AvailabilityBookingPage = () => {
             const slotsResponse = await getAvailableSlots(
               service.serviceId,
               employee.employeeId,
-              dateToSelect
+              dateToSelect,
             );
             const slots = slotsResponse.data?.data?.["Availabile Slots"];
             setAvailableSlots(slots);
-            console.log("Available Slots for first available date:", slots);
           } catch (slotsErr) {
             console.error("Error fetching slots:", slotsErr);
           }
@@ -149,11 +145,10 @@ const AvailabilityBookingPage = () => {
           const response = await getAvailableSlots(
             service.serviceId,
             employee.employeeId,
-            selectedDate
+            selectedDate,
           );
           const slots = response.data?.data?.["Availabile Slots"];
           setAvailableSlots(slots);
-          console.log("Available Slots:", slots);
         } catch (err) {
           setSlotsError("Failed to load available slots");
           console.error("Error fetching slots:", err);
@@ -193,11 +188,10 @@ const AvailabilityBookingPage = () => {
           const response = await getAvailableSlots(
             service.serviceId,
             employee.employeeId,
-            selectedDate
+            selectedDate,
           );
           const slots = response.data?.data?.["Availabile Slots"];
           setAvailableSlots(slots);
-          console.log("Auto-refreshed Available Slots:", slots);
         } catch (err) {
           console.error("Error auto-refreshing slots:", err);
         }
@@ -294,14 +288,14 @@ const AvailabilityBookingPage = () => {
 
   const goToPreviousMonth = () => {
     setCurrentDate(
-      new Date(currentDate.getFullYear(), currentDate.getMonth() - 1)
+      new Date(currentDate.getFullYear(), currentDate.getMonth() - 1),
     );
   };
 
   const goToNextMonth = () => {
     const nextMonth = new Date(
       currentDate.getFullYear(),
-      currentDate.getMonth() + 1
+      currentDate.getMonth() + 1,
     );
 
     // Don't allow navigation beyond opentill date
@@ -433,7 +427,7 @@ const AvailabilityBookingPage = () => {
                         <div key={day} className={styles.weekDay}>
                           {day}
                         </div>
-                      )
+                      ),
                     )}
                   </div>
 
@@ -479,10 +473,10 @@ const AvailabilityBookingPage = () => {
                             isPast
                               ? "Past date"
                               : isAfterOpenTill
-                              ? "Outside booking window"
-                              : !isAvailable
-                              ? "Not available on this day"
-                              : "Available"
+                                ? "Outside booking window"
+                                : !isAvailable
+                                  ? "Not available on this day"
+                                  : "Available"
                           }
                         >
                           {date.getDate()}
@@ -665,26 +659,18 @@ const AvailabilityBookingPage = () => {
                           startTime: selectedSlot,
                         };
 
-                        console.log("Booking appointment:", appointmentRequest);
-
-                        const response = await bookAppointment(
-                          appointmentRequest
-                        );
+                        const response =
+                          await bookAppointment(appointmentRequest);
                         const confirmationNumber =
                           response.data?.data?.["confirmation number"];
 
                         setBookingSuccess(confirmationNumber);
                         setShowConfirmation(false);
-
-                        console.log(
-                          "Booking successful! Confirmation:",
-                          confirmationNumber
-                        );
                       } catch (err) {
                         console.error("Booking error:", err);
                         setBookingError(
                           err.response?.data?.message ||
-                            "Failed to book appointment"
+                            "Failed to book appointment",
                         );
                       } finally {
                         setBookingLoading(false);

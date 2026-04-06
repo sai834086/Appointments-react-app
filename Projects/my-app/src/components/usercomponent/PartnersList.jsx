@@ -6,6 +6,7 @@ import { faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons";
 
 const PartnersList = ({ partners }) => {
   const navigate = useNavigate();
+
   const handlePartnerClicked = (partner) => {
     navigate("/services", { state: { partnerId: partner.id } });
   };

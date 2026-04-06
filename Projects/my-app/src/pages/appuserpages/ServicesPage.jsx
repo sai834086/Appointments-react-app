@@ -86,7 +86,7 @@ const ServicesPage = () => {
       const serviceId = service.id || service.serviceId;
       const response = await getEmployeesForService(
         service.propertyId,
-        serviceId
+        serviceId,
       );
       const fetchedEmployees =
         response.data.data.allEmployees || response.data.data || [];
@@ -117,7 +117,7 @@ const ServicesPage = () => {
       return services;
     }
     return services.filter(
-      (service) => service.propertyName === propertyFilter
+      (service) => service.propertyName === propertyFilter,
     );
   }, [services, propertyFilter]);
 
@@ -352,7 +352,7 @@ const ServicesPage = () => {
                                 <div className={styles.priceTag}>
                                   $
                                   {parseFloat(
-                                    service.serviceFee || service.price
+                                    service.serviceFee || service.price,
                                   ).toFixed(2)}
                                 </div>
                               ) : null}
@@ -366,7 +366,7 @@ const ServicesPage = () => {
                                   {service.description.length > 80
                                     ? `${service.description.substring(
                                         0,
-                                        80
+                                        80,
                                       )}...`
                                     : service.description}
                                 </p>
@@ -385,7 +385,7 @@ const ServicesPage = () => {
                       ))}
                     </div>
                   </section>
-                )
+                ),
               )}
             </div>
           )}

@@ -29,7 +29,6 @@ export default function ProfilePage() {
       try {
         setLoading(true);
         const response = await getUserDetails();
-        console.log("User details response:", response);
         setUserDetails(response?.data?.data?.Profile);
       } catch (err) {
         console.error("Error fetching user details:", err);
@@ -445,7 +444,7 @@ export default function ProfilePage() {
                         onClick={() =>
                           handleEditField(
                             "phoneNumber",
-                            userDetails.phoneNumber
+                            userDetails.phoneNumber,
                           )
                         }
                       >

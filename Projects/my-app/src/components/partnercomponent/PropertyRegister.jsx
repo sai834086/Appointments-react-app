@@ -24,33 +24,31 @@ function PropertyRegister({ isOpen, onClose, onSubmit }) {
   // Validation functions matching backend @Pattern annotations
   const validators = {
     firstName: (value) => {
-      if (!value || value.trim() === "") return "First name is required";
+      if (!value || value.trim() === "") return null; // Optional field
       if (!/^[A-Za-z ]{1,44}$/.test(value))
         return "First name must contain only letters";
       return null;
     },
     lastName: (value) => {
-      if (!value || value.trim() === "") return "Last name is required";
+      if (!value || value.trim() === "") return null; // Optional field
       if (!/^[A-Za-z ]{1,44}$/.test(value))
         return "Last name must contain only letters";
       return null;
     },
     email: (value) => {
-      if (!value || value.trim() === "") return "Property Email is required";
+      if (!value || value.trim() === "") return null; // Optional field
       if (value.length > 45) return "Email must be 45 characters or less";
-      // Simple email validation
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value))
         return "Email should be valid";
       return null;
     },
     phoneNumber: (value) => {
-      if (!value || value.trim() === "")
-        return "Property Phone number is required";
+      if (!value || value.trim() === "") return null; // Optional field
       if (!/^[0-9]{10}$/.test(value)) return "Phone number must be 10 digits";
       return null;
     },
     password: (value) => {
-      if (!value || value.trim() === "") return "Password is required";
+      if (!value || value.trim() === "") return null; // Optional field
       if (value.length < 8 || value.length > 20)
         return "Password must be at least 8 characters";
       if (!/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@#$%^&+=!]).*$/.test(value)) {
@@ -203,12 +201,13 @@ function PropertyRegister({ isOpen, onClose, onSubmit }) {
           {errors.general && (
             <div className={styles.generalError}>{errors.general}</div>
           )}
+
           <div className={styles.section}>
-            <h3>Manager Information</h3>
+            <h3>Manager Information (Optional)</h3>
 
             <div className={styles.row}>
               <div className={styles.field}>
-                <label>First Name *</label>
+                <label>First Name</label>
                 <input
                   type="text"
                   value={formData.firstName}
@@ -226,7 +225,7 @@ function PropertyRegister({ isOpen, onClose, onSubmit }) {
               </div>
 
               <div className={styles.field}>
-                <label>Last Name *</label>
+                <label>Last Name</label>
                 <input
                   type="text"
                   value={formData.lastName}
@@ -244,7 +243,7 @@ function PropertyRegister({ isOpen, onClose, onSubmit }) {
 
             <div className={styles.row}>
               <div className={styles.field}>
-                <label>Email *</label>
+                <label>Email</label>
                 <input
                   type="email"
                   value={formData.email}
@@ -258,7 +257,7 @@ function PropertyRegister({ isOpen, onClose, onSubmit }) {
               </div>
 
               <div className={styles.field}>
-                <label>Phone Number *</label>
+                <label>Phone Number</label>
                 <input
                   type="tel"
                   value={formData.phoneNumber}
@@ -278,7 +277,7 @@ function PropertyRegister({ isOpen, onClose, onSubmit }) {
             </div>
 
             <div className={styles.field}>
-              <label>Password *</label>
+              <label>Password</label>
               <input
                 type="password"
                 value={formData.password}

@@ -81,7 +81,7 @@ export default function SearchAddress({
     return () => {
       if (autocompleteRef.current) {
         window.google.maps.event.clearInstanceListeners(
-          autocompleteRef.current
+          autocompleteRef.current,
         );
       }
     };
@@ -89,13 +89,12 @@ export default function SearchAddress({
 
   const handleUseCurrentLocation = async () => {
     setIsLoadingLocation(true);
-    // wait briefly to show loading state / debounce rapid clicks
-    await new Promise((resolve) => setTimeout(resolve, 5000));
     try {
       if (onUseCurrentLocation) {
         await onUseCurrentLocation();
       }
     } catch (error) {
+      console.error("Location error:", error);
     } finally {
       setIsLoadingLocation(false);
     }

@@ -12,7 +12,6 @@ export default function PartnerSignUpAddressForm({ form, onChange, errors }) {
       .then((autocomplete) => {
         autocomplete.addListener("place_changed", () => {
           const place = autocomplete.getPlace();
-          console.log("Selected place:", place);
 
           if (place && place.address_components) {
             const addressComponents = place.address_components;
@@ -45,13 +44,6 @@ export default function PartnerSignUpAddressForm({ form, onChange, errors }) {
               getComponent("postal_code_prefix") ||
               "";
 
-            console.log("Extracted address components:", {
-              city,
-              state,
-              country,
-              zipCode,
-            });
-
             // Update form values using onChange prop
             onChange({ target: { name: "city", value: city } });
             onChange({ target: { name: "state", value: state } });
@@ -67,7 +59,7 @@ export default function PartnerSignUpAddressForm({ form, onChange, errors }) {
       .catch((error) => {
         console.error(
           "Failed to initialize Google Places Autocomplete:",
-          error
+          error,
         );
       });
   }, [onChange]);
@@ -79,7 +71,7 @@ export default function PartnerSignUpAddressForm({ form, onChange, errors }) {
       if (autocompleteRef.current && window.google && window.google.maps) {
         try {
           window.google.maps.event.clearInstanceListeners(
-            autocompleteRef.current
+            autocompleteRef.current,
           );
         } catch (error) {
           console.warn("Error cleaning up autocomplete listeners:", error);

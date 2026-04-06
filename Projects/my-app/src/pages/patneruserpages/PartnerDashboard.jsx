@@ -1,7 +1,7 @@
 import { PartnerAuthContext } from "./context/PartnerAuthContext";
 import { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import StyleSheet from "./PartnerDashboard.module.css";
+import StyleSheet from "./PartnerDashBoard.module.css";
 import ProfileIcon from "../../components/partnercomponent/dashboardcomponents/ProfileIcon";
 import Header from "../../components/partnercomponent/Header";
 import PropertyRegister from "../../components/partnercomponent/PropertyRegister";
@@ -17,6 +17,7 @@ export default function PartnerDashboard() {
   const [selectedProperty, setSelectedProperty] = useState(null);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [successMessageType, setSuccessMessageType] = useState("add"); // "add" or "update"
+  const [showTooltip, setShowTooltip] = useState(null); // Track which property's tooltip is shown
 
   // Monitor properties changes
   useEffect(() => {
@@ -81,6 +82,26 @@ export default function PartnerDashboard() {
       });
     }
   };
+
+  const handleViewAppointments = (property) => {
+    const propertyId = property.propertyId || property.id;
+    const today = new Date();
+    const timezoneOffsetMs = today.getTimezoneOffset() * 60 * 1000;
+    const currentDate = new Date(today.getTime() - timezoneOffsetMs)
+      .toISOString()
+      .split("T")[0];
+
+    navigate(
+      `/partner/appointments?propertyId=${propertyId}&date=${currentDate}`,
+      {
+        state: {
+          propertyId,
+          propertyDetails: property,
+        },
+      },
+    );
+  };
+
   return (
     <div className={StyleSheet.MainContainer}>
       <div className={StyleSheet.HeaderContainer}>
@@ -107,10 +128,10 @@ export default function PartnerDashboard() {
                 {partnerProfile?.status === "ACTIVE"
                   ? "✅"
                   : partnerProfile?.status === "INACTIVE"
-                  ? "❌"
-                  : partnerProfile?.status === "PENDING"
-                  ? "⏳"
-                  : "❓"}
+                    ? "❌"
+                    : partnerProfile?.status === "PENDING"
+                      ? "⏳"
+                      : "❓"}
               </div>
               <div className={StyleSheet.StatContent}>
                 <h3>{partnerProfile?.status || "Unknown"}</h3>
@@ -195,17 +216,51 @@ export default function PartnerDashboard() {
                 >
                   <div className={StyleSheet.PropertyHeader}>
                     <h3>{property.propertyName || property.name}</h3>
-                    <span
-                      className={StyleSheet.PropertyStatus}
-                      style={{
-                        backgroundColor:
-                          property.status === "INACTIVE"
-                            ? "#eab308"
-                            : "#10b981",
-                      }}
-                    >
-                      {property.status || "Active"}
-                    </span>
+                    <div className={StyleSheet.StatusContainer}>
+                      <span
+                        className={StyleSheet.PropertyStatus}
+                        style={{
+                          backgroundColor:
+                            property.status === "INACTIVE"
+                              ? "#eab308"
+                              : "#10b981",
+                        }}
+                      >
+                        {property.status || "Active"}
+                        {property.status === "INACTIVE" && (
+                          <>
+                            <button
+                              className={StyleSheet.InfoButton}
+                              onClick={() =>
+                                setShowTooltip(
+                                  showTooltip === property.propertyId
+                                    ? null
+                                    : property.propertyId,
+                                )
+                              }
+                              title="Property activation info"
+                            >
+                              ?
+                            </button>
+                            {showTooltip === property.propertyId && (
+                              <div className={StyleSheet.TooltipPopup}>
+                                <button
+                                  className={StyleSheet.TooltipClose}
+                                  onClick={() => setShowTooltip(null)}
+                                >
+                                  ×
+                                </button>
+                                <p>
+                                  To activate this property, add at least one
+                                  employee or ensure you have an active
+                                  employee.
+                                </p>
+                              </div>
+                            )}
+                          </>
+                        )}
+                      </span>
+                    </div>
                   </div>
                   <div className={StyleSheet.PropertyDetails}>
                     <div className={StyleSheet.AddressSection}>
@@ -218,17 +273,6 @@ export default function PartnerDashboard() {
                       {property.city}, {property.state} {property.zipCode}
                     </p>
                     <p className={StyleSheet.CountryInfo}>{property.country}</p>
-
-                    {/* Property Status Note */}
-                    {property.status === "INACTIVE" && (
-                      <div className={StyleSheet.PropertyInfoNote}>
-                        <div className={StyleSheet.PropertyInfoIcon}>💡</div>
-                        <p className={StyleSheet.PropertyInfoText}>
-                          To activate this property, add at least one employee
-                          or ensure you have an active employee.
-                        </p>
-                      </div>
-                    )}
                   </div>
                   <div className={StyleSheet.PropertyActions}>
                     <button
@@ -242,6 +286,14 @@ export default function PartnerDashboard() {
                       onClick={() => handleManageServices(property)}
                     >
                       Manage Services
+                    </button>
+                  </div>
+                  <div className={StyleSheet.PropertyAppointmentsAction}>
+                    <button
+                      className={StyleSheet.AppointmentButton}
+                      onClick={() => handleViewAppointments(property)}
+                    >
+                      View Appointments
                     </button>
                   </div>
                 </div>

@@ -9,7 +9,6 @@ const EmployeePage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const propertyId = location.state?.propertyId;
-  console.log("EmployeePage propertyId:", propertyId);
   const [employees, setEmployees] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -20,7 +19,6 @@ const EmployeePage = () => {
       setError(null);
       try {
         const response = await getEmployeesToAppUser({ propertyId });
-        console.log("Fetched employees:", response.data.data?.allEmployees);
         setEmployees(response.data.data?.allEmployees || []);
       } catch (err) {
         console.error("Error fetching employees:", err);

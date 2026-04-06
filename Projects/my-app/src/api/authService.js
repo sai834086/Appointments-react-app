@@ -1,6 +1,7 @@
 import api from "./api";
 
-export const loginUser = (credentials) => api.post("loginUser", credentials);
+export const loginUser = (credentials) =>
+  api.post("appUser/login", credentials);
 
 export const registerUser = (data) => api.post("registerUser", data);
 
@@ -8,12 +9,13 @@ export const registerPartner = (data) => api.post("partnerUser/register", data);
 
 export const loginPartner = (data) => api.post("partnerUser/login", data);
 
+export const loginManager = (data) => api.post("manager/login", data);
+
 /* Partner End Points*/
 export const updatePartner = (partnerId, data) =>
   api.patch(`partnerUser/profileUpdate/${partnerId}`, data);
 
-export const getPartnerProfile = (partnerId) =>
-  api.get(`partnerUser/getPartnerProfile/${partnerId}`);
+export const getPartnerProfile = () => api.get(`partnerUser/getPartnerProfile`);
 
 export const registerProperty = (data) =>
   api.post("partnerUser/registerProperty", data);
@@ -41,27 +43,27 @@ export const getAvailabilityWithOffTime = (employeeId) =>
 export const updateAvailability = (availabilityId, availabilityData) =>
   api.patch(
     `partnerUser/updateAvailability/${availabilityId}`,
-    availabilityData
+    availabilityData,
   );
 
 export const updateAvailabilityAndRefreshEmployee = async (
   availabilityId,
   availabilityData,
   propertyId,
-  employeeId
+  employeeId,
 ) => {
   // First update the availability
   await api.patch(
     `partnerUser/updateAvailability/${availabilityId}`,
-    availabilityData
+    availabilityData,
   );
 
   // Then fetch fresh employee data
   const employeesResponse = await api.get(
-    `partnerUser/getEmployees/${propertyId}`
+    `partnerUser/getEmployees/${propertyId}`,
   );
   const availabilityResponse = await api.get(
-    `partnerUser/getAvailabilityWithOffTime/${employeeId}`
+    `partnerUser/getAvailabilityWithOffTime/${employeeId}`,
   );
 
   return {
@@ -98,7 +100,7 @@ export const reverseGeocode = async (latitude, longitude) => {
     const response = await fetch(url);
     if (!response.ok) throw new Error("Failed to fetch geocode data");
     return await response.json();
-  } catch (error) {
+  } catch {
     return { status: "ERROR", results: [] };
   }
 };
@@ -152,7 +154,7 @@ export const initializePlacesAutocompleteReact = (inputElement) => {
         {
           types: ["geocode"],
           componentRestrictions: { country: [] }, // Allow all countries
-        }
+        },
       );
 
       resolve(autocomplete);
@@ -179,7 +181,7 @@ export const deletePropertyService = (propertyId, serviceId) =>
 export const addServicesToEmployee = (employeeId, propertyId, serviceIds) =>
   api.put(
     `partnerUser/addServicesToEmployee/${employeeId}/${propertyId}`,
-    serviceIds
+    serviceIds,
   );
 
 export const getEmployeeServices = (employeeId) =>
@@ -187,11 +189,27 @@ export const getEmployeeServices = (employeeId) =>
 
 export const deleteEmployeeService = (employeeId, propertyId, serviceId) =>
   api.delete(
-    `partnerUser/removeServiceFromEmployee/${propertyId}/${employeeId}/${serviceId}`
+    `partnerUser/removeServiceFromEmployee/${propertyId}/${employeeId}/${serviceId}`,
   );
 
 // Alias for compatibility with Employee.jsx
 export const removeServiceFromEmployee = (propertyId, employeeId, serviceId) =>
   api.delete(
-    `partnerUser/removeServiceFromEmployee/${propertyId}/${employeeId}/${serviceId}`
+    `partnerUser/removeServiceFromEmployee/${propertyId}/${employeeId}/${serviceId}`,
   );
+
+/* Partner Appointments End Points */
+export const getPropertyAppointments = (propertyId, date) => {
+  const baseURL = (api?.defaults?.baseURL || "").toString();
+  const hasAppointmentsPrefix = /\/appointments\/?$/i.test(baseURL);
+  const endpointPrefix = hasAppointmentsPrefix ? "" : "/appointments";
+
+  return api.get(
+    `${endpointPrefix}/partnerUser/getAppointments/${propertyId}`,
+    {
+      params: {
+        date,
+      },
+    },
+  );
+};

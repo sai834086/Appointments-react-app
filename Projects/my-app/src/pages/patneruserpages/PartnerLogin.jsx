@@ -2,13 +2,15 @@ import styles from "./PartnerLogin.module.css";
 import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { PartnerAuthContext } from "./context/PartnerAuthContext";
-import { loginPartner } from "../../api/authService";
+import { loginPartner, loginManager } from "../../api/authService";
+import { Lock, Mail, UserCheck, Users } from "lucide-react";
 
 export default function PartnerLogin() {
   const [credentials, setCredentials] = useState({
     userName: "",
     password: "",
   });
+  const [loginType, setLoginType] = useState("partner"); // "partner" or "manager"
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -35,7 +37,15 @@ export default function PartnerLogin() {
       return;
     }
     try {
-      const loginResponse = await loginPartner(credentials);
+      // Add role field based on login type
+      const loginData = {
+        ...credentials,
+        role: loginType === "manager" ? "MANAGER" : "PARTNER",
+      };
+
+      const loginResponse = await (loginType === "manager"
+        ? loginManager(loginData)
+        : loginPartner(loginData));
       const resp = loginResponse?.data || {};
 
       const data = resp.data;
@@ -45,11 +55,15 @@ export default function PartnerLogin() {
 
         if (data.token) {
           // Check if profile is included in response (for backward compatibility)
-          if (data.partnerUserProfile) {
-            await login(data.token, data.partnerUserProfile);
+          if (data.partnerUserProfile || data.managerProfile) {
+            await login(
+              data.token,
+              data.partnerUserProfile || data.managerProfile,
+              loginType,
+            );
           } else {
             // Backend only returned token, profile will be fetched automatically
-            await login(data.token);
+            await login(data.token, null, loginType);
           }
 
           navigate("/partner/dashboard");
@@ -74,45 +88,121 @@ export default function PartnerLogin() {
       setLoading(false);
     }
   };
+
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>Partner Login</h1>
+      <div className={styles.background}>
+        <div className={styles.blob1}></div>
+        <div className={styles.blob2}></div>
+      </div>
+
       <form className={styles.form} onSubmit={handleLogin}>
-        <h2 className={styles.heading}>Login</h2>
-        <div className={styles.inputGroup}>
-          <label htmlFor="userName" required>
-            User Name:
-            <input
-              type="text"
-              value={credentials.userName}
-              onChange={(e) =>
-                setCredentials({ ...credentials, userName: e.target.value })
-              }
-              name="userName"
-              className={styles.input}
-            />
-          </label>
+        <div className={styles.formHeader}>
+          <h2 className={styles.heading}>Welcome Back</h2>
+          <p className={styles.subheading}>Sign in to your account</p>
         </div>
-        <div className={styles.inputGroup}>
-          <label htmlFor="password">
-            Password:
+
+        <div className={styles.typeSelector}>
+          <div
+            className={`${styles.typeOption} ${
+              loginType === "partner" ? styles.typeOptionActive : ""
+            }`}
+            onClick={() => setLoginType("partner")}
+          >
             <input
-              type="password"
-              value={credentials.password}
-              onChange={(e) =>
-                setCredentials({ ...credentials, password: e.target.value })
-              }
-              name="password"
-              className={styles.input}
+              type="radio"
+              value="partner"
+              checked={loginType === "partner"}
+              onChange={(e) => setLoginType(e.target.value)}
+              className={styles.radioInput}
             />
-          </label>
+            <UserCheck size={18} />
+            <span>Partner User</span>
+          </div>
+          <div
+            className={`${styles.typeOption} ${
+              loginType === "manager" ? styles.typeOptionActive : ""
+            }`}
+            onClick={() => setLoginType("manager")}
+          >
+            <input
+              type="radio"
+              value="manager"
+              checked={loginType === "manager"}
+              onChange={(e) => setLoginType(e.target.value)}
+              className={styles.radioInput}
+            />
+            <Users size={18} />
+            <span>Manager</span>
+          </div>
         </div>
-        {error && <p className={styles.error}>{error}</p>}
-        <button type="submit" className={styles.button}>
-          {loading ? "Logging in..." : "Login"}
+
+        <div className={styles.inputWrapper}>
+          <div className={styles.inputGroupNew}>
+            <label htmlFor="userName" className={styles.labelNew}>
+              Username
+            </label>
+            <div className={styles.inputBox}>
+              <Mail size={18} className={styles.inputIcon} />
+              <input
+                type="text"
+                id="userName"
+                value={credentials.userName}
+                onChange={(e) =>
+                  setCredentials({ ...credentials, userName: e.target.value })
+                }
+                name="userName"
+                className={styles.inputNew}
+                placeholder="Enter your username"
+              />
+            </div>
+          </div>
+
+          <div className={styles.inputGroupNew}>
+            <label htmlFor="password" className={styles.labelNew}>
+              Password
+            </label>
+            <div className={styles.inputBox}>
+              <Lock size={18} className={styles.inputIcon} />
+              <input
+                type="password"
+                id="password"
+                value={credentials.password}
+                onChange={(e) =>
+                  setCredentials({ ...credentials, password: e.target.value })
+                }
+                name="password"
+                className={styles.inputNew}
+                placeholder="Enter your password"
+              />
+            </div>
+          </div>
+        </div>
+
+        {error && (
+          <div className={styles.errorContainer}>
+            <p className={styles.error}>{error}</p>
+          </div>
+        )}
+
+        <button type="submit" className={styles.button} disabled={loading}>
+          {loading ? (
+            <>
+              <span className={styles.spinner}></span>
+              Signing in...
+            </>
+          ) : (
+            "Sign In"
+          )}
         </button>
-        <div>
-          Don't have an account? <a href="/partner/signup">Sign up</a>
+
+        <div className={styles.signupSection}>
+          <p>
+            Don't have an account?{" "}
+            <a href="/partner/signup" className={styles.signupLink}>
+              Create one
+            </a>
+          </p>
         </div>
       </form>
     </div>

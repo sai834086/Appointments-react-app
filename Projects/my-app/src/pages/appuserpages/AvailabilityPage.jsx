@@ -8,7 +8,6 @@ import Availability from "../../components/usercomponent/Availability";
 const AvailabilityPage = () => {
   const location = useLocation();
   const employee = location.state?.employee;
-  console.log("AvailabilityPage employee:", employee);
   const [availability, setAvailability] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -17,7 +16,7 @@ const AvailabilityPage = () => {
     const employeeId = employee?.employeeId;
     if (!employee) {
       setError(
-        "No employee selected. Please select an employee from the employees page."
+        "No employee selected. Please select an employee from the employees page.",
       );
       setLoading(false);
       return;
@@ -27,7 +26,6 @@ const AvailabilityPage = () => {
       setError(null);
       try {
         const response = await getAvailabilityToAppUser(employeeId);
-        console.log("Fetched availability:", response.data);
         setAvailability(response.data || []);
       } catch (err) {
         console.error("Error fetching availability:", err);

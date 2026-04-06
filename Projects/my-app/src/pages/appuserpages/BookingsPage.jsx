@@ -56,7 +56,6 @@ export default function BookingsPage() {
             behavior: "smooth",
             block: "center",
           });
-          console.log("✅ Scrolled to rescheduled booking:", bookingId);
         }
       }, 500);
 
@@ -74,13 +73,6 @@ export default function BookingsPage() {
   useEffect(() => {
     if (location.state?.bookingSuccess && location.state?.bookedAppointmentId) {
       const bookingId = location.state.bookedAppointmentId;
-      console.log("📡 Received bookedAppointmentId:", bookingId);
-      console.log("📡 Type of bookedAppointmentId:", typeof bookingId);
-      console.log("📡 Current bookings in state:", bookings);
-      console.log(
-        "📡 Checking if booking exists:",
-        bookings.find((b) => b.appointmentId === bookingId)
-      );
 
       setHighlightedBookingId(bookingId);
 
@@ -94,16 +86,6 @@ export default function BookingsPage() {
           bookingElement.scrollIntoView({
             behavior: "smooth",
             block: "center",
-          });
-          console.log("✅ Scrolled to newly booked appointment:", bookingId);
-        } else {
-          console.log(
-            "❌ Booking element not found for ID:",
-            `booking-${bookingId}`
-          );
-          console.log("📡 All booking elements on page:");
-          document.querySelectorAll("[id^='booking-']").forEach((el) => {
-            console.log("  - Element ID:", el.id);
           });
         }
       }, 500);
@@ -169,7 +151,7 @@ export default function BookingsPage() {
   // Filter bookings based on active tab and sort by date (earliest first)
   const filteredBookings = useMemo(() => {
     const filtered = bookings.filter(
-      (booking) => getBookingStatus(booking) === activeTab
+      (booking) => getBookingStatus(booking) === activeTab,
     );
 
     // Sort by appointment date in ascending order (earliest first)
@@ -204,7 +186,7 @@ export default function BookingsPage() {
       const updatedBookings = bookings.map((booking) =>
         booking.appointmentId === selectedBooking.appointmentId
           ? { ...booking, status: "Cancelled" }
-          : booking
+          : booking,
       );
       setBookings(updatedBookings);
 
@@ -293,8 +275,8 @@ export default function BookingsPage() {
                       {activeTab === "upcoming"
                         ? "Upcoming"
                         : activeTab === "completed"
-                        ? "Completed"
-                        : "Cancelled"}
+                          ? "Completed"
+                          : "Cancelled"}
                     </span>
                   </div>
 
@@ -355,8 +337,8 @@ export default function BookingsPage() {
                 {activeTab === "upcoming"
                   ? "Upcoming"
                   : activeTab === "completed"
-                  ? "Completed"
-                  : "Cancelled"}
+                    ? "Completed"
+                    : "Cancelled"}
               </span>
             </div>
 

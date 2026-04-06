@@ -8,6 +8,7 @@ import PartnerSignUpSuccessFull from "./pages/patneruserpages/PartnerSignUpSucce
 import PartnerAccount from "./pages/patneruserpages/PartnerAccount";
 import Employee from "./pages/patneruserpages/Employee";
 import Availability from "./pages/patneruserpages/Availability";
+import PartnerAppointments from "./pages/patneruserpages/PartnerAppointments";
 import { useContext } from "react";
 import { PartnerAuthContext } from "./pages/patneruserpages/context/PartnerAuthContext";
 
@@ -50,6 +51,14 @@ export default function PartnerApp() {
         element={
           <ProtectedPartnerRoute>
             <Availability />
+          </ProtectedPartnerRoute>
+        }
+      />
+      <Route
+        path="/partner/appointments"
+        element={
+          <ProtectedPartnerRoute>
+            <PartnerAppointments />
           </ProtectedPartnerRoute>
         }
       />

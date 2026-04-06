@@ -113,7 +113,7 @@ export default function MapWithSearchBarMarker({ autoFill }) {
         enableHighAccuracy: true,
         timeout: 15000,
         maximumAge: 60000, // Accept cached position up to 1 minute old
-      }
+      },
     );
   };
 
@@ -156,16 +156,10 @@ export default function MapWithSearchBarMarker({ autoFill }) {
           currentMarkerRef.current = marker;
           reverseGeocode(coords.lat, coords.lng)
             .then((res) => {
-              console.log("Reverse geocode result:", res);
               const result = res.results?.[0];
               if (result) {
-                console.log(
-                  "Calling autoFill with:",
-                  result.address_components
-                );
                 autoFillRef.current(result.address_components);
               } else {
-                console.log("No results from reverse geocode");
               }
             })
             .catch((error) => {
@@ -205,7 +199,7 @@ export default function MapWithSearchBarMarker({ autoFill }) {
               setSuggestions([]);
             }
           }
-        }
+        },
       );
     };
     fetchPredictions();
@@ -247,7 +241,7 @@ export default function MapWithSearchBarMarker({ autoFill }) {
             autoFillRef.current(place.address_components);
           }
         }
-      }
+      },
     );
   };
 
