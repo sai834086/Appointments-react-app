@@ -38,7 +38,6 @@ function PropertyRegister({ isOpen, onClose, onSubmit }) {
     email: (value) => {
       if (!value || value.trim() === "") return null; // Optional field
       if (value.length > 45) return "Email must be 45 characters or less";
-      // Simple email validation
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value))
         return "Email should be valid";
       return null;
@@ -202,6 +201,7 @@ function PropertyRegister({ isOpen, onClose, onSubmit }) {
           {errors.general && (
             <div className={styles.generalError}>{errors.general}</div>
           )}
+
           <div className={styles.section}>
             <h3>Manager Information (Optional)</h3>
 
