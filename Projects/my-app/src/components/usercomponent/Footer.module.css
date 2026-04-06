@@ -1,0 +1,138 @@
+/* Footer Container */
+.footer {
+  background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
+  color: white;
+  padding: 1.5rem 1.5rem 0;
+  margin-top: auto;
+  position: sticky;
+  bottom: 0;
+  width: 100%;
+}
+
+.footerContent {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  padding-bottom: 1.2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footerSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.sectionTitle {
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin: 0;
+  color: white;
+  letter-spacing: 0.5px;
+}
+
+.description {
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0;
+}
+
+/* Links List */
+.linkList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.linkList a {
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  font-size: 0.8rem;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+.linkList a:hover {
+  color: white;
+  padding-left: 0.5rem;
+  transform: translateX(4px);
+}
+
+/* Contact Items */
+.contactItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.8rem;
+  transition: all 0.3s ease;
+  padding: 0.3rem 0;
+}
+
+.contactIcon {
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.9);
+  width: 18px;
+  text-align: center;
+}
+
+.contactItem:hover {
+  color: white;
+  padding-left: 0.5rem;
+}
+
+/* Footer Bottom */
+.footerBottom {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0.8rem 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.copyright {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0;
+}
+
+.socialLinks {
+  display: flex;
+  gap: 1.2rem;
+  align-items: center;
+}
+
+.socialLink {
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  font-size: 0.75rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.socialLink:hover {
+  color: white;
+  transform: translateY(-2px);
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .footer {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer {
+    display: none;
+  }
+}
