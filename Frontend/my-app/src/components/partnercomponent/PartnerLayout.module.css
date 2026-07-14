@@ -1,0 +1,28 @@
+/* ----------------------------------------------------------------------
+   PartnerLayout.module.css
+   Top-level shell that pairs the fixed-left sidebar with the page content.
+   ---------------------------------------------------------------------- */
+
+.LayoutShell {
+  display: flex;
+  align-items: stretch;
+  min-height: 100vh;
+  background: #ffffff;
+}
+
+.ContentCol {
+  flex: 1;
+  min-width: 0;
+  margin-left: 56px;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  transition: margin-left 0.22s ease;
+}
+
+@media (max-width: 900px) {
+  .ContentCol {
+    margin-left: 0 !important;
+    padding-top: 0;
+  }
+}

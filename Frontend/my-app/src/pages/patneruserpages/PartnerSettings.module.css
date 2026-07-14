@@ -1,0 +1,97 @@
+/* ----------------------------------------------------------------------
+   PartnerSettings.module.css
+   Page-local styles for the Settings landing page. Layered on top of
+   PartnerInfoPage.module.css.
+   ---------------------------------------------------------------------- */
+
+.DangerCard {
+  margin-top: 28px;
+  background: #ffffff;
+  border: 1px solid #fecaca;
+  border-radius: 16px;
+  padding: 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+
+.DangerHeader {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+
+.DangerIcon {
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #b91c1c;
+  background: #fee2e2;
+  border: 1px solid #fecaca;
+}
+
+.DangerTitle {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.DangerBody {
+  margin: 4px 0 0;
+  font-size: 13.5px;
+  color: #475569;
+  line-height: 1.5;
+  max-width: 520px;
+}
+
+.DangerBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: 12px;
+  border: 1px solid #fecaca;
+  background: #b91c1c;
+  color: #ffffff;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background 0.16s ease,
+    transform 0.12s ease,
+    box-shadow 0.16s ease;
+}
+
+.DangerBtn:hover {
+  background: #991b1b;
+  box-shadow: 0 8px 20px rgba(185, 28, 28, 0.22);
+}
+
+.DangerBtn:active {
+  transform: scale(0.98);
+}
+
+.DangerBtn:focus-visible {
+  outline: 2px solid #b91c1c;
+  outline-offset: 2px;
+}
+
+@media (max-width: 640px) {
+  .DangerCard {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: left;
+  }
+  .DangerBtn {
+    align-self: flex-start;
+  }
+}

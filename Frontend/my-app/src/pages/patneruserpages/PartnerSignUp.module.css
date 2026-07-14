@@ -1,0 +1,1387 @@
+/* Plus Jakarta Sans — loaded here (rather than in the global index.css) so
+   the font change stays scoped to this signup/verification flow instead of
+   affecting the rest of the app. Swapped from Inter for a warmer, slightly
+   rounder letterform that reads less "generic SaaS" and pairs better with
+   the softer, more rounded input styling below. */
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap");
+
+/* =================================================================
+   DESIGN SYSTEM — shared tokens for the entire signup/verification
+   flow (PartnerSignUp, PartnerSignUpSuccessFull, VerifyEmail all load
+   this file, and AddressForm / MapWithSearchBarMarker render only as
+   children of PartnerSignUp — so declaring these once on :root makes
+   them available everywhere in the flow).
+
+   Stripe/Linear-style system: flat surfaces, one solid accent color
+   (no gradients), thin borders instead of heavy shadows, tight
+   spacing, sharp small radii. Nothing "glassy" or bouncy.
+   ================================================================= */
+:global(:root) {
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 16px;
+  --space-4: 24px;
+  --space-5: 32px;
+  --space-6: 64px;
+
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-full: 999px;
+
+  /* Softer, rounder radius used specifically for inputs/triggers/buttons —
+     a deliberate step up from --radius-sm so the form reads less "flat
+     enterprise dashboard" and more like a modern consumer onboarding flow. */
+  --radius-input: 10px;
+
+  --color-primary-700: #3730a3;
+  --color-primary-600: #4338ca;
+  --color-primary-500: #4f46e5;
+  --color-primary-100: #eef2ff;
+  --color-accent-500: #4f46e5;
+
+  --color-ink-900: #18181b;
+  --color-ink-700: #3f3f46;
+  --color-ink-500: #6b7280;
+  --color-ink-400: #9ca3af;
+  --color-ink-300: #d4d4d8;
+  --color-ink-200: #e4e4e7;
+
+  --color-surface: #ffffff;
+  --color-surface-subtle: #fafafa;
+
+  /* A faint cool-gray fill for resting inputs — flips to solid white +
+     accent ring on focus, so a filled field reads calm/settled and an
+     active field visibly "lifts" to draw the eye. */
+  --color-input-bg: #f6f6f9;
+  --color-input-border: #e5e5ea;
+
+  --color-danger-600: #b91c1c;
+  --color-danger-500: #dc2626;
+  --color-danger-100: #fef2f2;
+  --color-success-600: #15803d;
+  --color-success-500: #16a34a;
+  --color-success-100: #f0fdf4;
+
+  --ease-premium: ease;
+  --ease-out-soft: ease-out;
+
+  --shadow-xs: 0 1px 2px rgba(24, 24, 27, 0.04);
+  --shadow-sm: 0 1px 2px rgba(24, 24, 27, 0.06);
+  --shadow-md: 0 2px 6px rgba(24, 24, 27, 0.06);
+  --shadow-lg: 0 4px 12px rgba(24, 24, 27, 0.08);
+  --shadow-glow-primary: 0 0 0 3px rgba(79, 70, 229, 0.15);
+  --shadow-glow-danger: 0 0 0 3px rgba(220, 38, 38, 0.12);
+}
+
+/* =================================================================
+   PAGE BACKGROUND — a rich, flat blue so the white card reads as a
+   clearly-defined surface instead of blending into a near-white page.
+   ================================================================= */
+.page {
+  position: relative;
+  min-height: 100vh;
+  padding: var(--space-5) var(--space-4);
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+@media (max-width: 768px) {
+  .page {
+    padding: var(--space-4) var(--space-3);
+  }
+}
+
+/* Main Container — pure white card, floating on the blue page via
+   shadow alone (no border needed now that there's real contrast with
+   the background behind it). Widened from 480px so each step's fields
+   can pair up two-per-row instead of stacking into one tall column —
+   the goal is every step fitting within the viewport without scrolling. */
+.mainContainer {
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  background: #ffffff;
+  border: none;
+  border-radius: 20px;
+  box-shadow: 0 24px 60px -14px rgba(17, 24, 84, 0.38);
+  padding: var(--space-5);
+  position: relative;
+  color: var(--color-ink-900);
+}
+
+/* Header Section — just the mark and the title, inline, sitting above
+   the card. */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+  width: 100%;
+  max-width: 640px;
+}
+
+/* A plain muted subtitle under the title — "Sign in" reads as a real
+   call-to-action (accent color, semibold, small arrow that nudges on
+   hover) rather than a flat underlined link sitting in a gray line. */
+.loginPrompt {
+  margin: 0 0 var(--space-5) 0;
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: var(--color-ink-500);
+}
+
+.loginLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  color: var(--color-primary-600);
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.15s var(--ease-premium);
+}
+
+.loginLink:hover {
+  color: var(--color-primary-700);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.loginLink span {
+  display: inline-block;
+  transition: transform 0.15s var(--ease-premium);
+}
+
+.loginLink:hover span {
+  transform: translateX(3px);
+}
+
+.brandMark {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  border-radius: var(--radius-md);
+  background: var(--color-primary-600);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.brandMarkInner {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  background: #ffffff;
+}
+
+.title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+  color: var(--color-ink-900);
+  margin: 0;
+}
+
+/* =================================================================
+   PROGRESS — flat, thin 3-segment rule. No pill shapes, no glow, no
+   bounce; a color change is the only feedback on hover/click.
+   ================================================================= */
+.progress {
+  display: flex;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.progressStep {
+  flex: 1;
+  display: flex;
+}
+
+.progressDot {
+  flex: 1;
+  height: 3px;
+  border-radius: var(--radius-full);
+  background: var(--color-ink-200);
+  border: none;
+  padding: 0;
+  cursor: not-allowed;
+  transition: background 0.15s var(--ease-premium);
+}
+
+.progressDotActive,
+.progressDotDone {
+  background: var(--color-primary-600);
+}
+
+.progressDotClickable {
+  cursor: pointer;
+}
+
+.progressDotClickable:hover {
+  background: var(--color-primary-500);
+}
+
+/* The old line-between-dots element is unused now that segments sit
+   flush against each other via the .progress gap, but stays defined
+   at zero size in case any stale markup still renders it. */
+.progressLine {
+  display: none;
+}
+
+/* Step caption + headline + description — the card's own heading. The
+   ← Back icon button (once there's a previous step) sits directly beside
+   the "Step X of Y" caption, both highlighted together as one tinted
+   pill so the pair reads as a clear, clickable unit rather than fading
+   into the background. */
+.stepCaptionRow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 34px;
+  margin-bottom: var(--space-3);
+  padding: var(--space-1) var(--space-3) var(--space-1) var(--space-1);
+  background: var(--color-primary-100);
+  border-radius: var(--radius-full);
+}
+
+.stepCaptionRow .stepCaption {
+  margin-bottom: 0;
+}
+
+/* Step 1 has no ← Back button, so the caption is the row's only child —
+   give it the same left breathing room the button would otherwise take
+   up, so the pill's padding reads balanced either way. */
+.stepCaptionRow .stepCaption:first-child {
+  margin-left: var(--space-2);
+}
+
+.backIconButton {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  background: var(--color-surface);
+  border: none;
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-sm);
+  color: var(--color-primary-600);
+  font-size: 0.85rem;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.15s var(--ease-premium), color 0.15s var(--ease-premium), box-shadow 0.15s var(--ease-premium);
+}
+
+.backIconButton:hover:not(:disabled) {
+  background: var(--color-primary-600);
+  color: #ffffff;
+  box-shadow: var(--shadow-md);
+}
+
+.backIconButton:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-glow-primary);
+}
+
+.backIconButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.stepCaption {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: var(--color-primary-700);
+  margin: 0 0 var(--space-2) 0;
+}
+
+.stepHeadline {
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+  color: var(--color-ink-900);
+  margin: 0 0 var(--space-3) 0;
+}
+
+.stepDescription {
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--color-ink-500);
+  margin: 0 0 var(--space-4) 0;
+}
+
+/* =================================================================
+   FORM & SECTIONS — fields flow directly in the card; no nested
+   card chrome per section.
+   ================================================================= */
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+}
+
+.sectionTitle {
+  display: none;
+}
+
+.sectionBadge {
+  display: none;
+}
+
+.sectionContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+/* =================================================================
+   FIELDS
+   ================================================================= */
+.label {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  font-weight: 600;
+  color: var(--color-ink-700);
+  font-size: 0.83rem;
+  letter-spacing: -0.005em;
+}
+
+.fieldHint {
+  font-size: 0.75rem;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--color-ink-400);
+  margin-top: calc(-1 * var(--space-1) / 2);
+}
+
+/* Marks every required field's label — same red asterisk already used in
+   AddressForm.module.css, reused here so it reads consistently across the
+   whole signup wizard rather than only on step 3. */
+.required {
+  color: var(--color-danger-500);
+}
+
+/* Marks Business Document as not required — same muted style already used
+   for District in AddressForm.module.css, kept consistent here. */
+.optional {
+  color: var(--color-ink-400);
+  font-weight: 400;
+  font-size: 0.75rem;
+}
+
+/* Inputs sit on a faint tinted fill at rest rather than a plain white box
+   with a border doing all the work — the field only turns solid white
+   (with an accent ring) once it's actually focused, so the eye is drawn
+   straight to whichever field is active instead of every box competing
+   for attention at once. Radius bumped up (--radius-input) to match the
+   softer, rounder card/button language used everywhere else now. */
+.input {
+  width: 100%;
+  padding: var(--space-3);
+  border: 1.5px solid var(--color-input-border);
+  border-radius: var(--radius-input);
+  background: var(--color-input-bg);
+  color: var(--color-ink-900);
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 400;
+  transition: border-color 0.15s var(--ease-premium), box-shadow 0.15s var(--ease-premium), background 0.15s var(--ease-premium);
+  box-sizing: border-box;
+  height: 46px;
+}
+
+.input:hover:not(:focus) {
+  border-color: var(--color-ink-300);
+  background: #f0f0f4;
+}
+
+.input:focus {
+  outline: none;
+  background: var(--color-surface);
+  border-color: var(--color-primary-500);
+  box-shadow: var(--shadow-glow-primary);
+}
+
+.input::placeholder {
+  color: var(--color-ink-400);
+}
+
+.inputError {
+  border-color: var(--color-danger-500);
+  background: var(--color-danger-100);
+}
+
+/* Business Document upload — a real <input type="file"> exists only to
+   receive clicks/keyboard focus (visually hidden), triggered by a styled
+   button matching .changeEmailLink's bordered look, so it reads as part of
+   the same design system instead of a raw OS file picker. */
+.fileInputHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.fileUploadRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.fileUploadButton {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  white-space: nowrap;
+  background: var(--color-surface);
+  border: 1px solid var(--color-ink-200);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  color: var(--color-ink-700);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0 var(--space-4);
+  transition: border-color 0.15s var(--ease-premium), background 0.15s var(--ease-premium), color 0.15s var(--ease-premium);
+}
+
+.fileUploadButton:hover {
+  border-color: var(--color-primary-500);
+  background: var(--color-primary-100);
+  color: var(--color-primary-600);
+}
+
+.fileUploadButton:focus-visible {
+  outline: none;
+  border-color: var(--color-primary-500);
+  box-shadow: var(--shadow-glow-primary);
+}
+
+.fileEmptyHint {
+  font-size: 0.8rem;
+  color: var(--color-ink-400);
+}
+
+.fileChip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  max-width: 100%;
+  padding: var(--space-1) var(--space-2) var(--space-1) var(--space-3);
+  background: var(--color-primary-100);
+  border: 1px solid var(--color-primary-100);
+  border-radius: var(--radius-full);
+  color: var(--color-primary-700);
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.fileChipName {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 220px;
+}
+
+.fileChipRemove {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: inherit;
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.15s var(--ease-premium);
+}
+
+.fileChipRemove:hover {
+  background: rgba(0, 0, 0, 0.08);
+}
+
+/* Business Type — a fully custom dropdown (button trigger + a floating
+   options list, same fixed-position-anchored-to-trigger-rect pattern as
+   the country-code picker) instead of a native <select>. A native select
+   with appearance:none kept showing a stray native-rendering artifact on
+   Windows Chrome that no CSS reset could fully suppress, so this avoids
+   native <select> rendering entirely. */
+.selectWrapper {
+  position: relative;
+}
+
+.selectTrigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  text-align: left;
+  cursor: pointer;
+}
+
+.selectTrigger span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.selectChevron {
+  flex-shrink: 0;
+  width: 10px;
+  height: 7px;
+  color: var(--color-ink-400);
+  transition: transform 0.15s var(--ease-premium);
+}
+
+.selectChevronOpen {
+  transform: rotate(180deg);
+}
+
+/* A simple, single-column floating options list — the Business Type
+   dropdown's equivalent of .countryDropdown, minus the search box since
+   there are only a handful of options. Also position:fixed for the same
+   reason: never adds to the page's scrollable height when it opens. */
+.simpleDropdown {
+  position: fixed;
+  z-index: 1000;
+  list-style: none;
+  margin: 0;
+  padding: var(--space-1);
+  background: var(--color-surface);
+  border: 1px solid var(--color-ink-200);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  max-height: 260px;
+  overflow-y: auto;
+}
+
+.simpleDropdownOption {
+  display: block;
+  width: 100%;
+  padding: var(--space-2) var(--space-3);
+  border: none;
+  border-radius: var(--radius-md);
+  background: none;
+  color: var(--color-ink-700);
+  font-size: 0.9rem;
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.simpleDropdownOption:hover {
+  background: var(--color-primary-100);
+}
+
+.simpleDropdownOptionSelected {
+  background: var(--color-primary-100);
+  color: var(--color-primary-700);
+  font-weight: 600;
+}
+
+/* Grays out the trigger's text while no business type is picked yet,
+   matching every other field's placeholder color — once a real value is
+   selected it switches to normal ink-900 text. */
+.selectPlaceholder {
+  color: var(--color-ink-400);
+}
+
+.inputError:focus {
+  background: var(--color-surface);
+  border-color: var(--color-danger-500);
+  box-shadow: var(--shadow-glow-danger);
+}
+
+/* =================================================================
+   EMAIL VERIFICATION (OTP) — inline "Verify" button next to the email
+   field, plus a 6-box code input that appears once a code is sent.
+   ================================================================= */
+.emailRow,
+.phoneRow {
+  display: flex;
+  align-items: stretch;
+  gap: var(--space-2);
+}
+
+/* Country dial-code combobox — a button that opens a searchable dropdown
+   (flag + code shown closed, flag + name + code shown per option). Custom
+   built because a native <select> can't render a flag+text option layout
+   or filter its list as you type. */
+.countryPicker {
+  position: relative;
+  flex-shrink: 0;
+}
+
+/* Real flag image rather than a Unicode flag emoji — Windows fonts/browsers
+   have no flag glyphs and render the emoji's underlying letter pair as
+   plain text instead of a flag, so we use an actual small flag icon here
+   for consistent rendering on every OS. */
+.flagIcon {
+  flex-shrink: 0;
+  width: 20px;
+  height: 15px;
+  object-fit: cover;
+  border-radius: 2px;
+  display: block;
+}
+
+.countryTrigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-1);
+  width: 108px;
+  height: 46px;
+  padding: 0 var(--space-2);
+  border: 1.5px solid var(--color-input-border);
+  border-radius: var(--radius-input);
+  background: var(--color-input-bg);
+  color: var(--color-ink-900);
+  font-size: 0.85rem;
+  font-weight: 400;
+  cursor: pointer;
+  transition: border-color 0.15s var(--ease-premium), box-shadow 0.15s var(--ease-premium), background 0.15s var(--ease-premium);
+}
+
+.countryTrigger span {
+  flex: 1;
+}
+
+.countryChevron {
+  flex-shrink: 0;
+  width: 10px;
+  height: 7px;
+  color: var(--color-ink-400);
+  transition: transform 0.15s var(--ease-premium);
+}
+
+.countryChevronOpen {
+  transform: rotate(180deg);
+}
+
+.countryTrigger:hover {
+  border-color: var(--color-ink-300);
+  background: #f0f0f4;
+}
+
+.countryTrigger:focus {
+  outline: none;
+  background: var(--color-surface);
+  border-color: var(--color-primary-500);
+  box-shadow: var(--shadow-glow-primary);
+}
+
+/* position:fixed with top/left set inline from JS (see openCountryDropdown
+   in PartnerSignUp.jsx), anchored to the trigger button's on-screen
+   position. This — not position:absolute — is what keeps opening the
+   dropdown from ever adding a page-level scrollbar: a fixed element is
+   painted directly against the viewport and never enlarges the
+   document's scrollable area the way an absolutely-positioned element
+   poking past the viewport edge does. */
+.countryDropdown {
+  position: fixed;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  width: min(260px, calc(100vw - 48px));
+  /* Fixed (not max-) height so the box always stays this same compact
+     size — the list scrolls inside it rather than the box growing to fit
+     however many countries match. */
+  height: 280px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-ink-200);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+}
+
+.countrySearchInput {
+  flex-shrink: 0;
+  padding: var(--space-2) var(--space-3);
+  border: none;
+  border-bottom: 1px solid var(--color-ink-200);
+  font-size: 0.85rem;
+  color: var(--color-ink-900);
+  outline: none;
+}
+
+.countrySearchInput:focus {
+  background: var(--color-surface-subtle);
+}
+
+.countryList {
+  list-style: none;
+  margin: 0;
+  padding: var(--space-1);
+  /* flex:1 + min-height:0 makes this element (not its parent) the actual
+     scroll container, bounded to whatever space is left under the search
+     input inside the fixed-height .countryDropdown box. */
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.countryOption {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  width: 100%;
+  padding: var(--space-2);
+  border: none;
+  border-radius: var(--radius-md);
+  background: none;
+  color: var(--color-ink-700);
+  font-size: 0.85rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.countryOption:hover {
+  background: var(--color-primary-100);
+}
+
+.countryOptionSelected {
+  background: var(--color-primary-100);
+  color: var(--color-primary-700);
+  font-weight: 600;
+}
+
+.countryOptionName {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.countryOptionCode {
+  flex-shrink: 0;
+  color: var(--color-ink-400);
+  font-size: 0.78rem;
+}
+
+.countryEmpty {
+  padding: var(--space-3);
+  color: var(--color-ink-400);
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+/* Now holds the input AND its Verify/Change/Verified action (same
+   side-by-side layout as .emailRow) rather than just the bare input, since
+   Phone Number gets the same OTP verification flow as Email Address. */
+.phoneInputWrapper {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: stretch;
+  gap: var(--space-2);
+}
+
+.emailRow .input,
+.phoneInputWrapper .input {
+  flex: 1;
+  min-width: 0;
+}
+
+.emailRow .input:disabled,
+.phoneInputWrapper .input:disabled {
+  background: var(--color-surface-subtle);
+  color: var(--color-ink-500);
+  border-color: var(--color-ink-200);
+}
+
+/* Solid filled button — same high-contrast treatment as the main
+   "Next"/submit button — instead of a quiet outlined one, so it reads
+   clearly as the primary action on this row rather than a muted
+   secondary control. */
+.verifyButton {
+  flex-shrink: 0;
+  white-space: nowrap;
+  height: 46px;
+  padding: 0 var(--space-4);
+  background: var(--color-primary-600);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(67, 56, 202, 0.25);
+  transition: background 0.15s var(--ease-premium), box-shadow 0.15s var(--ease-premium), transform 0.15s var(--ease-premium);
+}
+
+.verifyButton:hover:not(:disabled) {
+  background: var(--color-primary-700);
+  box-shadow: 0 2px 6px rgba(67, 56, 202, 0.35);
+  transform: translateY(-1px);
+}
+
+.verifyButton:active:not(:disabled) {
+  background: var(--color-primary-700);
+  box-shadow: 0 1px 2px rgba(67, 56, 202, 0.25);
+  transform: translateY(0);
+}
+
+.verifyButton:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.25);
+}
+
+.verifyButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+.verifiedBadge {
+  flex-shrink: 0;
+  white-space: nowrap;
+  height: 46px;
+  padding: 0 var(--space-3);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  background: var(--color-success-100);
+  color: var(--color-success-600);
+  border: 1px solid #bbf7d0;
+  border-radius: var(--radius-md);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+/* A proper small outlined button — matching every other secondary
+   action's shape (thin border, small radius, height to match the row) —
+   instead of bare unadorned text that doesn't read as clickable. */
+.changeEmailLink {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 46px;
+  white-space: nowrap;
+  background: var(--color-surface);
+  border: 1px solid var(--color-ink-200);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  color: var(--color-ink-700);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0 var(--space-3);
+  transition: border-color 0.15s var(--ease-premium), background 0.15s var(--ease-premium), color 0.15s var(--ease-premium);
+}
+
+.changeEmailLink:hover {
+  border-color: var(--color-primary-500);
+  background: var(--color-primary-100);
+  color: var(--color-primary-600);
+}
+
+.changeEmailLink:active {
+  background: var(--color-primary-100);
+}
+
+.changeEmailLink:focus-visible {
+  outline: none;
+  border-color: var(--color-primary-500);
+  box-shadow: var(--shadow-glow-primary);
+}
+
+/* The OTP stage's resend action — an active text link (not muted like
+   .changeEmailLink) since it's the one useful action available while
+   waiting on a code, but still secondary to just typing the digits. */
+.resendLink {
+  align-self: flex-start;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-primary-600);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0;
+  transition: color 0.15s var(--ease-premium);
+}
+
+.resendLink:hover:not(:disabled) {
+  color: var(--color-primary-700);
+  text-decoration: underline;
+}
+
+.resendLink:disabled {
+  color: var(--color-ink-400);
+  cursor: not-allowed;
+}
+
+/* A floating popover, not inline content — position:absolute means it
+   never adds to the height of .label (position:relative, see FIELDS
+   above), so clicking Verify can never push the Phone Number field (or
+   anything else) down the page. It overlays on top of whatever's below
+   instead, the same trade-off already made for the country-code dropdown
+   and the password-requirements checklist elsewhere in this form. */
+.otpPopover {
+  position: absolute;
+  top: calc(100% + var(--space-2));
+  left: 0;
+  z-index: 30;
+  width: max-content;
+  max-width: calc(100vw - 80px);
+  padding: var(--space-3);
+  background: var(--color-surface);
+  border: 1px solid var(--color-ink-200);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  animation: otpPopoverIn 0.18s var(--ease-out-soft);
+}
+
+@keyframes otpPopoverIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.otpHint {
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: var(--color-ink-500);
+  margin: 0;
+}
+
+.otpInputs {
+  display: flex;
+  gap: var(--space-2);
+}
+
+/* Same 46px height as every other field's .input — the digit boxes are
+   necessarily narrower (six of them side by side, one digit each), but
+   matching the input's height keeps the OTP row feeling like part of the
+   same form instead of an oversized, bolted-on widget. */
+.otpBox {
+  width: 44px;
+  height: 46px;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-ink-900);
+  border: 1px solid var(--color-ink-200);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  transition: border-color 0.15s var(--ease-premium), box-shadow 0.15s var(--ease-premium);
+}
+
+.otpBox:hover:not(:disabled) {
+  border-color: var(--color-ink-300);
+}
+
+.otpBox:focus {
+  outline: none;
+  border-color: var(--color-primary-500);
+  box-shadow: var(--shadow-glow-primary);
+}
+
+.otpBox:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Wrong-code state for the 6 digit boxes — cleared the moment the user
+   edits any box again (see handleOtpDigitChange/handlePhoneOtpDigitChange),
+   so it never lingers on a value the user has already changed. */
+.otpBoxError {
+  border-color: var(--color-danger-500);
+  background: var(--color-danger-100);
+  color: var(--color-danger-600);
+}
+
+.otpBoxError:focus {
+  border-color: var(--color-danger-500);
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.15);
+}
+
+/* Wrong-code message rendered inside .otpPopover's own normal flow (not
+   position:absolute) so it can never end up hidden behind the popover
+   itself — see the "if enter otp is wrong give error" fix. */
+.otpErrorText {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0;
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-danger-100);
+  border: 1px solid var(--color-danger-100);
+  border-radius: var(--radius-md);
+  color: var(--color-danger-600);
+  font-size: 0.8rem;
+  font-weight: 500;
+  animation: checklistItemIn 0.18s var(--ease-premium);
+}
+
+/* Password field */
+.passwordFieldWrapper {
+  position: relative;
+}
+
+.passwordWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.passwordInput {
+  padding-right: var(--space-6);
+}
+
+.togglePassword {
+  position: absolute;
+  right: var(--space-2);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  padding: var(--space-1);
+  line-height: 1;
+  border-radius: var(--radius-md);
+  transition: opacity 0.15s var(--ease-premium);
+  opacity: 0.7;
+}
+
+.togglePassword:hover {
+  opacity: 1;
+}
+
+.togglePassword:active {
+  opacity: 0.5;
+}
+
+/* Only ever shows the requirements that AREN'T met yet — as the user
+   types, each satisfied rule is filtered out of the list in JS and its
+   row disappears, so the popover visibly shrinks down to nothing once
+   the password is valid.
+
+   Floats as a popover (position:absolute, anchored to
+   .passwordFieldWrapper) instead of sitting in normal document flow —
+   that way it overlays the page instead of pushing the Confirm Password
+   field below it out of alignment with Password. A 2-column grid keeps
+   it as a compact, wide block (2 short lines instead of up to 5 stacked
+   ones) that naturally collapses toward a single row as requirements
+   get met and drop out. */
+.passwordChecklist {
+  position: absolute;
+  top: calc(100% + var(--space-2));
+  left: 0;
+  z-index: 30;
+  width: 320px;
+  max-width: calc(100vw - 80px);
+  list-style: none;
+  margin: 0;
+  padding: var(--space-3);
+  background: var(--color-surface);
+  border: 1px solid var(--color-ink-200);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2) var(--space-3);
+}
+
+.checkPending {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 0.78rem;
+  font-weight: 400;
+  color: var(--color-ink-500);
+  animation: checklistItemIn 0.18s var(--ease-premium);
+}
+
+.checkDot {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  min-width: 5px;
+  border-radius: 50%;
+  background: var(--color-ink-400);
+}
+
+/* Confirm Password's mismatch notice and Phone Number's digit-count
+   notice reuse .error directly now (see below near .label) — both are
+   just live, more-specific stand-ins for the same generic field-error
+   popover, so there's no need for a separate near-duplicate class. */
+.checkDotDanger {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  min-width: 5px;
+  border-radius: 50%;
+  background: var(--color-danger-500);
+}
+
+@keyframes checklistItemIn {
+  from {
+    opacity: 0;
+    transform: translateX(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Business Type's dropdown styles (.selectWrapper, .selectTrigger,
+   .simpleDropdown, etc.) live up near .input, since the trigger button
+   reuses the .input box styling directly. */
+
+/* Row Layout */
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+}
+
+/* =================================================================
+   BUTTON — flat solid fill, sharp radius, no shine/lift. Hover and
+   active states are just color changes.
+   ================================================================= */
+.button {
+  background: var(--color-primary-600);
+  color: white;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-input);
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.9rem;
+  letter-spacing: 0;
+  transition: background 0.15s var(--ease-premium);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  width: 100%;
+  height: 46px;
+}
+
+.button:hover:not(:disabled) {
+  background: var(--color-primary-700);
+}
+
+.button:active:not(:disabled) {
+  background: var(--color-primary-700);
+}
+
+.button:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.25);
+}
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Spinner */
+.spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-top: 2px solid white;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Actions */
+.actions {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--space-2);
+}
+
+/* Step actions — Back has moved up next to the progress bar (see
+   .progressRow/.backIconButton above), so this row now holds just the
+   Next/Create button, centered with room on either side rather than
+   stretched edge-to-edge. */
+.stepActions {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--space-3);
+}
+
+.stepActions .button {
+  width: auto;
+  min-width: 240px;
+}
+
+.buttonArrow {
+  display: inline-block;
+  transition: transform 0.15s var(--ease-premium);
+}
+
+.button:hover:not(:disabled) .buttonArrow {
+  transform: translateX(3px);
+}
+
+/* Error and Message Styles */
+/* Every field error is a floating popover anchored to its .label (which
+   is position:relative — see above), instead of a static paragraph that
+   pushes the rest of the form down every time it appears/disappears. */
+.error {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 25;
+  margin-top: var(--space-2);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  width: max-content;
+  max-width: calc(100vw - 80px);
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-surface);
+  border: 1px solid var(--color-danger-100);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  color: var(--color-danger-600);
+  font-size: 0.8rem;
+  font-weight: 400;
+  animation: checklistItemIn 0.18s var(--ease-premium);
+}
+
+.message {
+  margin-top: var(--space-3);
+  padding: var(--space-3) var(--space-3);
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  font-size: 0.85rem;
+  text-align: left;
+}
+
+.successMessage {
+  background: var(--color-success-100);
+  color: var(--color-success-600);
+  border: 1px solid #bbf7d0;
+}
+
+.errorMessage {
+  background: var(--color-danger-100);
+  color: var(--color-danger-600);
+  border: 1px solid #fecaca;
+}
+
+/* =================================================================
+   RESPONSIVE
+   ================================================================= */
+@media (max-width: 640px) {
+  .mainContainer {
+    padding: var(--space-4);
+    border-radius: var(--radius-md);
+  }
+
+  .stepHeadline {
+    font-size: 1.1rem;
+  }
+
+  .row {
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+  }
+
+  .stepActions .button {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .input {
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+
+  .emailRow,
+  .phoneInputWrapper {
+    flex-wrap: wrap;
+  }
+
+  .emailRow .input,
+  .phoneInputWrapper .input {
+    flex-basis: 100%;
+  }
+
+  .verifyButton,
+  .verifiedBadge,
+  .changeEmailLink {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .otpBox {
+    width: 100%;
+    min-width: 0;
+    flex: 1;
+  }
+
+  .phoneRow {
+    flex-wrap: wrap;
+  }
+
+  .countryPicker {
+    width: 100%;
+    flex-basis: 100%;
+  }
+
+  .countryTrigger {
+    width: 100%;
+  }
+
+  /* .countryDropdown intentionally has no mobile override here — it's
+     position:fixed now (anchored to the trigger's on-screen position via
+     JS), and its base width: min(260px, calc(100vw - 48px)) already keeps
+     it from overflowing narrow viewports. */
+
+  .phoneInputWrapper {
+    flex-basis: 100%;
+  }
+}

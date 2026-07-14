@@ -1,0 +1,194 @@
+/* ----------------------------------------------------------------------
+   PartnerNotifications.module.css
+   Page-local styling layered on top of PartnerInfoPage.module.css.
+   ---------------------------------------------------------------------- */
+
+.HeroBody {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.MarkAllBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  border: 1px solid #c7d2fe;
+  background: #ffffff;
+  color: #4f46e5;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background 0.16s ease,
+    box-shadow 0.16s ease,
+    transform 0.12s ease;
+}
+
+.MarkAllBtn:hover {
+  background: #eef2ff;
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.12);
+}
+
+.MarkAllBtn:active {
+  transform: scale(0.98);
+}
+
+/* Feed shell */
+.FeedSection {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 20px;
+  padding: 10px;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+
+.FeedList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.FeedItem {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 16px 18px;
+  border-radius: 14px;
+  transition:
+    background 0.18s ease,
+    transform 0.14s ease;
+}
+
+.FeedItem + .FeedItem {
+  border-top: 1px solid #f1f5f9;
+}
+
+.FeedItem:hover {
+  background: #f8fafc;
+}
+
+.FeedItemUnread {
+  background: linear-gradient(90deg, #eef2ff 0%, #ffffff 70%);
+}
+
+.FeedItemUnread:hover {
+  background: linear-gradient(90deg, #e0e7ff 0%, #f8fafc 70%);
+}
+
+.FeedIcon {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #f1f5f9;
+  color: #475569;
+}
+
+.IconBlue {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.IconViolet {
+  background: #ede9fe;
+  color: #6d28d9;
+}
+
+.IconEmerald {
+  background: #d1fae5;
+  color: #047857;
+}
+
+.FeedBody {
+  flex: 1;
+  min-width: 0;
+}
+
+.FeedHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+
+.FeedTitle {
+  margin: 0;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: #0f172a;
+  line-height: 1.3;
+}
+
+.FeedTime {
+  font-size: 12px;
+  color: #94a3b8;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.FeedText {
+  margin: 0;
+  font-size: 13.5px;
+  color: #475569;
+  line-height: 1.5;
+}
+
+.UnreadDot {
+  position: absolute;
+  top: 22px;
+  right: 18px;
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  background: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+}
+
+/* Empty state */
+.EmptyState {
+  text-align: center;
+  padding: 48px 24px;
+  color: #475569;
+}
+
+.EmptyState h2 {
+  margin: 16px 0 6px;
+  font-size: 18px;
+  color: #0f172a;
+}
+
+.EmptyState p {
+  margin: 0;
+  font-size: 14px;
+  color: #64748b;
+}
+
+@media (max-width: 640px) {
+  .HeroBody {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .MarkAllBtn {
+    align-self: flex-start;
+  }
+  .FeedItem {
+    padding: 14px;
+  }
+  .FeedHead {
+    flex-direction: column;
+    gap: 2px;
+  }
+}

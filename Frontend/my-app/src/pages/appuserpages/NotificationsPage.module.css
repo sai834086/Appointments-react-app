@@ -1,0 +1,235 @@
+/* ── Page ── */
+.pageWrapper {
+  flex: 1;
+  width: 100%;
+  padding: 1.25rem 0 2rem;
+}
+
+/* ── Header ── */
+.pageHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #111827;
+  margin: 0 0 0.15rem;
+  letter-spacing: -0.3px;
+}
+
+.subtitle {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #2563eb;
+  margin: 0;
+}
+
+.markAllBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: #eff6ff;
+  color: #2563eb;
+  border: 1.5px solid #bfdbfe;
+  border-radius: 10px;
+  padding: 0.4rem 0.875rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+.markAllBtn:hover { background: #dbeafe; }
+
+/* ── States ── */
+.stateBox {
+  text-align: center;
+  padding: 2.5rem 1.5rem;
+  border-radius: 14px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #6b7280;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+}
+.stateError { background: #fef2f2; border-color: #fecaca; color: #dc2626; }
+
+/* ── Empty state ── */
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4rem 1.5rem;
+  text-align: center;
+}
+
+.emptyIconWrap {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #f3f4f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.emptyIcon { font-size: 1.75rem; color: #d1d5db; }
+
+.emptyTitle {
+  font-size: 1rem;
+  font-weight: 800;
+  color: #374151;
+  margin: 0 0 0.3rem;
+}
+
+.emptySubtitle {
+  font-size: 0.85rem;
+  color: #9ca3af;
+  margin: 0;
+}
+
+/* ── Notification list ── */
+.list {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+/* ── Notification item ── */
+.item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.875rem;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid #f3f4f6;
+  cursor: pointer;
+  position: relative;
+  transition: background 0.12s;
+}
+.item:last-child { border-bottom: none; }
+.item:hover { background: #fafafa; }
+
+.itemUnread { background: #fafcff; }
+.itemUnread:hover { background: #f0f7ff; }
+
+/* Blue unread dot — top-left corner */
+.unreadDot {
+  position: absolute;
+  top: 1.1rem;
+  left: 0.4rem;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #2563eb;
+  flex-shrink: 0;
+}
+
+/* Icon circle */
+.iconWrap {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
+  flex-shrink: 0;
+  margin-top: 0.05rem;
+}
+
+/* Body */
+.itemBody { flex: 1; min-width: 0; }
+
+.itemTop {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.itemTitle {
+  font-size: 0.875rem;
+  font-weight: 800;
+  color: #111827;
+  margin: 0;
+}
+
+.itemTime {
+  font-size: 0.68rem;
+  color: #9ca3af;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.itemMsg {
+  font-size: 0.8rem;
+  color: #6b7280;
+  margin: 0 0 0.4rem;
+  line-height: 1.45;
+}
+
+.refBadge {
+  display: inline-block;
+  background: #f3f4f6;
+  color: #374151;
+  border-radius: 6px;
+  padding: 0.1rem 0.45rem;
+  font-size: 0.65rem;
+  font-weight: 800;
+  font-family: "Courier New", monospace;
+  letter-spacing: 0.3px;
+}
+
+/* Chevron arrow — right edge */
+.itemChevron {
+  font-size: 0.7rem;
+  color: #d1d5db;
+  flex-shrink: 0;
+  align-self: center;
+  transition: color 0.12s, transform 0.12s;
+}
+.item:hover .itemChevron {
+  color: #9ca3af;
+  transform: translateX(2px);
+}
+
+/* ── Mobile ── */
+@media (max-width: 768px) {
+  .pageWrapper { padding: 0.75rem 0 1.5rem; }
+
+  .title    { font-size: 1.1rem; }
+  .subtitle { font-size: 0.72rem; }
+
+  .markAllBtn { font-size: 0.72rem; padding: 0.35rem 0.7rem; }
+
+  .list { border-radius: 12px; }
+
+  .item { padding: 0.875rem 1rem 0.875rem 1.25rem; gap: 0.75rem; }
+  .unreadDot { left: 0.3rem; top: 1rem; width: 6px; height: 6px; }
+
+  .iconWrap { width: 36px; height: 36px; font-size: 0.85rem; }
+
+  .itemTitle { font-size: 0.82rem; }
+  .itemTime  { font-size: 0.62rem; }
+  .itemMsg   { font-size: 0.75rem; }
+  .refBadge  { font-size: 0.6rem; }
+  .itemChevron { font-size: 0.62rem; }
+}
+
+@media (max-width: 480px) {
+  .title { font-size: 1rem; }
+  .item  { padding: 0.75rem 0.875rem 0.75rem 1.1rem; }
+  .itemTitle { font-size: 0.78rem; }
+  .itemMsg   { font-size: 0.72rem; }
+}

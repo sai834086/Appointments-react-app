@@ -1,0 +1,770 @@
+/* ── Page ── */
+.pageWrapper {
+  flex: 1;
+  width: 100%;
+  padding: 1.25rem 0 2rem;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #111827;
+  margin: 0 0 1.25rem;
+  letter-spacing: -0.3px;
+}
+
+/* ── Tabs ── */
+.tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 2px solid #f3f4f6;
+  margin-bottom: 1.5rem;
+}
+
+.tabBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.7rem 1.1rem;
+  border: none;
+  background: none;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #6b7280;
+  cursor: pointer;
+  border-bottom: 2.5px solid transparent;
+  margin-bottom: -2px;
+  transition: color 0.15s;
+  white-space: nowrap;
+}
+.tabBtn:hover {
+  color: #374151;
+}
+
+.tabActive {
+  color: #2563eb;
+}
+
+/* ── Date filter bar ── */
+.dateFilterBar {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.75rem;
+}
+
+.dateFilterBtn {
+  padding: 0.3rem 0.85rem;
+  border-radius: 20px;
+  border: 1.5px solid #e5e7eb;
+  background: #fff;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #6b7280;
+  cursor: pointer;
+  transition:
+    border-color 0.15s,
+    background 0.15s,
+    color 0.15s;
+  white-space: nowrap;
+}
+.dateFilterBtn:hover {
+  border-color: #2563eb;
+  color: #2563eb;
+}
+
+.dateFilterActive {
+  border-color: #2563eb;
+  background: #eff6ff;
+  color: #2563eb;
+}
+
+/* Custom date range row */
+.customDateRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.dateInput {
+  padding: 0.38rem 0.7rem;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #374151;
+  background: #fff;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+.dateInput:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.dateSep {
+  font-size: 0.9rem;
+  color: #9ca3af;
+  font-weight: 600;
+}
+
+.tabBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 9px;
+  padding: 0 5px;
+  font-size: 0.65rem;
+  font-weight: 800;
+  background: #f3f4f6;
+  color: #6b7280;
+  transition:
+    background 0.15s,
+    color 0.15s;
+}
+
+/* ── States ── */
+.stateBox {
+  text-align: center;
+  padding: 2.5rem 1.5rem;
+  border-radius: 14px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #6b7280;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+}
+.stateError {
+  background: #fef2f2;
+  border-color: #fecaca;
+  color: #dc2626;
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 4rem 1.5rem;
+  text-align: center;
+}
+.emptyIcon {
+  font-size: 2.5rem;
+  color: #d1d5db;
+}
+.emptyText {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #9ca3af;
+  margin: 0;
+}
+
+/* ── Cards grid ── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+@media (max-width: 1100px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 640px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 0.65rem;
+  }
+}
+
+/* ── Mobile (≤ 768px) ── */
+@media (max-width: 768px) {
+  .pageWrapper {
+    padding: 0.75rem 0 1.5rem;
+  }
+
+  .title {
+    font-size: 1.15rem;
+    margin-bottom: 1rem;
+  }
+
+  /* Tabs: smaller, scroll if needed */
+  .tabs {
+    margin-bottom: 1rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .tabs::-webkit-scrollbar {
+    display: none;
+  }
+  .tabBtn {
+    font-size: 0.78rem;
+    padding: 0.55rem 0.85rem;
+  }
+  .tabBadge {
+    font-size: 0.58rem;
+    min-width: 15px;
+    height: 15px;
+  }
+
+  /* Date filter */
+  .dateFilterBar {
+    gap: 0.3rem;
+    margin-bottom: 0.6rem;
+  }
+  .dateFilterBtn {
+    font-size: 0.72rem;
+    padding: 0.25rem 0.65rem;
+  }
+  .dateInput {
+    font-size: 0.75rem;
+    padding: 0.3rem 0.55rem;
+  }
+
+  /* Cards */
+  .cardTop {
+    padding: 0.875rem 0.875rem 0.5rem;
+  }
+  .cardProperty {
+    font-size: 0.62rem;
+  }
+  .cardService {
+    font-size: 0.88rem;
+  }
+  .cardStaff {
+    font-size: 0.7rem;
+    padding: 0 0.875rem 0.4rem;
+  }
+  .cardMeta {
+    margin: 0 0.625rem;
+    padding: 0.4rem 0.75rem 0.65rem;
+  }
+  .cardMetaItem {
+    font-size: 0.72rem;
+    gap: 0.35rem;
+  }
+  .cardFooter {
+    padding: 0.6rem 0.875rem 0.875rem;
+  }
+  .viewBtn {
+    font-size: 0.78rem;
+    padding: 0.52rem;
+  }
+  .statusBadge {
+    font-size: 0.6rem;
+    padding: 0.18rem 0.5rem;
+  }
+
+  /* Modal → bottom sheet */
+  .backdrop {
+    align-items: flex-end;
+    padding: 0;
+  }
+  .modal {
+    max-width: 100%;
+    border-radius: 20px 20px 0 0;
+    padding: 1.25rem 1rem 1.5rem;
+    max-height: 88vh;
+  }
+  /* drag handle */
+  .modal::before {
+    content: "";
+    display: block;
+    width: 36px;
+    height: 4px;
+    border-radius: 2px;
+    background: #e5e7eb;
+    margin: 0 auto 1rem;
+  }
+
+  .cancelModal {
+    max-width: 100%;
+    border-radius: 20px 20px 0 0;
+    padding: 1.5rem 1rem 1.5rem;
+  }
+  .cancelModal::before {
+    content: "";
+    display: block;
+    width: 36px;
+    height: 4px;
+    border-radius: 2px;
+    background: #e5e7eb;
+    margin: 0 auto 1rem;
+  }
+
+  .modalProperty {
+    font-size: 0.62rem;
+  }
+  .modalService {
+    font-size: 0.95rem;
+  }
+  .confirmBoxCode {
+    font-size: 0.95rem;
+  }
+  .confirmBoxLabel {
+    font-size: 0.62rem;
+  }
+  .detailRow {
+    padding: 0.55rem 0.75rem;
+  }
+  .detailLabel {
+    font-size: 0.67rem;
+  }
+  .detailVal {
+    font-size: 0.8rem;
+  }
+  .actionBtns {
+    gap: 0.5rem;
+  }
+  .rescheduleBtn,
+  .cancelActionBtn {
+    font-size: 0.8rem;
+    padding: 0.6rem 0.75rem;
+  }
+
+  .cancelModalTitle {
+    font-size: 1rem;
+  }
+  .cancelModalBody {
+    font-size: 0.82rem;
+  }
+  .keepBtn,
+  .confirmCancelBtn {
+    font-size: 0.82rem;
+    padding: 0.6rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .title {
+    font-size: 1rem;
+  }
+  .tabBtn {
+    font-size: 0.73rem;
+    padding: 0.5rem 0.6rem;
+  }
+  .cardService {
+    font-size: 0.82rem;
+  }
+  .grid {
+    gap: 0.55rem;
+  }
+}
+
+/* ── Card ── */
+.card {
+  background: #fff;
+  border: 1px solid #e9ecef;
+  border-left: 4px solid #2563eb;
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition:
+    box-shadow 0.18s,
+    transform 0.18s;
+}
+.card:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.09);
+  transform: translateY(-2px);
+}
+
+.cardHighlighted {
+  animation: highlight 1.5s ease-in-out 3;
+}
+
+@keyframes highlight {
+  0%,
+  100% {
+    box-shadow: none;
+  }
+  50% {
+    box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.4);
+  }
+}
+
+.cardTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 1rem 1rem 0.6rem;
+}
+
+.cardTopLeft {
+  flex: 1;
+  min-width: 0;
+}
+
+.cardProperty {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  margin: 0 0 0.2rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cardService {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #111827;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.statusBadge {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.22rem 0.6rem;
+  border-radius: 20px;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+
+.cardStaff {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #6b7280;
+  margin: 0;
+  padding: 0 1rem 0.5rem;
+}
+
+.cardMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 0.5rem 1rem 0.8rem;
+  background: #f9fafb;
+  margin: 0 0.75rem;
+  border-radius: 10px;
+}
+
+.cardMetaItem {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #374151;
+}
+.cardMetaItem svg {
+  color: #9ca3af;
+  font-size: 0.72rem;
+}
+
+.cardFooter {
+  padding: 0.75rem 1rem 1rem;
+}
+
+.viewBtn {
+  width: 100%;
+  padding: 0.58rem;
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 0.2px;
+  transition:
+    opacity 0.15s,
+    transform 0.1s;
+}
+.viewBtn:hover {
+  opacity: 0.88;
+}
+.viewBtn:active {
+  transform: scale(0.98);
+}
+
+/* ── Backdrop ── */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.42);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  padding: 1rem;
+}
+
+/* ── Details Modal ── */
+.modal {
+  background: #fff;
+  border-radius: 20px;
+  padding: 1.5rem;
+  width: 100%;
+  max-width: 400px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.16);
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.modalHeaderRight {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.modalProperty {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  margin: 0 0 0.2rem;
+}
+
+.modalService {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #111827;
+  margin: 0;
+}
+
+.modalCloseBtn {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  border: 1.5px solid #e5e7eb;
+  background: #fff;
+  color: #6b7280;
+  font-size: 0.8rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.12s;
+}
+.modalCloseBtn:hover {
+  background: #f9fafb;
+}
+
+/* ── Confirmation number box ── */
+.confirmBox {
+  background: #eff6ff;
+  border: 1.5px solid #bfdbfe;
+  border-radius: 12px;
+  padding: 0.875rem 1rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.confirmBoxLabel {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #2563eb;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0 0 0.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+}
+
+.confirmBoxCode {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #1d4ed8;
+  margin: 0;
+  letter-spacing: 1px;
+  font-family: "Courier New", monospace;
+}
+
+/* ── Detail rows ── */
+.detailRows {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #f3f4f6;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.detailRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.65rem 0.875rem;
+  border-bottom: 1px solid #f3f4f6;
+}
+.detailRow:last-child {
+  border-bottom: none;
+}
+
+.detailLabel {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex-shrink: 0;
+}
+
+.detailVal {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #111827;
+  text-align: right;
+}
+
+/* ── Action buttons ── */
+.actionBtns {
+  display: flex;
+  gap: 0.65rem;
+}
+
+.rescheduleBtn {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.65rem 1rem;
+  border-radius: 10px;
+  border: 1.5px solid #bfdbfe;
+  background: #eff6ff;
+  color: #2563eb;
+  font-size: 0.84rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    border-color 0.15s;
+}
+.rescheduleBtn:hover {
+  background: #dbeafe;
+  border-color: #93c5fd;
+}
+
+.cancelActionBtn {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.65rem 1rem;
+  border-radius: 10px;
+  border: 1.5px solid #fecaca;
+  background: #fef2f2;
+  color: #dc2626;
+  font-size: 0.84rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    border-color 0.15s;
+}
+.cancelActionBtn:hover {
+  background: #fee2e2;
+  border-color: #fca5a5;
+}
+
+/* ── Cancel confirmation modal ── */
+.cancelModal {
+  background: #fff;
+  border-radius: 20px;
+  padding: 2rem 1.5rem 1.5rem;
+  width: 100%;
+  max-width: 360px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.16);
+  text-align: center;
+}
+
+.cancelModalIcon {
+  font-size: 2rem;
+  color: #f59e0b;
+  margin-bottom: 0.75rem;
+}
+
+.cancelModalTitle {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #111827;
+  margin: 0 0 0.625rem;
+}
+
+.cancelModalBody {
+  font-size: 0.875rem;
+  color: #6b7280;
+  line-height: 1.55;
+  margin: 0 0 1.5rem;
+}
+
+.cancelModalBtns {
+  display: flex;
+  gap: 0.65rem;
+}
+
+.keepBtn {
+  flex: 1;
+  padding: 0.65rem;
+  border-radius: 10px;
+  border: 1.5px solid #e5e7eb;
+  background: #fff;
+  color: #374151;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.keepBtn:hover {
+  background: #f9fafb;
+}
+.keepBtn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.confirmCancelBtn {
+  flex: 1;
+  padding: 0.65rem;
+  border-radius: 10px;
+  border: none;
+  background: #dc2626;
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.confirmCancelBtn:hover {
+  background: #b91c1c;
+}
+.confirmCancelBtn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}

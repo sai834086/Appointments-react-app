@@ -1,0 +1,763 @@
+/* ── Page wrapper ── */
+.pageWrapper {
+  flex: 1;
+  width: 100%;
+  padding: 1.25rem 0;
+}
+
+/* ── Top bar ── */
+.topBar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.backBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: 1.5px solid #e5e7eb;
+  background: #fff;
+  color: #374151;
+  font-size: 0.85rem;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+.backBtn:hover { border-color: #0066cc; color: #0066cc; background: #eff6ff; }
+
+.pageTitle {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #111827;
+  margin: 0;
+  letter-spacing: -0.3px;
+}
+
+/* ── Summary card ── */
+.summaryCard {
+  display: flex;
+  gap: 0;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+  border-left: 4px solid #0066cc;
+}
+
+.summaryCol {
+  flex: 1;
+  padding: 1rem 1.25rem;
+  min-width: 0;
+}
+
+.summaryDivider {
+  width: 1px;
+  background: #f3f4f6;
+  flex-shrink: 0;
+  margin: 0.75rem 0;
+}
+
+.summaryLabel {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #9ca3af;
+  letter-spacing: 0.6px;
+  margin: 0 0 0.3rem;
+  text-transform: uppercase;
+}
+
+.summaryName {
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: #111827;
+  margin: 0 0 0.4rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.summarySubtext {
+  font-size: 0.72rem;
+  color: #9ca3af;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.summaryMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.1rem;
+}
+
+.metaChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.28rem;
+  background: #f3f4f6;
+  color: #374151;
+  border-radius: 20px;
+  padding: 0.2rem 0.55rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.metaFee { background: #eff6ff; color: #0066cc; }
+
+/* ── Booking window banner ── */
+.bookingWindowBanner {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  background: linear-gradient(135deg, #eff6ff 0%, #e0eeff 100%);
+  border: 1.5px solid #bfdbfe;
+  border-radius: 14px;
+  padding: 0.875rem 1.1rem;
+  margin-bottom: 1.1rem;
+}
+.bookingWindowIcon {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #0055bb 0%, #3b82f6 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 0.95rem;
+  flex-shrink: 0;
+  box-shadow: 0 3px 10px rgba(0, 102, 204, 0.28);
+}
+.bookingWindowText {
+  display: flex;
+  flex-direction: column;
+  gap: 0.18rem;
+  min-width: 0;
+}
+.bookingWindowTitle {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: #0055bb;
+  line-height: 1.2;
+}
+.bookingWindowSub {
+  font-size: 0.76rem;
+  color: #3b82f6;
+  font-weight: 500;
+  line-height: 1.4;
+}
+.bookingWindowSub strong {
+  color: #0055bb;
+  font-weight: 700;
+}
+
+/* ── Date row ── */
+.dateRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 0.875rem 1.1rem;
+  margin-bottom: 1.1rem;
+}
+
+.dateRowLeft {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.dateIcon { color: #0066cc; font-size: 1rem; flex-shrink: 0; }
+
+.dateRowLabel {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #9ca3af;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin: 0 0 0.15rem;
+}
+
+.dateRowValue {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+}
+
+.changeDateBtn {
+  flex-shrink: 0;
+  background: #eff6ff;
+  color: #0066cc;
+  border: 1.5px solid #bfdbfe;
+  border-radius: 8px;
+  padding: 0.38rem 0.85rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+.changeDateBtn:hover { background: #dbeafe; border-color: #93c5fd; }
+
+/* ── Slots section ── */
+.slotsSection {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 1.1rem 1.25rem;
+}
+
+.slotsSectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.slotsTitle {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #111827;
+  margin: 0;
+}
+
+.refreshLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.68rem;
+  color: #9ca3af;
+  font-weight: 600;
+}
+
+.slotsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.55rem;
+}
+
+.slotBtn {
+  background: #fff;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 0.52rem 0.25rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #374151;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s, color 0.15s;
+  text-align: center;
+}
+.slotBtn:hover { border-color: #0066cc; color: #0066cc; background: #eff6ff; }
+.slotBtnActive { background: #0066cc; border-color: #0066cc; color: #fff; }
+.slotBtnActive:hover { background: #0052a3; border-color: #0052a3; color: #fff; }
+
+.noSlots {
+  text-align: center;
+  padding: 2rem 1rem;
+  font-size: 0.875rem;
+  color: #9ca3af;
+  font-weight: 600;
+}
+
+/* ── Loading / error ── */
+.loadingState {
+  text-align: center;
+  padding: 2rem 1rem;
+  font-size: 0.875rem;
+  color: #9ca3af;
+  font-weight: 600;
+}
+
+.errorMsg {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 12px;
+  padding: 0.875rem 1.1rem;
+  font-size: 0.85rem;
+  color: #dc2626;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+/* ── Backdrop ── */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  padding: 1rem;
+}
+
+/* ── Generic modal ── */
+.modal {
+  background: #fff;
+  border-radius: 20px;
+  padding: 1.75rem 1.5rem;
+  width: 100%;
+  max-width: 380px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.18);
+}
+
+.modalTitle {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #111827;
+  margin: 0 0 1.25rem;
+}
+
+.modalBody {
+  font-size: 0.9rem;
+  color: #6b7280;
+  margin: 0 0 1.25rem;
+  line-height: 1.5;
+}
+
+.modalRows { display: flex; flex-direction: column; gap: 0.7rem; margin-bottom: 0.875rem; }
+
+.modalRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.modalLabel {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  flex-shrink: 0;
+}
+
+.modalVal { font-size: 0.88rem; font-weight: 700; color: #111827; text-align: right; }
+.modalValHighlight { color: #0066cc; font-size: 0.95rem; }
+
+.modalBtns {
+  display: flex;
+  gap: 0.65rem;
+}
+
+.modalCancelBtn {
+  flex: 1;
+  padding: 0.65rem;
+  border-radius: 10px;
+  border: 1.5px solid #e5e7eb;
+  background: #fff;
+  color: #374151;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2rem;
+}
+.modalCancelBtn:hover { background: #f9fafb; }
+
+.closeCd {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #9ca3af;
+}
+
+.modalConfirmBtn {
+  flex: 1;
+  padding: 0.65rem;
+  border-radius: 10px;
+  border: none;
+  background: #0066cc;
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s, box-shadow 0.15s;
+}
+.modalConfirmBtn:hover { background: #0052a3; box-shadow: 0 4px 14px rgba(0,102,204,0.2); }
+.modalConfirmBtn:disabled { opacity: 0.6; cursor: default; }
+
+/* ── Calendar modal ── */
+.calModal {
+  background: #fff;
+  border-radius: 20px;
+  padding: 1.5rem;
+  width: 100%;
+  max-width: 340px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.18);
+}
+
+.calHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.calMonthLabel {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #111827;
+}
+
+.calNavBtn {
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  border: 1.5px solid #e5e7eb;
+  background: #fff;
+  color: #374151;
+  font-size: 0.78rem;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: border-color 0.15s, color 0.15s;
+}
+.calNavBtn:hover { border-color: #0066cc; color: #0066cc; }
+
+.calWeekRow {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-bottom: 0.4rem;
+}
+
+.calWeekDay {
+  text-align: center;
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #9ca3af;
+  padding: 0.25rem 0;
+}
+
+.calGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 3px;
+}
+
+.calDay {
+  aspect-ratio: 1;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #9ca3af;
+  cursor: default;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.12s, color 0.12s;
+}
+
+.calDayAvail {
+  color: #111827;
+  cursor: pointer;
+}
+.calDayAvail:hover { background: #eff6ff; color: #0066cc; }
+
+.calDayToday { font-weight: 800; color: #0066cc; }
+
+.calDaySelected { background: #0066cc !important; color: #fff !important; border-radius: 8px; }
+
+.calDayDisabled { opacity: 0.35; cursor: default; }
+
+.calCloseBtn {
+  width: 100%;
+  margin-top: 1rem;
+  padding: 0.6rem;
+  border-radius: 10px;
+  border: 1.5px solid #e5e7eb;
+  background: #fff;
+  color: #374151;
+  font-size: 0.83rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.calCloseBtn:hover { background: #f9fafb; }
+
+/* ── Success modal ── */
+.successModal {
+  background: #fff;
+  border-radius: 20px;
+  padding: 1.75rem 1.5rem;
+  width: 100%;
+  max-width: 380px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.18);
+  text-align: center;
+}
+
+.successIconWrap {
+  margin-bottom: 0.75rem;
+}
+
+.successIcon {
+  font-size: 2.5rem;
+  color: #16a34a;
+}
+
+.successTitle {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #111827;
+  margin: 0 0 1.1rem;
+}
+
+.confirmBox {
+  background: #f0fdf4;
+  border: 1.5px solid #bbf7d0;
+  border-radius: 12px;
+  padding: 0.875rem;
+  margin-bottom: 1rem;
+}
+
+.confirmBoxLabel {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #16a34a;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin: 0 0 0.3rem;
+}
+
+.confirmBoxCode {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #15803d;
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
+.emailNote {
+  font-size: 0.75rem;
+  color: #6b7280;
+  text-align: center;
+  margin: 0 0 0.875rem;
+  line-height: 1.45;
+}
+
+.successCloseBtn {
+  width: 100%;
+  margin-top: 1.25rem;
+  padding: 0.65rem;
+  border-radius: 10px;
+  border: 1.5px solid #e5e7eb;
+  background: #fff;
+  color: #374151;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2rem;
+  transition: background 0.15s;
+}
+.successCloseBtn:hover { background: #f9fafb; }
+
+.successCloseCd {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #9ca3af;
+}
+
+.successRows { display: flex; flex-direction: column; gap: 0.55rem; text-align: left; }
+
+.successRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.successRowLabel {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  flex-shrink: 0;
+}
+
+.successRowVal {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #111827;
+  text-align: right;
+}
+
+/* ── Reschedule comparison ── */
+.rescheduleComparison {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.rescheduleBox {
+  flex: 1;
+  background: #f9fafb;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 0.75rem 0.875rem;
+  text-align: center;
+}
+
+.rescheduleBoxNew {
+  background: #f0fdf4;
+  border-color: #bbf7d0;
+}
+
+.rescheduleBoxLabel {
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: #9ca3af;
+  margin: 0 0 0.3rem;
+}
+
+.rescheduleBoxDate {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 0.15rem;
+}
+
+.rescheduleBoxTime {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: #0066cc;
+  margin: 0;
+}
+
+.rescheduleBoxNew .rescheduleBoxDate { color: #15803d; }
+.rescheduleBoxNew .rescheduleBoxTime { color: #16a34a; }
+
+.rescheduleArrow {
+  font-size: 0.9rem;
+  color: #9ca3af;
+  flex-shrink: 0;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .pageWrapper { padding: 0.75rem 0 1.5rem; }
+
+  /* Top bar */
+  .pageTitle { font-size: 1.05rem; }
+
+  /* Summary card */
+  .summaryCard { flex-direction: column; }
+  .summaryDivider { width: auto; height: 1px; margin: 0; }
+  .summaryCol { padding: 0.75rem 1rem; }
+  .summaryLabel { font-size: 0.6rem; }
+  .summaryName  { font-size: 0.82rem; }
+  .summarySubtext { font-size: 0.68rem; }
+
+  /* Booking window banner */
+  .bookingWindowBanner  { padding: 0.75rem 0.875rem; gap: 0.65rem; }
+  .bookingWindowIcon    { width: 32px; height: 32px; font-size: 0.8rem; border-radius: 8px; }
+  .bookingWindowTitle   { font-size: 0.78rem; }
+  .bookingWindowSub     { font-size: 0.7rem; }
+
+  /* Date row */
+  .dateRowLabel { font-size: 0.6rem; }
+  .dateRowValue { font-size: 0.82rem; }
+  .changeDateBtn { font-size: 0.72rem; padding: 0.32rem 0.7rem; }
+
+  /* Slots */
+  .slotsSection { padding: 0.875rem 1rem; }
+  .slotsTitle { font-size: 0.875rem; }
+  .slotsGrid { grid-template-columns: repeat(3, 1fr); gap: 0.45rem; }
+  .slotBtn { font-size: 0.75rem; padding: 0.5rem 0.15rem; }
+  .refreshLabel { font-size: 0.62rem; }
+
+  /* Modals → bottom sheet */
+  .backdrop { align-items: flex-end; padding: 0; }
+
+  .modal {
+    max-width: 100%;
+    border-radius: 20px 20px 0 0;
+    padding: 1.1rem 1rem 1.5rem;
+  }
+  .modal::before {
+    content: "";
+    display: block;
+    width: 36px;
+    height: 4px;
+    border-radius: 2px;
+    background: #e5e7eb;
+    margin: 0 auto 1rem;
+  }
+  .modalTitle { font-size: 0.95rem; margin-bottom: 1rem; }
+  .modalLabel { font-size: 0.67rem; }
+  .modalVal   { font-size: 0.82rem; }
+  .modalCancelBtn, .modalConfirmBtn { font-size: 0.82rem; padding: 0.6rem; }
+
+  .calModal {
+    max-width: 100%;
+    border-radius: 20px 20px 0 0;
+    padding: 1rem 1rem 1.5rem;
+  }
+  .calModal::before {
+    content: "";
+    display: block;
+    width: 36px;
+    height: 4px;
+    border-radius: 2px;
+    background: #e5e7eb;
+    margin: 0 auto 0.875rem;
+  }
+  .calMonthLabel { font-size: 0.88rem; }
+  .calWeekDay { font-size: 0.6rem; }
+  .calDay { font-size: 0.78rem; border-radius: 7px; }
+  .calCloseBtn { font-size: 0.78rem; padding: 0.55rem; }
+
+  .successModal {
+    max-width: 100%;
+    border-radius: 20px 20px 0 0;
+    padding: 1.1rem 1rem 2rem;
+  }
+  .successModal::before {
+    content: "";
+    display: block;
+    width: 36px;
+    height: 4px;
+    border-radius: 2px;
+    background: #e5e7eb;
+    margin: 0 auto 1rem;
+  }
+  .successTitle { font-size: 1rem; }
+  .confirmBoxCode { font-size: 1rem; }
+  .emailNote { font-size: 0.72rem; }
+  .successRowLabel { font-size: 0.68rem; }
+  .successRowVal   { font-size: 0.8rem; }
+  .successCloseBtn { font-size: 0.82rem; }
+
+  /* Reschedule comparison */
+  .rescheduleComparison { gap: 0.35rem; }
+  .rescheduleBoxDate { font-size: 0.72rem; }
+  .rescheduleBoxTime { font-size: 0.82rem; }
+}
+
+@media (max-width: 480px) {
+  .slotsGrid { grid-template-columns: repeat(3, 1fr); gap: 0.35rem; }
+  .slotBtn { font-size: 0.7rem; padding: 0.45rem 0.1rem; }
+  .pageTitle { font-size: 0.95rem; }
+}

@@ -1,0 +1,334 @@
+/* ── Container ── */
+.container {
+  width: 100%;
+}
+
+.sectionTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #374151;
+  margin: 0 0 1rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+
+/* ── Grid ── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+/* ── Card ── */
+.card {
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #eef0f4;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  overflow: hidden;
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    border-color 0.18s ease;
+  outline: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  border-color: #d1d5db;
+}
+
+.card:focus-visible {
+  box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.25);
+}
+
+/* ── Card body: image panel + content ── */
+.cardBody {
+  display: flex;
+  flex: 1;
+  gap: 0;
+}
+
+/* ── Left emoji panel ── */
+.piBox {
+  width: 96px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 130px;
+  border-radius: 0;
+}
+
+.bannerEmoji {
+  font-size: 2.6rem;
+  line-height: 1;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.08));
+}
+
+/* ── Right content area ── */
+.contentArea {
+  flex: 1;
+  padding: 0.875rem 0.875rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-width: 0;
+  border-left: 1px solid #f3f4f6;
+}
+
+/* Partner name */
+.partnerName {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+  line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Stats row */
+.statsRow {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.statChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #4b5563;
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  border-radius: 20px;
+  padding: 0.2rem 0.55rem;
+  white-space: nowrap;
+}
+
+.statIcon {
+  font-size: 0.62rem;
+  color: #6b7280;
+}
+
+/* Booking charge */
+.chargeRow {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.75rem;
+  color: #374151;
+  margin: 0;
+}
+
+.chargeRow strong {
+  color: #059669;
+  font-weight: 700;
+}
+
+.checkIcon {
+  color: #10b981;
+  font-size: 0.75rem;
+  flex-shrink: 0;
+}
+
+/* ── Footer: address + rating ── */
+.cardFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.55rem 0.875rem;
+  border-top: 1px solid #f3f4f6;
+  background: #fafafa;
+}
+
+.addressRow {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin: 0;
+  min-width: 0;
+  flex: 1;
+  overflow: hidden;
+}
+
+.addressRow span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+.pinIcon {
+  color: #9ca3af;
+  font-size: 0.7rem;
+  flex-shrink: 0;
+}
+
+.ratingBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #111827;
+  flex-shrink: 0;
+}
+
+.starIcon {
+  color: #f59e0b;
+  font-size: 0.72rem;
+}
+
+/* ── Empty state ── */
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  background: white;
+  border-radius: 16px;
+  border: 2px dashed #e5e7eb;
+  text-align: center;
+  gap: 0.5rem;
+}
+
+.emptyIcon {
+  width: 52px;
+  height: 52px;
+  background: #f3f4f6;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  color: #9ca3af;
+  margin-bottom: 0.5rem;
+}
+
+.emptyTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+}
+
+.emptySubtitle {
+  font-size: 0.85rem;
+  color: #9ca3af;
+  margin: 0;
+}
+
+/* ── Skeleton ── */
+@keyframes shimmer {
+  0% {
+    background-position: -600px 0;
+  }
+  100% {
+    background-position: 600px 0;
+  }
+}
+
+.skeletonBox {
+  background: linear-gradient(90deg, #f0f4f8 25%, #e2e8f0 50%, #f0f4f8 75%);
+  background-size: 600px 100%;
+  animation: shimmer 1.4s infinite;
+}
+
+.skeletonLine {
+  height: 11px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #f0f4f8 25%, #e2e8f0 50%, #f0f4f8 75%);
+  background-size: 600px 100%;
+  animation: shimmer 1.4s infinite;
+  margin-bottom: 0.45rem;
+}
+
+.skeletonWide {
+  width: 72%;
+}
+.skeletonNarrow {
+  width: 42%;
+}
+.skeletonMid {
+  width: 56%;
+}
+.skeletonStat {
+  width: 64px;
+  height: 22px;
+  border-radius: 20px;
+}
+
+/* ── Tablet ── */
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 0.875rem;
+  }
+
+  .piBox {
+    width: 84px;
+  }
+  .bannerEmoji {
+    font-size: 2.2rem;
+  }
+}
+
+/* ── Mobile ── */
+@media (max-width: 600px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+
+  .piBox {
+    width: 72px;
+    min-height: 110px;
+  }
+  .bannerEmoji {
+    font-size: 1.9rem;
+  }
+  .contentArea {
+    padding: 0.65rem 0.65rem 0.6rem;
+    gap: 0.4rem;
+  }
+  .partnerName {
+    font-size: 0.82rem;
+  }
+  .statChip {
+    font-size: 0.66rem;
+    padding: 0.15rem 0.4rem;
+  }
+  .chargeRow {
+    font-size: 0.68rem;
+  }
+  .cardFooter {
+    padding: 0.45rem 0.65rem;
+  }
+  .addressRow {
+    font-size: 0.68rem;
+  }
+  .ratingBadge {
+    font-size: 0.72rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

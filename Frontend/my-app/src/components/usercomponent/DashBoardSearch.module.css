@@ -1,0 +1,149 @@
+/* Search renders inside the unified pill on desktop — no own card */
+.searchContainer {
+  display: flex;
+  align-items: center;
+  padding: 0;
+  height: 100%;
+}
+
+.searchForm {
+  width: 100%;
+}
+
+.searchInputWrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  gap: 6px;
+  padding: 10px 16px 10px 12px;
+  transition: background 0.2s ease;
+}
+
+.searchInputWrapper:hover {
+  background: #fafcff;
+}
+
+.searchInputWrapper:focus-within {
+  background: transparent;
+  transform: none;
+  box-shadow: none;
+  border-color: transparent;
+}
+
+.searchIcon {
+  color: #94a3b8;
+  font-size: 0.95rem;
+  flex-shrink: 0;
+  transition: color 0.2s ease;
+}
+
+.searchInputWrapper:focus-within .searchIcon {
+  color: #0066cc;
+}
+
+.searchInput {
+  border: none;
+  outline: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  font-style: italic;
+  background: transparent;
+  color: #374151;
+  width: 100%;
+  transition: color 0.2s ease;
+}
+
+.searchInput::placeholder {
+  color: #9ca3af;
+  font-weight: 400;
+}
+
+.searchInput:focus {
+  font-style: normal;
+  color: #1e3a5f;
+}
+
+.hasText .searchInput {
+  font-style: normal;
+  color: #0066cc;
+  font-weight: 600;
+}
+
+.clearButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #94a3b8;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.clearButton:hover {
+  background: rgba(0, 102, 204, 0.08);
+  color: #0066cc;
+  transform: rotate(90deg);
+}
+
+.searchButtonInside {
+  border: none;
+  border-radius: 50px;
+  background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
+  padding: 6px 16px;
+  cursor: pointer;
+  color: white;
+  font-weight: 600;
+  font-size: 0.85rem;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.searchButtonInside:hover {
+  background: linear-gradient(135deg, #0052a3 0%, #003d7a 100%);
+  box-shadow: 0 2px 10px rgba(0, 102, 204, 0.25);
+}
+
+/* ── Tablet / Mobile: restore card styling when pill breaks ── */
+@media (max-width: 768px) {
+  .searchInputWrapper {
+    background: #ffffff;
+    border: 2px solid #e0e7ff;
+    border-radius: 50px;
+    box-shadow: 0 2px 8px rgba(0, 102, 204, 0.07);
+    padding: 8px 14px;
+  }
+
+  .searchInputWrapper:focus-within {
+    border-color: #0066cc;
+    box-shadow: 0 4px 14px rgba(0, 102, 204, 0.12);
+    background: #ffffff;
+  }
+
+  .searchInput {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .searchInputWrapper {
+    padding: 7px 12px;
+  }
+
+  .searchInput {
+    font-size: 0.8rem;
+  }
+
+  .searchButtonInside {
+    padding: 5px 12px;
+    font-size: 0.8rem;
+  }
+}
