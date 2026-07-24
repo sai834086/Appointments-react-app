@@ -1,0 +1,300 @@
+/* Manager modal — clean, polished, consistent with dashboard look & feel */
+
+.ModalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.ModalContainer {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.25);
+  width: 100%;
+  max-width: 560px;
+  max-height: 94vh;
+  overflow-y: auto;
+  animation: slideUp 0.25s ease-out;
+  border: 1px solid #e5e7eb;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------------- Header ---------------- */
+.ModalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 20px 22px 16px;
+  border-bottom: 1px solid #f1f5f9;
+  gap: 12px;
+}
+
+.HeaderLeft {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.HeaderIcon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #eef2ff, #ede9fe);
+  color: #4f46e5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.ModalTitle {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 700;
+  color: #0f172a;
+  letter-spacing: -0.01em;
+}
+
+.ModalSubtitle {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: #64748b;
+  line-height: 1.45;
+}
+
+.CloseButton {
+  border: none;
+  background: transparent;
+  color: #94a3b8;
+  font-size: 18px;
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.CloseButton:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+
+/* ---------------- Form ---------------- */
+.ModalForm {
+  padding: 18px 22px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.FormRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.FormGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.FormLabel {
+  font-size: 13px;
+  font-weight: 600;
+  color: #334155;
+}
+
+.RequiredMark {
+  color: #ef4444;
+}
+
+.FormInput {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 12px;
+  font-size: 14px;
+  border-radius: 9px;
+  border: 1px solid #e2e8f0;
+  background: #fff;
+  color: #0f172a;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.FormInput::placeholder {
+  color: #94a3b8;
+}
+
+.FormInput:focus {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+}
+
+.FormInput:disabled {
+  background-color: #f1f5f9;
+  color: #64748b;
+  cursor: not-allowed;
+}
+
+.InputError {
+  border-color: #ef4444;
+}
+
+.InputError:focus {
+  border-color: #ef4444;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
+}
+
+.ErrorMessage {
+  color: #b91c1c;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.HelperText {
+  color: #94a3b8;
+  font-size: 11.5px;
+}
+
+.SubmitError {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #991b1b;
+  font-size: 13px;
+  padding: 10px 12px;
+  border-radius: 10px;
+}
+
+/* Info note shown in "add" mode — explains the email invitation and the
+   auto-generated password, replacing the removed password field. */
+.InviteNote {
+  background: #eef2ff;
+  border: 1px solid #c7d2fe;
+  color: #3730a3;
+  font-size: 12.5px;
+  line-height: 1.55;
+  padding: 10px 12px;
+  border-radius: 10px;
+}
+
+/* Danger action in the edit-manager footer — far left, away from Cancel /
+   Save. First click arms "Confirm delete?", second click removes the
+   manager and deletes their user account. */
+.DeleteButton {
+  margin-right: auto;
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: 1px solid #fecaca;
+  background: #ffffff;
+  color: #dc2626;
+  font-size: 13.5px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.DeleteButton:hover:not(:disabled) {
+  background: #fef2f2;
+  border-color: #dc2626;
+}
+
+.DeleteButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ---------------- Actions ---------------- */
+.FormActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding-top: 6px;
+  border-top: 1px solid #f1f5f9;
+  margin-top: 4px;
+}
+
+.CancelButton,
+.SubmitButton {
+  padding: 9px 18px;
+  border-radius: 9px;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease,
+    color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.CancelButton {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  color: #475569;
+}
+
+.CancelButton:hover:not(:disabled) {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+.SubmitButton {
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  border: 1px solid transparent;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+}
+
+.SubmitButton:hover:not(:disabled) {
+  box-shadow: 0 6px 18px rgba(79, 70, 229, 0.35);
+  filter: brightness(1.05);
+}
+
+.SubmitButton:disabled,
+.CancelButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ---------------- Responsive ---------------- */
+@media (max-width: 540px) {
+  .ModalContainer {
+    max-width: 100%;
+  }
+  .FormRow {
+    grid-template-columns: 1fr;
+  }
+  .ModalHeader {
+    padding: 16px 16px 12px;
+  }
+  .ModalForm {
+    padding: 14px 16px 16px;
+  }
+  .HeaderIcon {
+    width: 38px;
+    height: 38px;
+    font-size: 18px;
+  }
+  .ModalTitle {
+    font-size: 16px;
+  }
+}

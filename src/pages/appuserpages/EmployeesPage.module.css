@@ -1,0 +1,257 @@
+/* ── Page wrapper ── */
+.pageWrapper {
+  flex: 1;
+  width: 100%;
+  padding: 1.25rem 0;
+}
+
+/* ── Top bar ── */
+.topBar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.backBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: 1.5px solid #e5e7eb;
+  background: #fff;
+  color: #374151;
+  font-size: 0.85rem;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+.backBtn:hover {
+  border-color: #0066cc;
+  color: #0066cc;
+  background: #eff6ff;
+}
+
+.pageTitle {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #111827;
+  margin: 0;
+  letter-spacing: -0.3px;
+}
+
+/* ── Service summary card ── */
+.summaryCard {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.875rem;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.25rem;
+  border-left: 4px solid #0066cc;
+}
+
+.summaryIconWrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: #eff6ff;
+  color: #0066cc;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.summaryBody {
+  flex: 1;
+  min-width: 0;
+}
+
+.summaryServiceName {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #111827;
+  margin: 0 0 0.25rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.summaryProp {
+  font-size: 0.75rem;
+  color: #9ca3af;
+  margin: 0 0 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.28rem;
+}
+
+.summaryMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.metaChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: #f3f4f6;
+  color: #374151;
+  border-radius: 20px;
+  padding: 0.22rem 0.6rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.metaChipFee {
+  background: #eff6ff;
+  color: #0066cc;
+}
+
+/* ── Count label ── */
+.countLabel {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #9ca3af;
+  margin: 0 0 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ── Grid ── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+/* ── Employee card ── */
+.card {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border: 1px solid #e9ecef;
+  border-radius: 14px;
+  overflow: hidden;
+  transition: box-shadow 0.18s, transform 0.18s;
+}
+.card:hover {
+  box-shadow: 0 8px 24px rgba(0, 102, 204, 0.1);
+  transform: translateY(-2px);
+}
+
+.cardBody {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  padding: 1.1rem 1.1rem 0.9rem;
+  flex: 1;
+}
+
+/* Avatar circle */
+.avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  font-weight: 800;
+  flex-shrink: 0;
+  letter-spacing: 0.5px;
+}
+
+.empInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.empName {
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: #111827;
+  margin: 0 0 0.25rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.empDetail {
+  font-size: 0.72rem;
+  color: #9ca3af;
+  margin: 0 0 0.15rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Card footer */
+.cardFooter {
+  padding: 0 1.1rem 1rem;
+}
+
+.selectBtn {
+  width: 100%;
+  background: #0066cc;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 0.6rem 1rem;
+  font-size: 0.83rem;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 0.2px;
+  transition: background 0.15s, box-shadow 0.15s, transform 0.1s;
+}
+.selectBtn:hover {
+  background: #0052a3;
+  box-shadow: 0 4px 14px rgba(0, 102, 204, 0.22);
+}
+.selectBtn:active { transform: scale(0.98); }
+
+/* ── Empty / error ── */
+.empty,
+.errorMsg {
+  text-align: center;
+  padding: 2.5rem 1.5rem;
+  border-radius: 14px;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+.empty    { background: #f9fafb; color: #9ca3af; }
+.errorMsg { background: #fef2f2; color: #dc2626; }
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .pageWrapper { padding: 0.75rem 0 1.5rem; }
+  .pageTitle { font-size: 1.05rem; }
+
+  .summaryCard { padding: 0.75rem 1rem; }
+  .summaryServiceName { font-size: 0.88rem; }
+  .summaryProp { font-size: 0.68rem; }
+  .metaChip { font-size: 0.67rem; padding: 0.18rem 0.5rem; }
+
+  .countLabel { font-size: 0.7rem; }
+
+  .grid { grid-template-columns: 1fr 1fr; gap: 0.65rem; }
+  .cardBody { padding: 0.875rem 0.875rem 0.75rem; gap: 0.65rem; }
+  .empName   { font-size: 0.82rem; }
+  .empDetail { font-size: 0.67rem; }
+  .cardFooter { padding: 0 0.875rem 0.875rem; }
+  .selectBtn { font-size: 0.78rem; padding: 0.52rem; }
+}
+
+@media (max-width: 480px) {
+  .grid { grid-template-columns: 1fr; gap: 0.55rem; }
+  .cardBody { padding: 0.8rem 0.8rem 0.65rem; }
+  .avatar { width: 40px; height: 40px; font-size: 0.85rem; }
+  .pageTitle { font-size: 0.95rem; }
+}

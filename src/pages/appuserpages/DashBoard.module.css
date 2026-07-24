@@ -1,0 +1,260 @@
+/* ── Shell ── */
+.dashboardContainer {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: white;
+}
+
+.headerContainer {
+  width: 100%;
+}
+
+/* ── Body: sidebar + main ── */
+.appBody {
+  display: flex;
+  flex: 1;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 0 1rem;
+}
+
+/* ── Left Sidebar ── */
+.sidebar {
+  width: 210px;
+  flex-shrink: 0;
+  padding: 1.5rem 0.5rem 1.5rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.sidebarItem {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  padding: 0.7rem 1rem;
+  border-radius: 10px;
+  cursor: pointer;
+  color: #4b5563;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: background 0.15s, color 0.15s;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+}
+
+.sidebarItem:hover {
+  background: #efefef;
+  color: #111827;
+}
+
+.sidebarActive {
+  color: #0066cc;
+  background: #eff6ff;
+  font-weight: 700;
+}
+
+.sidebarIcon {
+  font-size: 1rem;
+  width: 18px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+/* ── Main Content ── */
+.mainContent {
+  flex: 1;
+  padding: 1.5rem 0 1.5rem 1.25rem;
+  min-width: 0;
+  overflow-x: hidden;
+}
+
+/* ── Greeting (toast-style, fades out) ── */
+.greeting {
+  position: fixed;
+  top: 84px;
+  left: 0;
+  right: 0;
+  width: fit-content;
+  max-width: calc(100vw - 2rem);
+  margin: 0 auto;
+  padding: 0.7rem 1rem;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(229, 231, 235, 0.95);
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+  backdrop-filter: blur(8px);
+  pointer-events: none;
+  z-index: 900;
+  text-align: center;
+  animation: greetingFadeOut 2.4s ease forwards;
+}
+
+@keyframes greetingFadeOut {
+  0%   { opacity: 0; transform: translateY(6px); }
+  12%  { opacity: 1; transform: translateY(0); }
+  72%  { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-6px); }
+}
+
+.greeting h1 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 0.2rem;
+  letter-spacing: -0.3px;
+}
+
+.greetingSubtitle {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin: 0;
+}
+
+/* ── Category chips ── */
+.categoriesSection {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0.625rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding-bottom: 4px;
+  margin-bottom: 1.5rem;
+}
+
+.categoriesSection::-webkit-scrollbar {
+  display: none;
+}
+
+.categoryChip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.6rem 1.1rem;
+  border-radius: 50px;
+  border: 1.5px solid #e5e7eb;
+  background: white;
+  color: #374151;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: border-color 0.15s, background 0.15s, color 0.15s;
+}
+
+.chipEmoji {
+  font-size: 1.3rem;
+  line-height: 1;
+}
+
+.chipLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.categoryChip:hover {
+  border-color: #0066cc;
+  background: #eff6ff;
+  color: #0066cc;
+}
+
+.categoryChipActive {
+  background: #0066cc;
+  border-color: #0066cc;
+  color: white;
+}
+
+.categoryChipActive .chipEmoji,
+.categoryChipActive .chipLabel {
+  color: white;
+}
+
+/* ── Tablet (≤ 900px) ── */
+@media (max-width: 900px) {
+  .sidebar {
+    width: 60px;
+    padding: 1.25rem 0.25rem;
+    align-items: center;
+  }
+
+  .sidebarItem {
+    justify-content: center;
+    padding: 0.75rem;
+    gap: 0;
+  }
+
+  .sidebarItem span:not(.sidebarIcon) {
+    display: none;
+  }
+
+  .sidebarIcon {
+    width: auto;
+    font-size: 1.1rem;
+  }
+
+  .mainContent {
+    padding-left: 1rem;
+  }
+
+  .greeting h1 {
+    font-size: 1.35rem;
+  }
+}
+
+/* ── Mobile (≤ 768px) ── */
+@media (max-width: 768px) {
+  .appBody    { padding: 0; }
+  .sidebar    { display: none; }
+  .mainContent { padding: 0.75rem 0 1.5rem; }
+
+  .greeting {
+    top: 66px;
+    max-width: calc(100vw - 1rem);
+    padding: 0.5rem 0.75rem;
+  }
+  .greeting h1 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: -0.2px;
+    margin: 0 0 0.1rem;
+  }
+  .greetingSubtitle { font-size: 0.7rem; color: #9ca3af; }
+
+  /* Chips: wrap into rows */
+  .categoriesSection {
+    flex-wrap: wrap;
+    overflow-x: visible;
+    gap: 0.35rem;
+    margin-bottom: 0.875rem;
+    padding-bottom: 0;
+  }
+  .categoryChip {
+    flex-direction: row;
+    gap: 0.25rem;
+    padding: 0.25rem 0.55rem;
+    border-radius: 50px;
+    border-width: 1px;
+    flex-shrink: 1;
+    white-space: normal;
+  }
+  .chipEmoji { font-size: 0.8rem; }
+  .chipLabel { font-size: 0.62rem; font-weight: 600; }
+}
+
+/* ── Small mobile (≤ 480px) ── */
+@media (max-width: 480px) {
+  .mainContent { padding: 0.625rem 0 1.5rem; }
+  .greeting h1 { font-size: 0.9rem; }
+  .greetingSubtitle { font-size: 0.68rem; }
+  .categoriesSection { gap: 0.28rem; }
+  .categoryChip { padding: 0.22rem 0.48rem; gap: 0.2rem; }
+  .chipEmoji { font-size: 0.75rem; }
+  .chipLabel { font-size: 0.58rem; }
+}

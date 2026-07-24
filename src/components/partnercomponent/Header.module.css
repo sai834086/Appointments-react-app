@@ -1,0 +1,489 @@
+/* Slim, minimal partner header that complements the left sidebar.
+   Sticky at the top of every page so the notifications button is always
+   reachable while scrolling. */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: #ffffff;
+  border-bottom: 1px solid #eef2f7;
+}
+
+.headerBackground {
+  display: none;
+}
+
+.headerContent {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 28px;
+  height: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+@media (max-width: 900px) {
+  .headerContent {
+    height: 56px;
+    padding-left: 72px;
+  }
+}
+
+/* Reserved spacer on the left. Empty on desktop; on mobile this width
+   provides clearance for the fixed-position hamburger button. */
+.leftSlot {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ------------------------------------------------------------------
+   Brand / Logo
+   ------------------------------------------------------------------ */
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logoContainer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  text-decoration: none;
+  transition: opacity 0.15s ease;
+}
+
+.logoContainer:hover {
+  opacity: 0.85;
+}
+
+.logoIcon {
+  font-size: 22px;
+}
+
+.logoText {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+}
+
+.brandName {
+  color: #111827;
+  font-weight: 600;
+  font-size: 16px;
+  letter-spacing: -0.01em;
+}
+
+.tagline {
+  color: #9ca3af;
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* ------------------------------------------------------------------
+   Navigation (icon-only)
+   ------------------------------------------------------------------ */
+.navigation {
+  display: flex;
+  align-items: center;
+}
+
+.navItems {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.iconButton {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  color: #374151;
+  cursor: pointer;
+  text-decoration: none;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+
+/* Labels — hidden on desktop, shown under icons on mobile bottom nav */
+.navText {
+  display: none;
+}
+
+.iconButton:hover {
+  background: #f3f4f6;
+  color: #111827;
+}
+
+.iconButton:active {
+  background: #e5e7eb;
+}
+
+.iconButtonActive {
+  background: #eef2ff;
+  color: #4f46e5;
+  border-color: #c7d2fe;
+}
+
+.icon {
+  font-size: 22px;
+}
+
+/* Small red dot for pending notifications */
+.notificationDot {
+  position: absolute;
+  top: 9px;
+  right: 9px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #ef4444;
+  border: 2px solid #ffffff;
+}
+
+/* ------------------------------------------------------------------
+   Account dropdown
+   ------------------------------------------------------------------ */
+.accountWrapper {
+  position: relative;
+}
+
+.dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: 260px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  box-shadow:
+    0 12px 24px rgba(0, 0, 0, 0.08),
+    0 2px 6px rgba(0, 0, 0, 0.04);
+  padding: 6px;
+  z-index: 200;
+  animation: dropdownFadeIn 0.14s ease-out;
+  overflow: hidden;
+}
+
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dropdown::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  right: 14px;
+  width: 10px;
+  height: 10px;
+  background: #ffffff;
+  border-top: 1px solid #e5e7eb;
+  border-left: 1px solid #e5e7eb;
+  transform: rotate(45deg);
+}
+
+.dropdownHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 12px 10px;
+}
+
+.avatar {
+  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #111827;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+}
+
+.identity {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.identityName {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #111827;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.identityEmail {
+  font-size: 12px;
+  color: #6b7280;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dropdownDivider {
+  height: 1px;
+  background: #f3f4f6;
+  margin: 4px 0;
+}
+
+.menuItem {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: transparent;
+  border: none;
+  padding: 9px 10px;
+  border-radius: 8px;
+  color: #374151;
+  font-size: 13px;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.12s ease, color 0.12s ease;
+}
+
+.menuItem:hover {
+  background: #f3f4f6;
+  color: #111827;
+}
+
+.menuItem:focus-visible {
+  outline: none;
+  background: #f3f4f6;
+  box-shadow: 0 0 0 2px #e5e7eb inset;
+}
+
+.menuIcon {
+  width: 14px;
+  height: 14px;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.menuItem:hover .menuIcon {
+  color: #111827;
+}
+
+.menuItemDanger {
+  color: #b91c1c;
+}
+
+.menuItemDanger .menuIcon {
+  color: #b91c1c;
+}
+
+.menuItemDanger:hover {
+  background: #fef2f2;
+  color: #991b1b;
+}
+
+.menuItemDanger:hover .menuIcon {
+  color: #991b1b;
+}
+
+/* ------------------------------------------------------------------
+   Responsive
+   ------------------------------------------------------------------ */
+@media (max-width: 1024px) {
+  .headerContent {
+    padding: 0 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .headerContent {
+    padding: 0 16px;
+    height: 56px;
+    justify-content: flex-start;
+  }
+
+  .brandName {
+    font-size: 15px;
+  }
+
+  .tagline {
+    display: none;
+  }
+
+  /* Move the nav to the bottom of the viewport as a tab bar */
+  .navigation {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+    background: #ffffff;
+    border-top: 1px solid #e5e7eb;
+    padding: 6px 8px calc(6px + env(safe-area-inset-bottom));
+    box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.04);
+  }
+
+  .navItems {
+    width: 100%;
+    gap: 0;
+    justify-content: space-around;
+  }
+
+  .iconButton {
+    flex: 1;
+    width: auto;
+    height: auto;
+    max-width: none;
+    padding: 6px 4px 4px;
+    border-radius: 10px;
+    flex-direction: column;
+    gap: 2px;
+    color: #6b7280;
+  }
+
+  .iconButton:hover {
+    background: transparent;
+    color: #111827;
+  }
+
+  .iconButton:active {
+    background: #f3f4f6;
+  }
+
+  .icon {
+    font-size: 20px;
+    margin-bottom: 1px;
+  }
+
+  /* Small text label under each icon */
+  .navText {
+    display: block;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    line-height: 1.1;
+    color: inherit;
+  }
+
+  /* Active state (dropdown open) highlights whole stack in indigo */
+  .iconButtonActive,
+  .iconButtonActive:hover {
+    background: transparent;
+    border-color: transparent;
+    color: #4f46e5;
+  }
+
+  /* Notification dot stays anchored on the bell's top-right */
+  .notificationDot {
+    top: 4px;
+    right: calc(50% - 13px);
+  }
+
+  /* Account wrapper must participate equally in the flex row */
+  .accountWrapper {
+    position: static;
+    flex: 1;
+    display: flex;
+    align-items: stretch;
+    justify-content: stretch;
+  }
+
+  .accountWrapper .iconButton {
+    flex: 1;
+    width: 100%;
+  }
+
+  .dropdown {
+    position: fixed;
+    left: 12px;
+    right: 12px;
+    bottom: calc(
+      72px + env(safe-area-inset-bottom)
+    ); /* bottom bar + spacing */
+    top: auto;
+    width: auto;
+    border-radius: 14px;
+    padding: 8px;
+    animation: dropdownFadeInUp 0.16s ease-out;
+  }
+
+  .dropdown::before {
+    top: auto;
+    bottom: -6px;
+    right: auto;
+    left: calc(100% - 64px); /* sits roughly under the account tab */
+    border-top: none;
+    border-left: none;
+    border-bottom: 1px solid #e5e7eb;
+    border-right: 1px solid #e5e7eb;
+  }
+
+  @keyframes dropdownFadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .menuItem {
+    padding: 12px 12px;
+    font-size: 14px;
+    border-radius: 10px;
+  }
+
+  .dropdownHeader {
+    padding: 14px 12px 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .headerContent {
+    height: 54px;
+  }
+
+  .logoIcon {
+    font-size: 20px;
+  }
+
+  .iconButton {
+    height: 46px;
+    max-width: none;
+  }
+
+  .icon {
+    font-size: 21px;
+  }
+}

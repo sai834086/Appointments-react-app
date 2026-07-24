@@ -1,0 +1,151 @@
+.headerSection {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px;
+}
+
+.backButton {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #0066cc;
+  padding: 0;
+  font-size: 24px;
+}
+
+.headerTitle {
+  font-size: 28px;
+  font-weight: 700;
+  color: #0066cc;
+  margin: 0;
+}
+
+.pageWrapper {
+  flex: 1;
+  padding: 20px;
+  margin-bottom: 80px;
+}
+
+.content {
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.settingsList {
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  margin-bottom: 28px;
+}
+
+.settingItem {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  padding: 18px 20px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.settingItem:last-child {
+  border-bottom: none;
+}
+
+.settingIcon {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  background: rgba(0, 102, 204, 0.1);
+  color: #0066cc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.settingContent {
+  min-width: 0;
+}
+
+.settingLabel {
+  margin: 0 0 4px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.settingDescription {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.45;
+  color: #6b7280;
+}
+
+.logoutSection {
+  display: flex;
+  justify-content: center;
+}
+
+.logoutButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 28px;
+  background: #ef4444;
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.logoutButton:hover {
+  background: #dc2626;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.25);
+}
+
+@media (max-width: 768px) {
+  .backButton {
+    display: flex;
+  }
+
+  .headerSection {
+    padding: 16px 12px;
+  }
+
+  .headerTitle {
+    font-size: 22px;
+  }
+
+  .pageWrapper {
+    padding: 12px;
+    margin-bottom: 70px;
+  }
+
+  .settingItem {
+    padding: 14px;
+  }
+
+  .settingIcon {
+    width: 38px;
+    height: 38px;
+  }
+
+  .settingLabel {
+    font-size: 14px;
+  }
+
+  .settingDescription {
+    font-size: 13px;
+  }
+}

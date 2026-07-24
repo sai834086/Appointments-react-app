@@ -1,0 +1,126 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+/* Search-first block */
+.searchBlock {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.searchHint {
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--color-ink-500);
+}
+
+/* No inset "panel" here — the flat design uses one card per step, not a
+   card nested inside a card. This wrapper is just a spacer between the
+   search block and the manual fields below it. */
+.fieldsCard {
+  margin-top: 0;
+}
+
+/* Manual field grid — two columns, matching the Name/Password rows
+   elsewhere in the flow. The card is 640px wide, giving each column
+   enough room that long values like "United Kingdom" no longer get
+   clipped. Zip code (.fieldFull) spans both columns since it's the odd
+   field out. Gap kept tight (space-2) so all 7 fields plus the search
+   block above fit in one viewport without scrolling. */
+.fieldsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2);
+}
+
+.fieldFull {
+  grid-column: 1 / -1;
+}
+
+.field {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  font-weight: 600;
+  color: var(--color-ink-700);
+  font-size: 0.83rem;
+  letter-spacing: -0.005em;
+}
+
+.required {
+  color: var(--color-danger-500);
+}
+
+.optional {
+  color: var(--color-ink-400);
+  font-weight: 400;
+  font-size: 0.75rem;
+}
+
+.input {
+  width: 100%;
+  padding: var(--space-2) var(--space-3);
+  border: 1.5px solid var(--color-input-border, var(--color-ink-200));
+  border-radius: var(--radius-input, var(--radius-sm));
+  background: var(--color-input-bg, var(--color-surface));
+  color: var(--color-ink-900);
+  font-size: 0.9rem;
+  font-weight: 400;
+  transition: border-color 0.15s var(--ease-premium), box-shadow 0.15s var(--ease-premium), background 0.15s var(--ease-premium);
+  box-sizing: border-box;
+  height: 38px;
+}
+
+.input:hover:not(:focus) {
+  border-color: var(--color-ink-300);
+  background: #f0f0f4;
+}
+
+.input:focus {
+  outline: none;
+  background: var(--color-surface);
+  border-color: var(--color-primary-500);
+  box-shadow: var(--shadow-glow-primary);
+}
+
+.input::placeholder {
+  color: var(--color-ink-400);
+}
+
+/* Error Styles — a floating popover anchored to .field (position:relative
+   above), matching the same non-layout-shifting pattern used throughout
+   the rest of the signup wizard, so an error appearing/disappearing here
+   never shifts the Building/Street/City/etc. grid around. */
+.error {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 25;
+  margin-top: var(--space-1);
+  width: max-content;
+  max-width: calc(100vw - 80px);
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-surface);
+  border: 1px solid var(--color-danger-100);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-md);
+  color: var(--color-danger-600);
+  font-size: 0.8rem;
+  font-weight: 400;
+}
+
+@media (max-width: 640px) {
+  .fieldsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .input {
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+}

@@ -1,0 +1,72 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: #ffffff;
+  border: 1px solid #e9eaf0;
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+}
+
+.iconWrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: #eef2ff;
+  color: #4338ca;
+  flex-shrink: 0;
+}
+
+.tempBlock {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+}
+
+.temp {
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: #111827;
+}
+
+.range {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #667085;
+  white-space: nowrap;
+}
+
+.skeleton {
+  display: inline-block;
+  width: 150px;
+  height: 58px;
+  border-radius: 12px;
+  background: #f2f4f7;
+  animation: pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.55;
+  }
+}
+
+@media (max-width: 640px) {
+  .badge {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .skeleton {
+    width: 100%;
+  }
+}

@@ -1,0 +1,475 @@
+.card {
+  display: flex;
+  gap: 26px;
+  padding: 24px;
+  background: #ffffff;
+  border: 1px solid #e9eaf0;
+  border-radius: 20px;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.card:hover {
+  border-color: #d7dbe3;
+  box-shadow: 0 14px 30px -14px rgba(16, 24, 40, 0.16);
+  transform: translateY(-2px);
+}
+
+/* ---------- Image tile ---------- */
+
+.imageTile {
+  flex-shrink: 0;
+  width: 280px;
+  min-height: 260px;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Soft sheen so the flat gradient reads like a photo tile.
+   Sits above the fallback letter but never blocks the upload button. */
+.imageTile::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(120% 90% at 20% 0%, rgba(255, 255, 255, 0.22), transparent 55%);
+}
+
+.image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.imageLetter {
+  font-size: 60px;
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.95);
+  letter-spacing: -0.02em;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.14);
+}
+
+/* ---------- Upload photo button ---------- */
+
+.hiddenInput {
+  display: none;
+}
+
+.uploadButton {
+  position: absolute;
+  z-index: 2;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 999px;
+  background: rgba(17, 24, 39, 0.55);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  color: #ffffff;
+  font-size: 12.5px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.uploadButton:hover {
+  background: rgba(17, 24, 39, 0.72);
+  transform: translateX(-50%) translateY(-1px);
+}
+
+.uploadButton:active {
+  transform: translateX(-50%);
+}
+
+/* ---------- Body ---------- */
+
+.body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.headRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.titleWrap {
+  min-width: 0;
+}
+
+.name {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  color: #111827;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.address {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 6px 0 0;
+  font-size: 13px;
+  font-weight: 500;
+  color: #667085;
+  min-width: 0;
+}
+
+.address span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.headActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* ---------- Status pill ---------- */
+
+.statusPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  position: relative;
+}
+
+.statusActive {
+  background: #ecfdf3;
+  border: 1px solid #a6f4c5;
+  color: #027a48;
+}
+
+.statusInactive {
+  background: #fffaeb;
+  border: 1px solid #fedf89;
+  color: #b54708;
+}
+
+.statusDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.tooltipWrap {
+  position: relative;
+  display: inline-flex;
+}
+
+.infoButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1px solid currentColor;
+  background: transparent;
+  color: inherit;
+  font-size: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0;
+}
+
+.tooltip {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: -8px;
+  z-index: 40;
+  width: min(78vw, 250px);
+  padding: 10px 26px 10px 12px;
+  background: #ffffff;
+  border: 1px solid #e4e7ec;
+  border-radius: 10px;
+  box-shadow: 0 12px 24px -8px rgba(16, 24, 40, 0.18);
+  color: #475467;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.5;
+  text-align: left;
+}
+
+.tooltipClose {
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #98a2b3;
+  font-size: 14px;
+  padding: 2px;
+  line-height: 1;
+}
+
+/* ---------- Info boxes ---------- */
+
+.infoGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.infoBox {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 16px;
+  border: 1px solid #eef0f4;
+  border-radius: 14px;
+  background: #fcfcfd;
+  min-width: 0;
+}
+
+.infoBoxHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.infoBoxLabel {
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #667085;
+}
+
+.infoBoxValue {
+  font-size: 17px;
+  font-weight: 800;
+  color: #111827;
+}
+
+.infoBoxHint {
+  margin: auto 0 0;
+  font-size: 11.5px;
+  font-weight: 500;
+  color: #98a2b3;
+}
+
+.circlePair {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 8px;
+}
+
+.serviceIconWrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  margin: 0 auto;
+  border-radius: 50%;
+  background: #eef2ff;
+  color: #4338ca;
+}
+
+/* ---------- Manager box ---------- */
+
+.managerChip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 11px;
+  border: 1px solid #eaecf0;
+  border-radius: 10px;
+  background: #ffffff;
+  cursor: pointer;
+  font-family: inherit;
+  min-width: 0;
+  transition: border-color 0.15s ease, background 0.15s ease;
+  color: #344054;
+}
+
+.managerChip:hover {
+  border-color: #c7d2fe;
+  background: #f5f7ff;
+}
+
+.managerAvatar {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6366f1, #4338ca);
+  color: #fff;
+  font-size: 10.5px;
+  font-weight: 700;
+}
+
+.managerName {
+  flex: 1;
+  min-width: 0;
+  font-size: 12.5px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: left;
+}
+
+.managerAddButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  margin: auto 0;
+  padding: 9px 14px;
+  border: 1.5px dashed #c7d2fe;
+  border-radius: 10px;
+  background: transparent;
+  color: #4f46e5;
+  font-size: 13px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.managerAddButton:hover {
+  background: #eef2ff;
+  border-color: #a5b4fc;
+}
+
+/* ---------- Footer actions ---------- */
+
+.footerRow {
+  display: flex;
+  gap: 12px;
+  margin-top: auto;
+}
+
+.editButton,
+.viewButton {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 13px 18px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  min-height: 48px;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.editButton {
+  background: #ffffff;
+  border: 1px solid #e2e4ea;
+  color: #374151;
+}
+
+.editButton:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+.viewButton {
+  background: linear-gradient(135deg, #6366f1, #4338ca);
+  border: 1px solid transparent;
+  color: #ffffff;
+}
+
+.viewButton:hover {
+  box-shadow: 0 10px 20px -8px rgba(79, 70, 229, 0.45);
+  transform: translateY(-1px);
+}
+
+.viewButton:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+/* ---------- Responsive ---------- */
+
+/* Tablets — slim the tile down so the info boxes keep room to breathe. */
+@media (max-width: 1000px) {
+  .imageTile {
+    width: 210px;
+    min-height: 220px;
+  }
+}
+
+@media (max-width: 720px) {
+  .card {
+    flex-direction: column;
+    gap: 18px;
+    padding: 18px;
+  }
+
+  .imageTile {
+    width: 100%;
+    min-height: 0;
+    height: 180px;
+  }
+
+  .imageLetter {
+    font-size: 46px;
+  }
+
+  .infoGrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .footerRow {
+    flex-direction: column-reverse;
+  }
+
+  /* Wrap instead of truncating on phones — the address is worth two lines. */
+  .name {
+    white-space: normal;
+  }
+
+  .address {
+    align-items: flex-start;
+  }
+
+  .address span {
+    white-space: normal;
+    overflow: visible;
+  }
+}

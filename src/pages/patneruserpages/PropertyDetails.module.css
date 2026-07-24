@@ -1,0 +1,1490 @@
+/* =========================================================================
+   Layout
+   ========================================================================= */
+.MainContainer {
+  min-height: 100vh;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+}
+
+.HeaderContainer {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.BodyContainer {
+  flex: 1;
+  /* Full-width inside the layout column so content sits flush against
+     the sidebar instead of centered. */
+  max-width: none;
+  width: 100%;
+  margin: 0;
+  padding: 28px 32px 64px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+@media (max-width: 768px) {
+  .BodyContainer {
+    padding: 20px 16px 48px 16px;
+    gap: 20px;
+  }
+}
+
+/* =========================================================================
+   Top bar / back link
+   ========================================================================= */
+.TopBar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.BackButton {
+  background: transparent;
+  border: 1px solid #e2e8f0;
+  color: #4338ca;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+
+.BackButton:hover {
+  background: #eef2ff;
+  border-color: #c7d2fe;
+}
+
+/* =========================================================================
+   Hero card
+   ========================================================================= */
+.HeroCard {
+  background: linear-gradient(135deg, #ffffff 0%, #f5f3ff 100%);
+  border-radius: 20px;
+  padding: 28px 32px;
+  box-shadow: 0 10px 30px rgba(79, 70, 229, 0.08);
+  border: 1px solid rgba(167, 139, 250, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.HeroHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.HeroHeading {
+  flex: 1 1 auto;
+  min-width: 260px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.EyebrowRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+
+.Eyebrow {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #6366f1;
+}
+
+.StatusPill {
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 999px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.PropertyTitle {
+  font-size: 32px;
+  font-weight: 800;
+  color: #1e1b4b;
+  margin: 0;
+  line-height: 1.15;
+}
+
+.AddressLine {
+  margin: 6px 0 0 0;
+  font-size: 15px;
+  color: #334155;
+  font-weight: 500;
+}
+
+.AddressSub {
+  margin: 2px 0 0 0;
+  font-size: 14px;
+  color: #64748b;
+}
+
+.HeroActions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+/* =========================================================================
+   Buttons
+   ========================================================================= */
+.PrimaryAction {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: #fff;
+  border: none;
+  padding: 12px 22px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.25);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+}
+
+.PrimaryAction:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(16, 185, 129, 0.32);
+  filter: brightness(1.04);
+}
+
+.SecondaryAction {
+  background: #eef2ff;
+  color: #4338ca;
+  border: 1px solid #c7d2fe;
+  padding: 9px 16px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.SecondaryAction:hover {
+  background: #e0e7ff;
+  border-color: #a5b4fc;
+}
+
+/* =========================================================================
+   Stats grid
+   ========================================================================= */
+.StatsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+@media (max-width: 900px) {
+  .StatsGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 540px) {
+  .StatsGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.StatCard {
+  background: #fff;
+  border-radius: 16px;
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  border: 1px solid #eef2ff;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.05);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.StatCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(99, 102, 241, 0.1);
+}
+
+.StatIcon {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  font-size: 22px;
+  color: #fff;
+  background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+}
+
+.StatCardEmployees .StatIcon {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+}
+
+.StatCardServices .StatIcon {
+  background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
+}
+
+.StatCardStatus .StatIcon {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+.StatBody {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.StatLabel {
+  font-size: 12px;
+  font-weight: 700;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.StatValue {
+  font-size: 26px;
+  font-weight: 800;
+  color: #1e1b4b;
+  line-height: 1.1;
+}
+
+.StatSub {
+  font-size: 12px;
+  color: #64748b;
+  min-height: 14px;
+}
+
+/* =========================================================================
+   Error banner
+   ========================================================================= */
+.ErrorBanner {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #b91c1c;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* =========================================================================
+   Sections (Employees, Services)
+   ========================================================================= */
+.Section {
+  background: #fff;
+  border-radius: 20px;
+  padding: 24px 28px;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
+  border: 1px solid #eef2ff;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+@media (max-width: 600px) {
+  .Section {
+    padding: 18px 18px;
+  }
+}
+
+.SectionHeader {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.SectionTitle {
+  font-size: 20px;
+  font-weight: 800;
+  color: #1e1b4b;
+  margin: 0;
+}
+
+.SectionSub {
+  margin: 2px 0 0 0;
+  font-size: 13px;
+  color: #64748b;
+}
+
+/* =========================================================================
+   Employees grid
+   ========================================================================= */
+.EmployeeGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 14px;
+}
+
+.EmployeeCard {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  position: relative;
+  transition: all 0.15s ease;
+}
+
+.EmployeeCard:hover {
+  background: #ffffff;
+  border-color: #c7d2fe;
+  box-shadow: 0 8px 16px rgba(99, 102, 241, 0.08);
+}
+
+.EmployeeAvatar {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+  color: #fff;
+  font-weight: 700;
+  font-size: 14px;
+  display: grid;
+  place-items: center;
+}
+
+.EmployeeBody {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.EmployeeName {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1e293b;
+  line-height: 1.2;
+}
+
+.EmployeeMeta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #64748b;
+  min-width: 0;
+}
+
+.EmployeeMetaText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.EmployeeStatus {
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 999px;
+  letter-spacing: 0.04em;
+  flex-shrink: 0;
+  text-transform: uppercase;
+}
+
+/* =========================================================================
+   Services grid
+   ========================================================================= */
+.ServicesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 14px;
+}
+
+.ServiceCard {
+  background: linear-gradient(135deg, #ffffff 0%, #fdf2f8 100%);
+  border: 1px solid #fbcfe8;
+  border-radius: 14px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: all 0.15s ease;
+}
+
+.ServiceCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(236, 72, 153, 0.12);
+  border-color: #f9a8d4;
+}
+
+.ServiceName {
+  font-size: 15px;
+  font-weight: 700;
+  color: #831843;
+}
+
+.ServiceMetaRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.ServiceMeta {
+  font-size: 13px;
+  font-weight: 600;
+  color: #9d174d;
+  background: #fce7f3;
+  padding: 4px 10px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.ServiceDescription {
+  font-size: 13px;
+  color: #64748b;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* =========================================================================
+   Empty state
+   ========================================================================= */
+.EmptyState {
+  border: 1px dashed #cbd5e1;
+  border-radius: 14px;
+  padding: 28px 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: #475569;
+  background: #f8fafc;
+}
+
+.EmptyIcon {
+  font-size: 32px;
+}
+
+.EmptyState h3 {
+  margin: 0;
+  font-size: 16px;
+  color: #1e293b;
+}
+
+.EmptyState p {
+  margin: 0;
+  font-size: 14px;
+  color: #64748b;
+}
+
+/* =========================================================================
+   Bottom CTA
+   ========================================================================= */
+.BottomCta {
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+  border-radius: 20px;
+  padding: 24px 28px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  box-shadow: 0 12px 28px rgba(79, 70, 229, 0.28);
+}
+
+.BottomCtaTitle {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.BottomCtaSub {
+  margin: 4px 0 0 0;
+  font-size: 14px;
+  opacity: 0.88;
+}
+
+.BottomCta .PrimaryAction {
+  background: #ffffff;
+  color: #4338ca;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+.BottomCta .PrimaryAction:hover {
+  background: #f1f5f9;
+  filter: none;
+}
+
+/* =========================================================================
+   Mobile polish (applied last — overrides earlier breakpoints)
+   ========================================================================= */
+@media (max-width: 640px) {
+  .BodyContainer {
+    padding: 14px 12px 40px 12px;
+    gap: 16px;
+  }
+
+  .BackButton {
+    font-size: 13px;
+    padding: 7px 12px;
+  }
+
+  .HeroCard {
+    padding: 18px 16px;
+    border-radius: 16px;
+    gap: 16px;
+  }
+
+  .HeroHeader {
+    gap: 12px;
+  }
+
+  .HeroHeading {
+    min-width: 0;
+  }
+
+  .PropertyTitle {
+    font-size: 22px;
+    line-height: 1.2;
+  }
+
+  .AddressLine {
+    font-size: 13px;
+  }
+
+  .HeroActions {
+    width: 100%;
+  }
+
+  .PrimaryAction {
+    width: 100%;
+    justify-content: center;
+    min-height: 44px;
+    padding: 12px 16px;
+    font-size: 14px;
+  }
+
+  .SecondaryAction {
+    min-height: 40px;
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+
+  .StatsGrid {
+    grid-template-columns: 1fr !important;
+    gap: 10px;
+  }
+
+  .StatCard {
+    padding: 14px 14px;
+    border-radius: 14px;
+  }
+
+  .StatIcon {
+    width: 42px;
+    height: 42px;
+    font-size: 20px;
+  }
+
+  .StatValue {
+    font-size: 22px;
+  }
+
+  .StatLabel {
+    font-size: 11px;
+  }
+
+  .Section {
+    padding: 16px 14px;
+    border-radius: 16px;
+    gap: 12px;
+  }
+
+  .SectionTitle {
+    font-size: 17px;
+  }
+
+  .SectionSub {
+    font-size: 12px;
+  }
+
+  .SectionHeader {
+    gap: 10px;
+    align-items: stretch;
+  }
+
+  .EmployeeGrid,
+  .ServicesGrid {
+    grid-template-columns: 1fr !important;
+    gap: 10px;
+  }
+
+  .EmployeeCard {
+    padding: 12px;
+  }
+
+  .EmployeeAvatar {
+    width: 36px;
+    height: 36px;
+    font-size: 13px;
+  }
+
+  .EmployeeName {
+    font-size: 14px;
+  }
+
+  .EmployeeMeta {
+    font-size: 11px;
+  }
+
+  .EmployeeMetaText {
+    max-width: 220px;
+  }
+
+  .ServiceCard {
+    padding: 14px;
+  }
+
+  .ServiceName {
+    font-size: 14px;
+  }
+
+  .ServiceMeta {
+    font-size: 12px;
+    padding: 3px 8px;
+  }
+
+  .EmptyState {
+    padding: 22px 14px;
+  }
+}
+
+@media (max-width: 380px) {
+  .PropertyTitle {
+    font-size: 20px;
+  }
+
+  .StatValue {
+    font-size: 20px;
+  }
+}
+
+/* =========================================================================
+   Manager Section
+   ========================================================================= */
+.ManagerSection {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 18px;
+  padding: 24px 24px 22px 24px;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.ManagerSectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.ManagerHeading {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.ManagerMenuWrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.ManagerMenuToggle {
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1px solid transparent;
+  background: transparent;
+  color: #475569;
+  font-size: 1.3rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.ManagerMenuToggle:hover,
+.ManagerMenuToggle[aria-expanded="true"] {
+  background: #eef2ff;
+  color: #4338ca;
+  border-color: #c7d2fe;
+}
+
+.ManagerMenuDropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  z-index: 30;
+  min-width: 160px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.12);
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  animation: managerMenuFadeIn 0.12s ease-out;
+}
+
+@keyframes managerMenuFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.ManagerMenuItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: #1e293b;
+  font-size: 0.88rem;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.12s ease, color 0.12s ease;
+}
+
+.ManagerMenuItem:hover {
+  background: #eef2ff;
+  color: #4338ca;
+}
+
+.ManagerMenuItemDanger {
+  color: #b91c1c;
+}
+
+.ManagerMenuItemDanger:hover {
+  background: #fef2f2;
+  color: #991b1b;
+}
+
+.ManagerCard {
+  display: flex;
+  align-items: stretch;
+  gap: 18px;
+  padding: 18px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #f8faff 0%, #f3e8ff 100%);
+  border: 1px solid #e0e7ff;
+  position: relative;
+  overflow: hidden;
+}
+
+.ManagerCard::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 4px;
+  background: linear-gradient(180deg, #6366f1 0%, #a855f7 100%);
+}
+
+.ManagerAvatar {
+  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  box-shadow: 0 8px 18px rgba(99, 102, 241, 0.25);
+}
+
+.ManagerBody {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ManagerNameRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.ManagerName {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.ManagerBadge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+}
+
+.ManagerBadgeStaff {
+  background: #ede9fe;
+  color: #6d28d9;
+  border-color: #ddd6fe;
+}
+
+.ManagerBadgeOwner {
+  background: #fef3c7;
+  color: #92400e;
+  border-color: #fde68a;
+}
+
+.ManagerContactGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+}
+
+.ManagerContactItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+  min-width: 0;
+}
+
+.ManagerContactItem:hover {
+  border-color: #c7d2fe;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(99, 102, 241, 0.08);
+}
+
+.ManagerContactIcon {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: #eef2ff;
+  color: #4338ca;
+  font-size: 0.95rem;
+}
+
+.ManagerContactText {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.ManagerContactLabel {
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #94a3b8;
+}
+
+.ManagerContactValue {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #1e293b;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ManagerEmpty {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px;
+  border-radius: 14px;
+  border: 1px dashed #cbd5e1;
+  background: #f8fafc;
+  flex-wrap: wrap;
+}
+
+.ManagerEmptyBody {
+  flex: 1;
+  min-width: 200px;
+}
+
+.AddManagerButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  box-shadow: 0 4px 10px rgba(99, 102, 241, 0.2);
+}
+
+.AddManagerButton:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(99, 102, 241, 0.28);
+}
+
+.ManagerEmptyIcon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #e0e7ff;
+  color: #4338ca;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+}
+
+.ManagerEmptyTitle {
+  margin: 0 0 4px 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.ManagerEmptyText {
+  margin: 0;
+  font-size: 0.88rem;
+  color: #64748b;
+  line-height: 1.45;
+}
+
+@media (max-width: 640px) {
+  .ManagerCard {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .ManagerAvatar {
+    width: 56px;
+    height: 56px;
+    font-size: 1.2rem;
+  }
+
+  .ManagerContactGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =========================================================================
+   Remove-manager confirmation dialog
+   ========================================================================= */
+.ConfirmOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  z-index: 1000;
+  backdrop-filter: blur(2px);
+}
+
+.ConfirmCard {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 24px 24px 20px 24px;
+  width: 100%;
+  max-width: 440px;
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.25);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.ConfirmIcon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #fef3c7;
+  color: #b45309;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  margin-bottom: 14px;
+}
+
+.ConfirmTitle {
+  margin: 0 0 8px 0;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.ConfirmBody {
+  margin: 0 0 18px 0;
+  font-size: 0.92rem;
+  color: #475569;
+  line-height: 1.5;
+}
+
+.ConfirmError {
+  width: 100%;
+  margin: 0 0 14px 0;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #b91c1c;
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-align: left;
+}
+
+.ConfirmActions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  width: 100%;
+}
+
+.DangerAction {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+  box-shadow: 0 4px 10px rgba(239, 68, 68, 0.25);
+}
+
+.DangerAction:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(239, 68, 68, 0.32);
+}
+
+.DangerAction:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* =========================================================================
+   Receptionist Section
+   ========================================================================= */
+.ReceptionistSection {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 18px;
+  padding: 24px 24px 22px 24px;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.ReceptionistSectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.ReceptionistHeading {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.ReceptionistMenuWrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.ReceptionistMenuToggle {
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1px solid transparent;
+  background: transparent;
+  color: #475569;
+  font-size: 1.3rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.ReceptionistMenuToggle:hover,
+.ReceptionistMenuToggle[aria-expanded="true"] {
+  background: #eef2ff;
+  color: #4338ca;
+  border-color: #c7d2fe;
+}
+
+.ReceptionistMenuDropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  z-index: 30;
+  min-width: 160px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.12);
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  animation: receptionistMenuFadeIn 0.12s ease-out;
+}
+
+@keyframes receptionistMenuFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.ReceptionistMenuItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: #1e293b;
+  font-size: 0.88rem;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.12s ease, color 0.12s ease;
+}
+
+.ReceptionistMenuItem:hover {
+  background: #eef2ff;
+  color: #4338ca;
+}
+
+.ReceptionistMenuItemDanger {
+  color: #b91c1c;
+}
+
+.ReceptionistMenuItemDanger:hover {
+  background: #fef2f2;
+  color: #991b1b;
+}
+
+.ReceptionistList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ReceptionistCard {
+  display: flex;
+  align-items: stretch;
+  gap: 18px;
+  padding: 18px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #f8fdfb 0%, #e8f9f1 100%);
+  border: 1px solid #d1fae5;
+  position: relative;
+}
+
+.ReceptionistCard::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 4px;
+  border-radius: 16px 0 0 16px;
+  background: linear-gradient(180deg, #10b981 0%, #059669 100%);
+}
+
+.ReceptionistCard .ReceptionistMenuWrapper {
+  flex-shrink: 0;
+  align-self: flex-start;
+}
+
+.ReceptionistAvatar {
+  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  box-shadow: 0 8px 18px rgba(16, 185, 129, 0.25);
+}
+
+.ReceptionistBody {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ReceptionistNameRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.ReceptionistName {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.ReceptionistBadge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 1px solid #a7f3d0;
+  background: #d1fae5;
+  color: #047857;
+}
+
+.ReceptionistContactGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+}
+
+.ReceptionistContactItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+  min-width: 0;
+}
+
+.ReceptionistContactItem:hover {
+  border-color: #6ee7b7;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(16, 185, 129, 0.08);
+}
+
+.ReceptionistContactIcon {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: #d1fae5;
+  color: #047857;
+  font-size: 0.95rem;
+}
+
+.ReceptionistContactText {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.ReceptionistContactLabel {
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #94a3b8;
+}
+
+.ReceptionistContactValue {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #1e293b;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ReceptionistEmpty {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px;
+  border-radius: 14px;
+  border: 1px dashed #cbd5e1;
+  background: #f8fafc;
+  flex-wrap: wrap;
+}
+
+.ReceptionistEmptyBody {
+  flex: 1;
+  min-width: 200px;
+}
+
+.AddReceptionistButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  box-shadow: 0 4px 10px rgba(16, 185, 129, 0.2);
+}
+
+.AddReceptionistButton:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(16, 185, 129, 0.28);
+}
+
+.ReceptionistEmptyIcon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #d1fae5;
+  color: #047857;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+}
+
+.ReceptionistEmptyTitle {
+  margin: 0 0 4px 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.ReceptionistEmptyText {
+  margin: 0;
+  font-size: 0.88rem;
+  color: #64748b;
+  line-height: 1.45;
+}
+
+@media (max-width: 640px) {
+  .ReceptionistCard {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .ReceptionistAvatar {
+    width: 56px;
+    height: 56px;
+    font-size: 1.2rem;
+  }
+
+  .ReceptionistContactGrid {
+    grid-template-columns: 1fr;
+  }
+}

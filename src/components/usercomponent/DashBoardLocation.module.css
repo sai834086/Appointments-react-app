@@ -1,0 +1,89 @@
+/* Location renders inside the unified search pill on desktop */
+.locationSection {
+  display: flex;
+  justify-content: flex-start;
+  padding: 0;
+  margin: 0;
+  height: 100%;
+}
+
+.locationContainer {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  padding: 10px 14px 10px 12px;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  transition: background 0.2s ease;
+  white-space: nowrap;
+  height: 100%;
+}
+
+.locationContainer:hover {
+  background: #f0f7ff;
+}
+
+.locationIcon {
+  color: #0066cc;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.locationText {
+  color: #0066cc;
+  font-size: 0.8rem;
+  font-weight: 600;
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.arrowIcon {
+  color: #94a3b8;
+  font-size: 0.7rem;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.locationContainer:hover .arrowIcon {
+  color: #0066cc;
+  transform: translateX(2px);
+}
+
+/* ── Tablet / Mobile: restore card styling when pill breaks ── */
+@media (max-width: 768px) {
+  .locationContainer {
+    padding: 7px 14px;
+    background: #ffffff;
+    border: 2px solid #e0e7ff;
+    border-radius: 50px;
+    box-shadow: 0 2px 8px rgba(0, 102, 204, 0.07);
+    width: 100%;
+  }
+
+  .locationContainer:hover {
+    border-color: #0066cc;
+    background: #f0f7ff;
+  }
+
+  .locationText {
+    font-size: 0.78rem;
+    max-width: none;
+    flex: 1;
+  }
+}
+
+@media (max-width: 480px) {
+  .locationText {
+    font-size: 0.72rem;
+  }
+}

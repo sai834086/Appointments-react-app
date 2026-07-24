@@ -1,0 +1,598 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
+/* ==========================================================================
+   Partner Login — clean, business-standard single card
+   ========================================================================== */
+
+.page {
+  --primary-600: #4f46e5;
+  --primary-700: #4338ca;
+  --primary-800: #3730a3;
+  --primary-50: #eef2ff;
+  --gray-900: #101828;
+  --gray-700: #344054;
+  --gray-500: #667085;
+  --gray-300: #d0d5dd;
+  --gray-200: #e4e7ec;
+  --gray-50: #f9fafb;
+  --danger-600: #d92d20;
+  --danger-300: #fda29b;
+  --danger-50: #fef3f2;
+  --warning-600: #b54708;
+  --success-600: #039855;
+  --radius: 8px;
+  --focus-ring: 0 0 0 4px rgba(79, 70, 229, 0.12);
+  --focus-ring-danger: 0 0 0 4px rgba(217, 45, 32, 0.12);
+}
+
+/* Scoped box-sizing (a bare `*` selector would leak app-wide). */
+.page,
+.page *,
+.page *::before,
+.page *::after {
+  box-sizing: border-box;
+}
+
+.page {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1rem;
+  background: var(--gray-50);
+  font-family:
+    "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+    "Helvetica Neue", sans-serif;
+  color: var(--gray-900);
+  -webkit-font-smoothing: antialiased;
+}
+
+.container {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* ---------- Logo ---------- */
+
+.logoRow {
+  display: flex;
+  justify-content: center;
+}
+
+.logoMark {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: var(--primary-600);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.1);
+}
+
+/* ---------- Card ---------- */
+
+.card {
+  background: #fff;
+  border: 1px solid var(--gray-200);
+  border-radius: 12px;
+  box-shadow:
+    0 1px 2px rgba(16, 24, 40, 0.06),
+    0 1px 3px rgba(16, 24, 40, 0.1);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  animation: cardIn 0.25s ease-out;
+}
+
+@keyframes cardIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---------- Headings ---------- */
+
+.formHeader {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.heading {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--gray-900);
+  margin: 0;
+}
+
+.subheading {
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: var(--gray-500);
+  margin: 0;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.stepText {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--primary-600);
+  margin: 0;
+}
+
+/* ---------- Back button ---------- */
+
+.backButton {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--gray-500);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  padding: 0;
+  font-family: inherit;
+  transition: color 0.15s ease;
+}
+
+.backButton:hover {
+  color: var(--gray-900);
+}
+
+/* ---------- Form + fields ---------- */
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--gray-700);
+}
+
+.input {
+  width: 100%;
+  padding: 0.625rem 0.875rem;
+  border: 1px solid var(--gray-300);
+  border-radius: var(--radius);
+  background: #fff;
+  font-size: 0.9375rem;
+  font-family: inherit;
+  color: var(--gray-900);
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.05);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.input::placeholder {
+  color: var(--gray-500);
+}
+
+.input:hover:not(:focus):not(:disabled) {
+  border-color: var(--gray-500);
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--primary-600);
+  box-shadow: var(--focus-ring);
+}
+
+.input:disabled {
+  background: var(--gray-50);
+  color: var(--gray-500);
+  cursor: not-allowed;
+}
+
+.inputInvalid {
+  border-color: var(--danger-300);
+}
+
+.inputInvalid:focus {
+  border-color: var(--danger-600);
+  box-shadow: var(--focus-ring-danger);
+}
+
+.inputBox {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.passwordInput {
+  padding-right: 2.5rem;
+}
+
+.togglePassword {
+  position: absolute;
+  right: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.35rem;
+  border-radius: 6px;
+  color: var(--gray-500);
+  transition: color 0.15s ease;
+}
+
+.togglePassword:hover {
+  color: var(--gray-900);
+}
+
+.fieldError {
+  font-size: 0.8125rem;
+  font-weight: 400;
+  color: var(--danger-600);
+  margin: 0;
+}
+
+.capsHint {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--warning-600);
+}
+
+/* ---------- Remember me / forgot password row ---------- */
+
+.optionsRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.rememberLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--gray-700);
+  cursor: pointer;
+  user-select: none;
+}
+
+.rememberCheckbox {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: var(--primary-600);
+  cursor: pointer;
+}
+
+.inlineLink {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--primary-600);
+  transition: color 0.15s ease;
+}
+
+.inlineLink:hover:not(:disabled) {
+  color: var(--primary-800);
+  text-decoration: underline;
+}
+
+.inlineLink:disabled {
+  color: var(--gray-300);
+  cursor: not-allowed;
+}
+
+/* ---------- OTP ---------- */
+
+.otpBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.otpInputs {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.otpBox {
+  width: 44px;
+  height: 48px;
+  text-align: center;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--gray-900);
+  border: 1px solid var(--gray-300);
+  border-radius: var(--radius);
+  background: #fff;
+  font-family: inherit;
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.05);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.otpBox:hover:not(:disabled) {
+  border-color: var(--gray-500);
+}
+
+.otpBox:focus {
+  outline: none;
+  border-color: var(--primary-600);
+  box-shadow: var(--focus-ring);
+}
+
+.otpBox:disabled {
+  background: var(--gray-50);
+  cursor: not-allowed;
+}
+
+.otpBoxError {
+  border-color: var(--danger-300);
+}
+
+.otpBoxError:focus {
+  border-color: var(--danger-600);
+  box-shadow: var(--focus-ring-danger);
+}
+
+.mutedText {
+  font-size: 0.875rem;
+  color: var(--gray-500);
+  margin: 0;
+}
+
+/* ---------- Password checklist + mismatch popovers ---------- */
+
+/* Wraps a password input + its floating popover so the popover overlays
+   instead of pushing the next field down. */
+.passwordFieldWrapper {
+  position: relative;
+}
+
+/* Only shows the requirements that AREN'T met yet — shrinks as the
+   password becomes valid. */
+.passwordChecklist {
+  position: absolute;
+  top: calc(100% + 0.4rem);
+  left: 0;
+  z-index: 30;
+  width: 300px;
+  max-width: calc(100vw - 80px);
+  list-style: none;
+  margin: 0;
+  padding: 0.7rem 0.85rem;
+  background: #fff;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius);
+  box-shadow:
+    0 4px 6px -2px rgba(16, 24, 40, 0.03),
+    0 12px 16px -4px rgba(16, 24, 40, 0.08);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.4rem 0.6rem;
+}
+
+.checkPending {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--gray-500);
+}
+
+.checkDot {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  min-width: 5px;
+  border-radius: 50%;
+  background: var(--gray-300);
+}
+
+.popoverError {
+  position: absolute;
+  top: calc(100% + 0.4rem);
+  left: 0;
+  z-index: 25;
+  width: max-content;
+  max-width: calc(100vw - 80px);
+  padding: 0.45rem 0.7rem;
+  background: #fff;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius);
+  box-shadow:
+    0 4px 6px -2px rgba(16, 24, 40, 0.03),
+    0 12px 16px -4px rgba(16, 24, 40, 0.08);
+  color: var(--danger-600);
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+
+/* ---------- Error banner ---------- */
+
+.errorBanner {
+  width: 100%;
+  padding: 0.7rem 0.875rem;
+  background: var(--danger-50);
+  border: 1px solid var(--danger-300);
+  border-radius: var(--radius);
+  color: var(--danger-600);
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.45;
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---------- Button ---------- */
+
+.button {
+  width: 100%;
+  padding: 0.625rem 1.25rem;
+  background: var(--primary-600);
+  color: #fff;
+  border: 1px solid var(--primary-600);
+  border-radius: var(--radius);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.05);
+  transition: background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.button:hover:not(:disabled) {
+  background: var(--primary-700);
+  border-color: var(--primary-700);
+}
+
+.button:active:not(:disabled) {
+  background: var(--primary-800);
+  border-color: var(--primary-800);
+}
+
+.button:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.spinner {
+  width: 15px;
+  height: 15px;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.75s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ---------- Success screen ---------- */
+
+.successBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1.1rem;
+}
+
+.successIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #ecfdf3;
+  border: 1px solid #a6f4c5;
+  color: var(--success-600);
+}
+
+/* ---------- Footer ---------- */
+
+.footerText {
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--gray-500);
+  margin: 0;
+}
+
+.footerLink {
+  color: var(--primary-600);
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.footerLink:hover {
+  color: var(--primary-800);
+  text-decoration: underline;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 480px) {
+  .page {
+    padding: 1.5rem 1rem;
+  }
+
+  .card {
+    padding: 1.5rem 1.25rem;
+  }
+
+  .otpBox {
+    width: 40px;
+    height: 46px;
+  }
+
+  .optionsRow {
+    flex-wrap: wrap;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .errorBanner {
+    animation: none;
+  }
+}

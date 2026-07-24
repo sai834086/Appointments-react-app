@@ -1,0 +1,182 @@
+/* ----------------------------------------------------------------------
+   PartnerInfoPage.module.css
+   Shared styling for the Help, Contact Us, and Settings landing pages.
+   Built around the same hero + card-grid pattern as the rest of the
+   partner sub-app so everything feels cohesive.
+   ---------------------------------------------------------------------- */
+
+.Container {
+  min-height: 100vh;
+  background: #ffffff;
+  color: #0f172a;
+}
+
+.Body {
+  /* Content flows full-width inside the layout column so info pages sit
+     flush against the sidebar instead of centered on wide screens. */
+  max-width: none;
+  margin: 0;
+  padding: 28px 32px 56px;
+}
+
+/* Hero block at the top of each info page */
+.Hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 20px;
+  padding: 24px 28px;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+  margin-bottom: 28px;
+  overflow: hidden;
+}
+
+/* Hero is intentionally kept pure white — no tinted decorations. */
+
+.HeroIcon {
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+  border-radius: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #4f46e5;
+  background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+  border: 1px solid #c7d2fe;
+}
+
+.HeroTitle {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+  color: #0f172a;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
+.HeroSubtitle {
+  margin: 6px 0 0;
+  font-size: 14.5px;
+  color: #475569;
+  line-height: 1.5;
+}
+
+/* Cards grid */
+.CardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 18px;
+}
+
+.Card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.Card:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 1px 2px rgba(15, 23, 42, 0.04),
+    0 12px 28px -14px rgba(15, 23, 42, 0.14);
+  border-color: #d1d5db;
+}
+
+.CardIcon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #6366f1;
+  background: #eef2ff;
+  border: 1px solid #e0e7ff;
+}
+
+.CardTitle {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.CardBody {
+  margin: 0;
+  font-size: 13.5px;
+  color: #475569;
+  line-height: 1.55;
+}
+
+.CardLink {
+  align-self: flex-start;
+  margin-top: 4px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #4f46e5;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.16s ease;
+}
+
+.CardLink:hover {
+  border-bottom-color: #4f46e5;
+}
+
+.CardCta {
+  align-self: flex-start;
+  margin-top: 4px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  transition:
+    transform 0.14s ease,
+    box-shadow 0.16s ease;
+}
+
+.CardCta:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(79, 70, 229, 0.25);
+}
+
+.CardCtaDisabled {
+  align-self: flex-start;
+  margin-top: 4px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  background: #f1f5f9;
+  color: #94a3b8;
+  font-size: 13px;
+  font-weight: 600;
+  border: 1px dashed #cbd5e1;
+}
+
+@media (max-width: 640px) {
+  .Body {
+    padding: 20px 16px 40px;
+  }
+  .Hero {
+    padding: 20px;
+    border-radius: 16px;
+  }
+  .HeroTitle {
+    font-size: 21px;
+  }
+}
