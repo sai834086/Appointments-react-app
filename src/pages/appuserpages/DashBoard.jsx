@@ -1,13 +1,24 @@
-﻿import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import styles from "./DashBoard.module.css";
+import UserLayout from "./UserLayout";
 import { getAllPartners } from "../../api/userService";
 import { getUserDetails } from "../../api/userService";
 import { reverseGeocode } from "../../api/authService";
 import PartnersList from "../../components/usercomponent/PartnersList";
 import SearchAddress from "../../components/usercomponent/SearchAddress";
 import { useNavigate, useLocation } from "react-router-dom";
+import {
+  LayoutGrid,
+  Hospital,
+  Sparkles,
+  UtensilsCrossed,
+  Stethoscope,
+  Dumbbell,
+} from "lucide-react";
 
-// â”€â”€ Category config with emojis â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// -- Category config -------------------------------------------------------
+// Icons are lucide components rather than emoji: the literals that used to
+// live here were saved double-encoded and rendered as mojibake.
 const ALL_CATEGORIES = [
   "All",
   "Hospital",
@@ -18,15 +29,15 @@ const ALL_CATEGORIES = [
 ];
 
 const CATEGORY_ICONS = {
-  All: "â­",
-  Hospital: "ðŸ¥",
-  "Beauty & Spa": "ðŸ’†",
-  Restaurant: "ðŸ½ï¸",
-  Clinic: "ðŸ©º",
-  Gym: "ðŸ’ª",
+  All: LayoutGrid,
+  Hospital: Hospital,
+  "Beauty & Spa": Sparkles,
+  Restaurant: UtensilsCrossed,
+  Clinic: Stethoscope,
+  Gym: Dumbbell,
 };
 
-// â”€â”€ Greeting by time of day â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// -- Greeting by time of day ----------------------------------------------
 function getGreeting() {
   const hour = new Date().getHours();
   if (hour < 12) return "Good morning";
@@ -292,7 +303,12 @@ export default function DashBoard() {
                 onClick={() => setSelectedCategory(cat)}
                 aria-pressed={activeCategory === cat}
               >
-                <span className={styles.chipEmoji}>{CATEGORY_ICONS[cat]}</span>
+                <span className={styles.chipEmoji} aria-hidden="true">
+                  {(() => {
+                    const CatIcon = CATEGORY_ICONS[cat] || LayoutGrid;
+                    return <CatIcon size={18} strokeWidth={2} />;
+                  })()}
+                </span>
                 <span className={styles.chipLabel}>{cat}</span>
               </button>
             ))}

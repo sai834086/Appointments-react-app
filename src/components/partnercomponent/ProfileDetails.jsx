@@ -2,6 +2,82 @@ import styles from "./ProfileDetails.module.css";
 import { useState, useContext } from "react";
 import { PartnerAuthContext } from "../../pages/patneruserpages/context/PartnerAuthContext";
 import { updatePartner } from "../../api/authService";
+import {
+  Pencil,
+  Check,
+  X,
+  BadgeCheck,
+  ShieldAlert,
+  Lightbulb,
+} from "lucide-react";
+
+/** One editable field: shows the value with an edit affordance, or an input. */
+function EditableField({
+  label,
+  value,
+  draft,
+  onDraftChange,
+  editing,
+  onEdit,
+  onCancel,
+  onSave,
+  error,
+  type = "text",
+  placeholder,
+}) {
+  return (
+    <div className={`${styles.field} ${editing ? styles.fieldEditing : ""}`}>
+      <span className={styles.fieldLabel}>{label}</span>
+
+      {editing ? (
+        <>
+          <input
+            className={styles.input}
+            type={type}
+            value={draft}
+            placeholder={placeholder}
+            onChange={(e) => onDraftChange(e.target.value)}
+            autoFocus
+          />
+          <div className={styles.fieldActions}>
+            <button
+              type="button"
+              className={styles.saveButton}
+              onClick={onSave}
+              aria-label={`Save ${label}`}
+            >
+              <Check size={15} strokeWidth={2.5} aria-hidden="true" />
+              Save
+            </button>
+            <button
+              type="button"
+              className={styles.iconButton}
+              onClick={onCancel}
+              aria-label={`Cancel editing ${label}`}
+            >
+              <X size={15} strokeWidth={2.25} aria-hidden="true" />
+            </button>
+          </div>
+        </>
+      ) : (
+        <div className={styles.fieldValueRow}>
+          <span className={styles.fieldValue}>{value || "Not set"}</span>
+          <button
+            type="button"
+            className={styles.iconButton}
+            onClick={onEdit}
+            aria-label={`Edit ${label}`}
+            title={`Edit ${label}`}
+          >
+            <Pencil size={14} strokeWidth={2.25} aria-hidden="true" />
+          </button>
+        </div>
+      )}
+
+      {error && <p className={styles.fieldError}>{error}</p>}
+    </div>
+  );
+}
 
 function ProfileDetails() {
   const { partnerProfile, setPartnerProfile, updateProfile } =
@@ -288,362 +364,197 @@ function ProfileDetails() {
     }
   };
 
+  const displayName =
+    `${partnerProfile?.firstName ?? ""} ${partnerProfile?.lastName ?? ""}`.trim() ||
+    "Your profile";
+  const initials =
+    `${(partnerProfile?.firstName || " ")[0]}${(partnerProfile?.lastName || " ")[0]}`
+      .trim()
+      .toUpperCase() || "P";
+  const addressLine =
+    [
+      `${partnerProfile?.buildingNo || ""} ${partnerProfile?.street || ""}`.trim(),
+      [partnerProfile?.city, partnerProfile?.state, partnerProfile?.zipCode]
+        .filter(Boolean)
+        .join(", "),
+      partnerProfile?.country,
+    ]
+      .filter(Boolean)
+      .join(" · ") || "Not specified";
+  const status = partnerProfile?.status || "Unknown";
+  const verified = Boolean(partnerProfile?.isVerified);
+
   return (
     <div className={styles.profileCard}>
-      <div className={styles.cardHeader}>
-        <h2 className={styles.cardTitle}>Profile Information</h2>
-        <p className={styles.cardSubtitle}>
-          Update your personal details and contact information
-        </p>
-      </div>
-
-      <div className={styles.profileInfo}>
-        {/* Personal Information Section */}
-        <div className={styles.section}>
-          <div className={styles.sectionHeader}>
-            <h3 className={styles.sectionTitle}>
-              <span className={styles.sectionIcon}>👤</span>
-              Personal Information
-            </h3>
-          </div>
-          <div className={styles.sectionContent}>
-            <div className={styles.profileItem}>
-              <label className={styles.fieldLabel}>First Name</label>
-              <div className={styles.fieldContent}>
-                {update === 0 ? (
-                  <div className={styles.editMode}>
-                    <input
-                      className={styles.inputBox}
-                      value={firstName}
-                      onChange={(e) => setFirstName(e.target.value)}
-                      placeholder="Enter first name"
-                    />
-                    <div className={styles.actionButtons}>
-                      <button
-                        className={styles.saveButton}
-                        onClick={() => handleSaveFirstName()}
-                      >
-                        Save Changes
-                      </button>
-                      <button
-                        className={styles.cancelButton}
-                        onClick={() => setUpdate(-1)}
-                      >
-                        Cancel
-                      </button>
-                    </div>
-                  </div>
-                ) : (
-                  <div className={styles.viewMode}>
-                    <span className={styles.fieldValue}>
-                      {partnerProfile?.firstName || "Not set"}
-                    </span>
-                    <button
-                      className={styles.editButton}
-                      onClick={() => setUpdate(0)}
-                    >
-                      <span className={styles.editIcon}>✏️</span>
-                      Edit
-                    </button>
-                  </div>
-                )}
-                {firstNameError && (
-                  <div className={styles.fieldError}>{firstNameError}</div>
-                )}
-              </div>
-            </div>
-
-            <div className={styles.profileItem}>
-              <label className={styles.fieldLabel}>Last Name</label>
-              <div className={styles.fieldContent}>
-                {update === 1 ? (
-                  <div className={styles.editMode}>
-                    <input
-                      className={styles.inputBox}
-                      value={lastName}
-                      onChange={(e) => setLastName(e.target.value)}
-                      placeholder="Enter last name"
-                    />
-                    <div className={styles.actionButtons}>
-                      <button
-                        className={styles.saveButton}
-                        onClick={() => handleSaveLastName()}
-                      >
-                        Save Changes
-                      </button>
-                      <button
-                        className={styles.cancelButton}
-                        onClick={() => setUpdate(-1)}
-                      >
-                        Cancel
-                      </button>
-                    </div>
-                  </div>
-                ) : (
-                  <div className={styles.viewMode}>
-                    <span className={styles.fieldValue}>
-                      {partnerProfile?.lastName || "Not set"}
-                    </span>
-                    <button
-                      className={styles.editButton}
-                      onClick={() => setUpdate(1)}
-                    >
-                      <span className={styles.editIcon}>✏️</span>
-                      Edit
-                    </button>
-                  </div>
-                )}
-                {lastNameError && (
-                  <div className={styles.fieldError}>{lastNameError}</div>
-                )}
-              </div>
-            </div>
-          </div>
+      {/* ---------- Hero header ---------- */}
+      <header className={styles.hero}>
+        <span className={styles.avatar} aria-hidden="true">
+          {initials}
+        </span>
+        <div className={styles.heroText}>
+          <h2 className={styles.heroName}>{displayName}</h2>
+          <p className={styles.heroMeta}>
+            {[partnerProfile?.businessName, partnerProfile?.email]
+              .filter(Boolean)
+              .join(" · ") || "Complete your profile below"}
+          </p>
         </div>
-
-        {/* Contact Information Section */}
-        <div className={styles.section}>
-          <div className={styles.sectionHeader}>
-            <h3 className={styles.sectionTitle}>
-              <span className={styles.sectionIcon}>📱</span>
-              Contact Information
-            </h3>
-          </div>
-          <div className={styles.sectionContent}>
-            <div className={styles.profileItem}>
-              <label className={styles.fieldLabel}>Email Address</label>
-              <div className={styles.fieldContent}>
-                {update === 2 ? (
-                  <div className={styles.editMode}>
-                    <input
-                      className={styles.inputBox}
-                      type="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      placeholder="Enter email address"
-                    />
-                    <div className={styles.actionButtons}>
-                      <button
-                        className={styles.saveButton}
-                        onClick={() => handleSaveEmail()}
-                      >
-                        Save Changes
-                      </button>
-                      <button
-                        className={styles.cancelButton}
-                        onClick={() => setUpdate(-1)}
-                      >
-                        Cancel
-                      </button>
-                    </div>
-                  </div>
-                ) : (
-                  <div className={styles.viewMode}>
-                    <span className={styles.fieldValue}>
-                      {partnerProfile?.email || "Not set"}
-                    </span>
-                    <button
-                      className={styles.editButton}
-                      onClick={() => setUpdate(2)}
-                    >
-                      <span className={styles.editIcon}>✏️</span>
-                      Edit
-                    </button>
-                  </div>
-                )}
-                {emailError && (
-                  <div className={styles.fieldError}>{emailError}</div>
-                )}
-              </div>
-            </div>
-
-            <div className={styles.profileItem}>
-              <label className={styles.fieldLabel}>Phone Number</label>
-              <div className={styles.fieldContent}>
-                {update === 3 ? (
-                  <div className={styles.editMode}>
-                    <input
-                      className={styles.inputBox}
-                      type="tel"
-                      value={phoneNumber}
-                      onChange={(e) => setPhoneNumber(e.target.value)}
-                      placeholder="Enter phone number"
-                    />
-                    <div className={styles.actionButtons}>
-                      <button
-                        className={styles.saveButton}
-                        onClick={() => handleSavePhoneNumber()}
-                      >
-                        Save Changes
-                      </button>
-                      <button
-                        className={styles.cancelButton}
-                        onClick={() => setUpdate(-1)}
-                      >
-                        Cancel
-                      </button>
-                    </div>
-                  </div>
-                ) : (
-                  <div className={styles.viewMode}>
-                    <span className={styles.fieldValue}>
-                      {phoneNumber || partnerProfile?.phoneNumber || "Not set"}
-                    </span>
-                    <button
-                      className={styles.editButton}
-                      onClick={() => setUpdate(3)}
-                    >
-                      <span className={styles.editIcon}>✏️</span>
-                      Edit
-                    </button>
-                  </div>
-                )}
-                {phoneError && (
-                  <div className={styles.fieldError}>{phoneError}</div>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Business Information Section */}
-        <div className={styles.section}>
-          <div className={styles.sectionHeader}>
-            <h3 className={styles.sectionTitle}>
-              <span className={styles.sectionIcon}>🏢</span>
-              Business Information
-            </h3>
-            <span className={styles.readOnlyBadge}>Read Only</span>
-          </div>
-          <div className={styles.sectionContent}>
-            <div className={styles.readOnlyGrid}>
-              <div className={styles.readOnlyItem}>
-                <label className={styles.readOnlyLabel}>Business Type</label>
-                <span className={styles.readOnlyValue}>
-                  {partnerProfile?.businessType || "Not specified"}
-                </span>
-              </div>
-              <div className={styles.readOnlyItem}>
-                <label className={styles.readOnlyLabel}>Business Name</label>
-                <span className={styles.readOnlyValue}>
-                  {partnerProfile?.businessName || "Not specified"}
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Address Information Section */}
-        <div className={styles.section}>
-          <div className={styles.sectionHeader}>
-            <h3 className={styles.sectionTitle}>
-              <span className={styles.sectionIcon}>📍</span>
-              Address Information
-            </h3>
-            <span className={styles.readOnlyBadge}>Read Only</span>
-          </div>
-          <div className={styles.sectionContent}>
-            <div className={styles.readOnlyGrid}>
-              <div className={styles.readOnlyItem}>
-                <label className={styles.readOnlyLabel}>Building No</label>
-                <span className={styles.readOnlyValue}>
-                  {partnerProfile?.buildingNo || "Not specified"}
-                </span>
-              </div>
-              <div className={styles.readOnlyItem}>
-                <label className={styles.readOnlyLabel}>Street</label>
-                <span className={styles.readOnlyValue}>
-                  {partnerProfile?.street || "Not specified"}
-                </span>
-              </div>
-              <div className={styles.readOnlyItem}>
-                <label className={styles.readOnlyLabel}>City</label>
-                <span className={styles.readOnlyValue}>
-                  {partnerProfile?.city || "Not specified"}
-                </span>
-              </div>
-              <div className={styles.readOnlyItem}>
-                <label className={styles.readOnlyLabel}>State</label>
-                <span className={styles.readOnlyValue}>
-                  {partnerProfile?.state || "Not specified"}
-                </span>
-              </div>
-              <div className={styles.readOnlyItem}>
-                <label className={styles.readOnlyLabel}>Country</label>
-                <span className={styles.readOnlyValue}>
-                  {partnerProfile?.country || "Not specified"}
-                </span>
-              </div>
-              <div className={styles.readOnlyItem}>
-                <label className={styles.readOnlyLabel}>Zip Code</label>
-                <span className={styles.readOnlyValue}>
-                  {partnerProfile?.zipCode || "Not specified"}
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Account Status Section */}
-        <div className={styles.section}>
-          <div className={styles.sectionHeader}>
-            <h3 className={styles.sectionTitle}>
-              <span className={styles.sectionIcon}>⚙️</span>
-              Account Status
-            </h3>
-            <span className={styles.readOnlyBadge}>Read Only</span>
-          </div>
-          <div className={styles.sectionContent}>
-            <div className={styles.readOnlyGrid}>
-              <div className={styles.readOnlyItem}>
-                <label className={styles.readOnlyLabel}>Account Status</label>
-                <span
-                  className={`${styles.readOnlyValue} ${styles.statusValue}`}
-                >
-                  <span className={styles.statusIcon}>
-                    {partnerProfile?.status === "ACTIVE"
-                      ? "✅"
-                      : partnerProfile?.status === "INACTIVE"
-                      ? "❌"
-                      : partnerProfile?.status === "PENDING"
-                      ? "⏳"
-                      : "❓"}
-                  </span>
-                  {partnerProfile?.status || "Unknown"}
-                </span>
-              </div>
-              <div className={styles.readOnlyItem}>
-                <label className={styles.readOnlyLabel}>
-                  Verification Status
-                </label>
-                <span
-                  className={`${styles.readOnlyValue} ${styles.verificationValue}`}
-                >
-                  <span className={styles.statusIcon}>
-                    {partnerProfile?.isVerified ? "✅" : "❌"}
-                  </span>
-                  {partnerProfile?.isVerified ? "Verified" : "Not Verified"}
-                </span>
-              </div>
-            </div>
-
-            {/* Account Status Info Note */}
-            {partnerProfile?.status === "INACTIVE" && (
-              <div className={styles.infoNote}>
-                <div className={styles.infoIcon}>💡</div>
-                <div className={styles.infoContent}>
-                  <h4 className={styles.infoTitle}>Activate Your Account</h4>
-                  <p className={styles.infoText}>
-                    To make your account status active, please add at least one
-                    property or ensure you have an active property in your
-                    portfolio.
-                  </p>
-                </div>
-              </div>
+        <div className={styles.heroBadges}>
+          <span
+            className={`${styles.badge} ${
+              status === "ACTIVE" ? styles.badgeSuccess : styles.badgeWarning
+            }`}
+          >
+            <span className={styles.badgeDot} aria-hidden="true" />
+            {status}
+          </span>
+          <span
+            className={`${styles.badge} ${
+              verified ? styles.badgeAccent : styles.badgeMuted
+            }`}
+          >
+            {verified ? (
+              <BadgeCheck size={13} strokeWidth={2.25} aria-hidden="true" />
+            ) : (
+              <ShieldAlert size={13} strokeWidth={2.25} aria-hidden="true" />
             )}
+            {verified ? "Verified" : "Not verified"}
+          </span>
+        </div>
+      </header>
+
+
+      {/* ---------- Editable details ---------- */}
+      <section className={styles.section}>
+        <h3 className={styles.sectionTitle}>Personal details</h3>
+        <div className={styles.fieldGrid}>
+          <EditableField
+            label="First name"
+            value={partnerProfile?.firstName}
+            draft={firstName}
+            onDraftChange={setFirstName}
+            editing={update === 0}
+            onEdit={() => {
+              setFirstName(partnerProfile?.firstName ?? "");
+              setFirstNameError(null);
+              setUpdate(0);
+            }}
+            onCancel={() => setUpdate(-1)}
+            onSave={handleSaveFirstName}
+            error={firstNameError}
+            placeholder="Enter first name"
+          />
+          <EditableField
+            label="Last name"
+            value={partnerProfile?.lastName}
+            draft={lastName}
+            onDraftChange={setLastName}
+            editing={update === 1}
+            onEdit={() => {
+              setLastName(partnerProfile?.lastName ?? "");
+              setLastNameError(null);
+              setUpdate(1);
+            }}
+            onCancel={() => setUpdate(-1)}
+            onSave={handleSaveLastName}
+            error={lastNameError}
+            placeholder="Enter last name"
+          />
+          <EditableField
+            label="Email address"
+            value={partnerProfile?.email}
+            draft={email}
+            onDraftChange={setEmail}
+            editing={update === 2}
+            onEdit={() => {
+              setEmail(partnerProfile?.email ?? "");
+              setEmailError(null);
+              setUpdate(2);
+            }}
+            onCancel={() => setUpdate(-1)}
+            onSave={handleSaveEmail}
+            error={emailError}
+            type="email"
+            placeholder="Enter email address"
+          />
+          <EditableField
+            label="Phone number"
+            value={phoneNumber || partnerProfile?.phoneNumber}
+            draft={phoneNumber}
+            onDraftChange={setPhoneNumber}
+            editing={update === 3}
+            onEdit={() => {
+              setPhoneNumber(partnerProfile?.phoneNumber ?? "");
+              setPhoneError(null);
+              setUpdate(3);
+            }}
+            onCancel={() => setUpdate(-1)}
+            onSave={handleSavePhoneNumber}
+            error={phoneError}
+            type="tel"
+            placeholder="Enter phone number"
+          />
+        </div>
+      </section>
+
+      {/* ---------- Business (read only) ---------- */}
+      <section className={styles.section}>
+        <h3 className={styles.sectionTitle}>
+          Business
+          <span className={styles.readOnlyTag}>Read only</span>
+        </h3>
+        <div className={styles.readOnlyList}>
+          <div className={styles.readOnlyRow}>
+            <span className={styles.readOnlyLabel}>Business name</span>
+            <span className={styles.readOnlyValue}>
+              {partnerProfile?.businessName || "Not specified"}
+            </span>
+          </div>
+          <div className={styles.readOnlyRow}>
+            <span className={styles.readOnlyLabel}>Business type</span>
+            <span className={styles.readOnlyValue}>
+              {partnerProfile?.businessType || "Not specified"}
+            </span>
+          </div>
+          <div className={styles.readOnlyRow}>
+            <span className={styles.readOnlyLabel}>Address</span>
+            <span className={styles.readOnlyValue}>{addressLine}</span>
           </div>
         </div>
-      </div>
+      </section>
+
+      {/* ---------- Account (read only) ---------- */}
+      <section className={styles.section}>
+        <h3 className={styles.sectionTitle}>
+          Account
+          <span className={styles.readOnlyTag}>Read only</span>
+        </h3>
+        <div className={styles.readOnlyList}>
+          <div className={styles.readOnlyRow}>
+            <span className={styles.readOnlyLabel}>Account status</span>
+            <span className={styles.readOnlyValue}>{status}</span>
+          </div>
+          <div className={styles.readOnlyRow}>
+            <span className={styles.readOnlyLabel}>Verification</span>
+            <span className={styles.readOnlyValue}>
+              {verified ? "Verified" : "Not verified"}
+            </span>
+          </div>
+        </div>
+
+        {partnerProfile?.status === "INACTIVE" && (
+          <div className={styles.infoNote}>
+            <Lightbulb size={17} strokeWidth={2} aria-hidden="true" />
+            <div>
+              <p className={styles.infoTitle}>Activate your account</p>
+              <p className={styles.infoText}>
+                Add at least one property, or make sure one of your properties is
+                active, to switch your account to active.
+              </p>
+            </div>
+          </div>
+        )}
+      </section>
     </div>
   );
 }

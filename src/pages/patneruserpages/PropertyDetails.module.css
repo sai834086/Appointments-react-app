@@ -1,11 +1,20 @@
 /* =========================================================================
-   Layout
+   Property details
+   Shares the visual language of the partner dashboard and profile pages:
+   hairline #eef0f4 borders, 12–18px radii, a single blue accent (#1a4f9c),
+   and weights capped at 600.
    ========================================================================= */
+
 .MainContainer {
   min-height: 100vh;
   background: #ffffff;
   display: flex;
   flex-direction: column;
+  color: #111827;
+  /* Contain the column: without this, a wide child (the summary grid) can
+     push the whole page past the viewport instead of shrinking. */
+  min-width: 0;
+  overflow-x: hidden;
 }
 
 .HeaderContainer {
@@ -13,190 +22,1069 @@
   top: 0;
   z-index: 50;
   background: #ffffff;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 
 .BodyContainer {
   flex: 1;
-  /* Full-width inside the layout column so content sits flush against
-     the sidebar instead of centered. */
-  max-width: none;
   width: 100%;
+  /* Full-width inside the layout column so the page sits flush against the
+     sidebar, matching the dashboard and the other partner pages.
+     border-box matters: this project has no global reset, so width:100%
+     plus horizontal padding would otherwise overflow the column. */
+  box-sizing: border-box;
+  max-width: none;
   margin: 0;
-  padding: 28px 32px 64px;
+  padding: 22px 32px 56px;
   display: flex;
   flex-direction: column;
-  gap: 28px;
+  gap: 16px;
+  min-width: 0;
 }
 
-@media (max-width: 768px) {
-  .BodyContainer {
-    padding: 20px 16px 48px 16px;
-    gap: 20px;
-  }
+.BodyContainer * {
+  box-sizing: border-box;
 }
 
-/* =========================================================================
-   Top bar / back link
-   ========================================================================= */
-.TopBar {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-}
+/* ---------- Back ---------- */
 
 .BackButton {
-  background: transparent;
-  border: 1px solid #e2e8f0;
-  color: #4338ca;
-  padding: 8px 14px;
-  border-radius: 999px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
+  align-self: flex-start;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  transition: all 0.15s ease;
+  gap: 7px;
+  padding: 6px 12px 6px 8px;
+  border: none;
+  border-radius: 9px;
+  background: transparent;
+  color: #667085;
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
 }
 
 .BackButton:hover {
-  background: #eef2ff;
-  border-color: #c7d2fe;
+  background: #f8fafc;
+  color: #344054;
 }
 
-/* =========================================================================
-   Hero card
-   ========================================================================= */
-.HeroCard {
-  background: linear-gradient(135deg, #ffffff 0%, #f5f3ff 100%);
-  border-radius: 20px;
-  padding: 28px 32px;
-  box-shadow: 0 10px 30px rgba(79, 70, 229, 0.08);
-  border: 1px solid rgba(167, 139, 250, 0.2);
+/* ---------- Shared with ManageReceptionists ----------
+   That page imports this same stylesheet for its header, so these classes
+   must stay even though PropertyDetails itself no longer uses them. */
+
+.TopBar {
   display: flex;
-  flex-direction: column;
-  gap: 24px;
+  align-items: center;
+  gap: 10px;
+}
+
+.BackLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 12px 6px 8px;
+  border: none;
+  border-radius: 9px;
+  background: transparent;
+  color: #667085;
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.BackLink:hover {
+  background: #f8fafc;
+  color: #344054;
 }
 
 .HeroHeader {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 24px;
+  gap: 16px;
   flex-wrap: wrap;
 }
 
 .HeroHeading {
-  flex: 1 1 auto;
-  min-width: 260px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
+  min-width: 0;
 }
 
-.EyebrowRow {
+.PageTitle {
+  margin: 0;
+  font-size: 21px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: #0f172a;
+  line-height: 1.2;
+}
+
+.SubLine {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin: 5px 0 0;
+  font-size: 13.5px;
+  font-weight: 400;
+  color: #667085;
+}
+
+.SubAccent {
+  font-weight: 500;
+  color: #1a4f9c;
+}
+
+.SubDot {
+  color: #cbd5e1;
+}
+
+.SubText {
+  color: #98a2b3;
+}
+
+.EmptyIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  line-height: 1;
+  color: #98a2b3;
+}
+
+/* ---------- Hero ---------- */
+
+.HeroCard {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 20px;
+  background: #fbfcfe;
+  border: 1px solid #eef0f4;
+  border-radius: 18px;
+}
+
+.HeroIcon {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 54px;
+  height: 54px;
+  border-radius: 14px;
+  background: #dbeafe;
+  color: #1a4f9c;
+}
+
+.HeroText {
+  flex: 1;
+  min-width: 0;
+}
+
+.HeroTitleRow {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-bottom: 4px;
-}
-
-.Eyebrow {
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: #6366f1;
-}
-
-.StatusPill {
-  color: #fff;
-  font-size: 11px;
-  font-weight: 700;
-  padding: 4px 10px;
-  border-radius: 999px;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  flex-wrap: wrap;
 }
 
 .PropertyTitle {
-  font-size: 32px;
-  font-weight: 800;
-  color: #1e1b4b;
   margin: 0;
-  line-height: 1.15;
+  font-size: 21px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: #0f172a;
+  line-height: 1.2;
 }
 
 .AddressLine {
-  margin: 6px 0 0 0;
-  font-size: 15px;
-  color: #334155;
-  font-weight: 500;
-}
-
-.AddressSub {
-  margin: 2px 0 0 0;
-  font-size: 14px;
-  color: #64748b;
-}
-
-.HeroActions {
   display: flex;
   align-items: center;
-  gap: 10px;
-  flex-shrink: 0;
+  gap: 6px;
+  margin: 5px 0 0;
+  font-size: 13.5px;
+  font-weight: 400;
+  color: #667085;
+  min-width: 0;
 }
 
-/* =========================================================================
-   Buttons
-   ========================================================================= */
-.PrimaryAction {
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-  color: #fff;
-  border: none;
-  padding: 12px 22px;
-  border-radius: 12px;
-  font-size: 15px;
-  font-weight: 700;
-  cursor: pointer;
+/* ---------- Welcome banner subtitle ----------
+   The hero card is gone; the property name and its status sit on one line
+   under the greeting. */
+
+.BannerSubtitle {
   display: inline-flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 8px;
-  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.25);
-  transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+}
+
+/* ---------- Status pill ---------- */
+
+.StatusPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 11px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+
+.StatusDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.StatusPillSuccess {
+  background: #ecfdf3;
+  color: #12783d;
+}
+
+.StatusPillWarning {
+  background: #fffaeb;
+  color: #b54708;
+}
+
+/* ---------- Buttons ---------- */
+
+.PrimaryAction {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 16px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: #1a4f9c;
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s ease;
 }
 
 .PrimaryAction:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 10px 22px rgba(16, 185, 129, 0.32);
-  filter: brightness(1.04);
+  background: #16437f;
 }
 
 .SecondaryAction {
-  background: #eef2ff;
-  color: #4338ca;
-  border: 1px solid #c7d2fe;
-  padding: 9px 16px;
-  border-radius: 10px;
-  font-size: 14px;
-  font-weight: 600;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 13px;
+  border: 1px solid #e2e6ee;
+  border-radius: 9px;
+  background: #ffffff;
+  color: #344054;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: background 0.15s ease, border-color 0.15s ease;
 }
 
-.SecondaryAction:hover {
-  background: #e0e7ff;
-  border-color: #a5b4fc;
+.SecondaryAction:hover:not(:disabled) {
+  background: #f8fafc;
+  border-color: #cbd5e1;
 }
 
-/* =========================================================================
-   Stats grid
-   ========================================================================= */
+.SecondaryAction:disabled {
+  color: #b6bcc7;
+  cursor: default;
+}
+
+/* Section-header "Manage" buttons — accent-tinted so they read as the
+   primary way out of each section without three solid blue blocks. */
+.ManageAction {
+  border-color: #cddffa;
+  background: #eaf2fd;
+  color: #1a4f9c;
+}
+
+.ManageAction:hover:not(:disabled) {
+  background: #dbe9fb;
+  border-color: #a9c8f2;
+}
+
+.DangerAction {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 15px;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  background: #b42318;
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.DangerAction:hover:not(:disabled) {
+  background: #971d14;
+}
+
+.DangerAction:disabled {
+  opacity: 0.65;
+  cursor: default;
+}
+
+.IconButton {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 1px solid #e2e6ee;
+  border-radius: 9px;
+  background: #ffffff;
+  color: #475467;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.IconButton:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+/* ---------- Error banner ---------- */
+
+.ErrorBanner {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 11px 14px;
+  border: 1px solid #fecdca;
+  border-radius: 12px;
+  background: #fef3f2;
+  color: #b42318;
+  font-size: 13.5px;
+  font-weight: 400;
+}
+
+/* ---------- Stats ---------- */
+
 .StatsGrid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.StatCard {
+  padding: 12px 15px;
+  border: 1px solid #eef0f4;
+  border-radius: 14px;
+  background: #ffffff;
+  min-width: 0;
+}
+
+.StatLabel {
+  margin: 0 0 8px;
+  font-size: 12px;
+  font-weight: 400;
+  color: #98a2b3;
+}
+
+.StatRow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.StatValue {
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1;
+  color: #111827;
+}
+
+.StatBreakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+  padding-left: 12px;
+  border-left: 1px solid #eef0f4;
+}
+
+.StatActive {
+  font-size: 12.5px;
+  font-weight: 500;
+  color: #12783d;
+}
+
+.StatMuted {
+  font-size: 12.5px;
+  font-weight: 500;
+  color: #98a2b3;
+}
+
+/* ---------- Manager ---------- */
+
+.ManagerCard {
+  padding: 12px 15px;
+  border: 1px solid #eef0f4;
+  border-radius: 14px;
+  background: #ffffff;
+}
+
+.ManagerRow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+
+.ManagerAvatar {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #dbeafe;
+  color: #1a4f9c;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.ManagerAvatarEmpty {
+  background: #f1f3f7;
+  color: #98a2b3;
+}
+
+.ManagerText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+  padding-left: 14px;
+  border-left: 1px solid #eef0f4;
+}
+
+.ManagerName {
+  font-size: 14.5px;
+  font-weight: 500;
+  color: #111827;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ManagerMeta {
+  font-size: 12.5px;
+  font-weight: 400;
+  color: #98a2b3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Kebab menu */
+
+.MenuWrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.Menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  z-index: 30;
+  min-width: 180px;
+  padding: 5px;
+  border: 1px solid #eef0f4;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 12px 28px -10px rgba(16, 24, 40, 0.18);
+}
+
+.MenuItem {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  padding: 8px 10px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: #344054;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.MenuItem:hover {
+  background: #f8fafc;
+}
+
+.MenuItemDanger {
+  color: #b42318;
+}
+
+.MenuItemDanger:hover {
+  background: #fef3f2;
+}
+
+/* ---------- Sections ---------- */
+
+.Section {
+  padding: 16px 18px;
+  border: 1px solid #eef0f4;
+  border-radius: 18px;
+  background: #ffffff;
+}
+
+.SectionHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
   gap: 16px;
+  margin-bottom: 14px;
+}
+
+.SectionTitle {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: #1f2937;
+}
+
+.SectionSub {
+  margin: 3px 0 0;
+  font-size: 13px;
+  font-weight: 400;
+  color: #98a2b3;
+}
+
+.SectionControls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* Primary action at the bottom of a SectionCard — sized to its label and
+   pushed to the right edge. SectionCard's .card isn't a flex parent, so the
+   alignment comes from an auto left margin rather than align-self. */
+.CardFooterAction {
+  display: flex;
+  width: fit-content;
+  margin: 18px 0 0 auto;
+  padding: 9px 20px;
+  border-radius: 10px;
+  font-size: 13.5px;
+}
+
+.DateInput {
+  padding: 6px 10px;
+  border: 1px solid #e2e6ee;
+  border-radius: 9px;
+  background: #ffffff;
+  color: #344054;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.DateInput:focus {
+  border-color: #9dc0ef;
+}
+
+/* ---------- Summary row: appointments card + overview ----------
+   Mirrors the partner dashboard's AppointmentsOverview / TotalsPanel pair,
+   reusing SectionCard, StatCircle and TotalsPanel from the dashboard kit. */
+
+.SummaryRow {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  gap: 16px;
+  align-items: stretch;
+}
+
+/* TotalsPanel doesn't take a className, so the wrapper reaches its rendered
+   <section> by element to match the appointments card's height and centre
+   the metric boxes against it. */
+.OverviewWrap {
+  display: flex;
+  min-width: 0;
+}
+
+.OverviewWrap > section {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.OverviewWrap > section > div {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.TodayRow {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 4px 4px 0;
+}
+
+/* The list fills the remaining width — capping it left a dead gap between
+   the circle and the rows on wide cards. */
+.StatusList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+}
+
+.StatusRow {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 12px;
+  border: 1px solid #eef0f4;
+  border-radius: 11px;
+  background: #fcfcfd;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.StatusRow:hover {
+  background: #ffffff;
+  border-color: #d7dbe3;
+}
+
+.StatusIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+.ToneBooked {
+  background: #eef2ff;
+  color: #4338ca;
+}
+
+.ToneCompleted {
+  background: #ecfdf3;
+  color: #027a48;
+}
+
+.ToneCancelled {
+  background: #fef3f2;
+  color: #b42318;
+}
+
+.StatusLabel {
+  flex: 1;
+  min-width: 0;
+  font-size: 13px;
+  font-weight: 500;
+  color: #344054;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.StatusValue {
+  font-size: 15px;
+  font-weight: 600;
+  color: #111827;
+  flex-shrink: 0;
+}
+
+/* ---------- Appointment rows ---------- */
+
+.ApptList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: 1px solid #eef0f4;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.ApptRow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 11px 14px;
+  border-top: 1px solid #eef0f4;
+  min-width: 0;
+  transition: background 0.15s ease;
+}
+
+.ApptRow:first-child {
+  border-top: none;
+}
+
+.ApptRow:hover {
+  background: #fbfcfe;
+}
+
+.ApptTime {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  width: 84px;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: #111827;
+}
+
+.ApptTimeEnd {
+  font-size: 12px;
+  font-weight: 400;
+  color: #98a2b3;
+}
+
+.ApptBody {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+  padding-left: 14px;
+  border-left: 1px solid #eef0f4;
+}
+
+.ApptTitle {
+  font-size: 14px;
+  font-weight: 500;
+  color: #111827;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ApptMeta {
+  font-size: 12.5px;
+  font-weight: 400;
+  color: #98a2b3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.TagDanger {
+  background: #fef3f2;
+  color: #b42318;
+}
+
+.LoadingText {
+  margin: 0;
+  padding: 20px 0;
+  text-align: center;
+  font-size: 13.5px;
+  color: #98a2b3;
+}
+
+/* ---------- People grid (employees + receptionists) ---------- */
+
+.PersonGrid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 10px;
+}
+
+.PersonCard {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 13px;
+  border: 1px solid #eef0f4;
+  border-radius: 12px;
+  background: #ffffff;
+  min-width: 0;
+  transition: border-color 0.15s ease;
+}
+
+.PersonCard:hover {
+  border-color: #dfe3ea;
+}
+
+.PersonAvatar {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #eef2f8;
+  color: #475467;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.PersonBody {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.PersonName {
+  font-size: 14px;
+  font-weight: 500;
+  color: #111827;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.PersonMeta {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12.5px;
+  font-weight: 400;
+  color: #98a2b3;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.PersonMeta svg {
+  flex-shrink: 0;
+}
+
+/* ---------- Tags ---------- */
+
+.Tag {
+  flex-shrink: 0;
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+.TagSuccess {
+  background: #ecfdf3;
+  color: #12783d;
+}
+
+.TagWarning {
+  background: #fffaeb;
+  color: #b54708;
+}
+
+.TagNeutral {
+  background: #f1f3f7;
+  color: #667085;
+}
+
+/* ---------- Services ---------- */
+
+.ServicesGrid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 10px;
+}
+
+.ServiceCard {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  padding: 13px 15px;
+  border: 1px solid #eef0f4;
+  border-radius: 12px;
+  background: #ffffff;
+  min-width: 0;
+  transition: border-color 0.15s ease;
+}
+
+.ServiceCard:hover {
+  border-color: #dfe3ea;
+}
+
+.ServiceHead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  min-width: 0;
+}
+
+.ServiceName {
+  font-size: 14px;
+  font-weight: 500;
+  color: #111827;
+  min-width: 0;
+}
+
+.ServiceMetaRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.ServiceMeta {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: #f1f3f7;
+  color: #667085;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.ServiceDescription {
+  margin: 0;
+  font-size: 12.5px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #98a2b3;
+}
+
+/* ---------- Empty states ---------- */
+
+.EmptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 30px 20px;
+  color: #98a2b3;
+}
+
+.EmptyState h3 {
+  margin: 12px 0 4px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.EmptyState p {
+  margin: 0 auto 14px;
+  max-width: 380px;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.55;
+  color: #667085;
+}
+
+/* ---------- Confirm dialog ---------- */
+
+.ConfirmOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(16, 24, 40, 0.45);
+}
+
+.ConfirmCard {
+  width: 100%;
+  max-width: 420px;
+  padding: 22px;
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 24px 48px -12px rgba(16, 24, 40, 0.25);
+  text-align: center;
+}
+
+.ConfirmIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #fef3f2;
+  color: #b42318;
+}
+
+.ConfirmTitle {
+  margin: 14px 0 6px;
+  font-size: 17px;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.ConfirmBody {
+  margin: 0;
+  font-size: 13.5px;
+  font-weight: 400;
+  line-height: 1.6;
+  color: #667085;
+}
+
+.ConfirmBody strong {
+  font-weight: 600;
+  color: #344054;
+}
+
+.ConfirmError {
+  margin-top: 14px;
+  padding: 9px 12px;
+  border: 1px solid #fecdca;
+  border-radius: 10px;
+  background: #fef3f2;
+  color: #b42318;
+  font-size: 12.5px;
+  text-align: left;
+}
+
+.ConfirmActions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 1100px) {
+  .SummaryRow {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 
 @media (max-width: 900px) {
@@ -205,974 +1093,73 @@
   }
 }
 
-@media (max-width: 540px) {
-  .StatsGrid {
-    grid-template-columns: 1fr;
-  }
-}
-
-.StatCard {
-  background: #fff;
-  border-radius: 16px;
-  padding: 18px 20px;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  border: 1px solid #eef2ff;
-  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.05);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-}
-
-.StatCard:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(99, 102, 241, 0.1);
-}
-
-.StatIcon {
-  flex-shrink: 0;
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
-  display: grid;
-  place-items: center;
-  font-size: 22px;
-  color: #fff;
-  background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
-}
-
-.StatCardEmployees .StatIcon {
-  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-}
-
-.StatCardServices .StatIcon {
-  background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
-}
-
-.StatCardStatus .StatIcon {
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-}
-
-.StatBody {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  min-width: 0;
-}
-
-.StatLabel {
-  font-size: 12px;
-  font-weight: 700;
-  color: #475569;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-}
-
-.StatValue {
-  font-size: 26px;
-  font-weight: 800;
-  color: #1e1b4b;
-  line-height: 1.1;
-}
-
-.StatSub {
-  font-size: 12px;
-  color: #64748b;
-  min-height: 14px;
-}
-
-/* =========================================================================
-   Error banner
-   ========================================================================= */
-.ErrorBanner {
-  background: #fef2f2;
-  border: 1px solid #fecaca;
-  color: #b91c1c;
-  padding: 10px 14px;
-  border-radius: 10px;
-  font-size: 14px;
-  font-weight: 500;
-}
-
-/* =========================================================================
-   Sections (Employees, Services)
-   ========================================================================= */
-.Section {
-  background: #fff;
-  border-radius: 20px;
-  padding: 24px 28px;
-  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
-  border: 1px solid #eef2ff;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-@media (max-width: 600px) {
-  .Section {
-    padding: 18px 18px;
-  }
-}
-
-.SectionHeader {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 16px;
-  flex-wrap: wrap;
-}
-
-.SectionTitle {
-  font-size: 20px;
-  font-weight: 800;
-  color: #1e1b4b;
-  margin: 0;
-}
-
-.SectionSub {
-  margin: 2px 0 0 0;
-  font-size: 13px;
-  color: #64748b;
-}
-
-/* =========================================================================
-   Employees grid
-   ========================================================================= */
-.EmployeeGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 14px;
-}
-
-.EmployeeCard {
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
-  border-radius: 14px;
-  padding: 14px 16px;
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  position: relative;
-  transition: all 0.15s ease;
-}
-
-.EmployeeCard:hover {
-  background: #ffffff;
-  border-color: #c7d2fe;
-  box-shadow: 0 8px 16px rgba(99, 102, 241, 0.08);
-}
-
-.EmployeeAvatar {
-  flex-shrink: 0;
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
-  background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
-  color: #fff;
-  font-weight: 700;
-  font-size: 14px;
-  display: grid;
-  place-items: center;
-}
-
-.EmployeeBody {
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.EmployeeName {
-  font-size: 15px;
-  font-weight: 700;
-  color: #1e293b;
-  line-height: 1.2;
-}
-
-.EmployeeMeta {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 12px;
-  color: #64748b;
-  min-width: 0;
-}
-
-.EmployeeMetaText {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.EmployeeStatus {
-  color: #fff;
-  font-size: 10px;
-  font-weight: 700;
-  padding: 3px 8px;
-  border-radius: 999px;
-  letter-spacing: 0.04em;
-  flex-shrink: 0;
-  text-transform: uppercase;
-}
-
-/* =========================================================================
-   Services grid
-   ========================================================================= */
-.ServicesGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 14px;
-}
-
-.ServiceCard {
-  background: linear-gradient(135deg, #ffffff 0%, #fdf2f8 100%);
-  border: 1px solid #fbcfe8;
-  border-radius: 14px;
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  transition: all 0.15s ease;
-}
-
-.ServiceCard:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(236, 72, 153, 0.12);
-  border-color: #f9a8d4;
-}
-
-.ServiceName {
-  font-size: 15px;
-  font-weight: 700;
-  color: #831843;
-}
-
-.ServiceMetaRow {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.ServiceMeta {
-  font-size: 13px;
-  font-weight: 600;
-  color: #9d174d;
-  background: #fce7f3;
-  padding: 4px 10px;
-  border-radius: 999px;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.ServiceDescription {
-  font-size: 13px;
-  color: #64748b;
-  margin: 0;
-  line-height: 1.4;
-}
-
-/* =========================================================================
-   Empty state
-   ========================================================================= */
-.EmptyState {
-  border: 1px dashed #cbd5e1;
-  border-radius: 14px;
-  padding: 28px 20px;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  color: #475569;
-  background: #f8fafc;
-}
-
-.EmptyIcon {
-  font-size: 32px;
-}
-
-.EmptyState h3 {
-  margin: 0;
-  font-size: 16px;
-  color: #1e293b;
-}
-
-.EmptyState p {
-  margin: 0;
-  font-size: 14px;
-  color: #64748b;
-}
-
-/* =========================================================================
-   Bottom CTA
-   ========================================================================= */
-.BottomCta {
-  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
-  border-radius: 20px;
-  padding: 24px 28px;
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  flex-wrap: wrap;
-  box-shadow: 0 12px 28px rgba(79, 70, 229, 0.28);
-}
-
-.BottomCtaTitle {
-  margin: 0;
-  font-size: 20px;
-  font-weight: 800;
-}
-
-.BottomCtaSub {
-  margin: 4px 0 0 0;
-  font-size: 14px;
-  opacity: 0.88;
-}
-
-.BottomCta .PrimaryAction {
-  background: #ffffff;
-  color: #4338ca;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
-}
-
-.BottomCta .PrimaryAction:hover {
-  background: #f1f5f9;
-  filter: none;
-}
-
-/* =========================================================================
-   Mobile polish (applied last — overrides earlier breakpoints)
-   ========================================================================= */
-@media (max-width: 640px) {
+@media (max-width: 700px) {
   .BodyContainer {
-    padding: 14px 12px 40px 12px;
-    gap: 16px;
-  }
-
-  .BackButton {
-    font-size: 13px;
-    padding: 7px 12px;
+    padding: 18px 16px 44px;
   }
 
   .HeroCard {
-    padding: 18px 16px;
-    border-radius: 16px;
-    gap: 16px;
-  }
-
-  .HeroHeader {
-    gap: 12px;
-  }
-
-  .HeroHeading {
-    min-width: 0;
-  }
-
-  .PropertyTitle {
-    font-size: 22px;
-    line-height: 1.2;
-  }
-
-  .AddressLine {
-    font-size: 13px;
-  }
-
-  .HeroActions {
-    width: 100%;
+    flex-wrap: wrap;
+    padding: 16px;
   }
 
   .PrimaryAction {
     width: 100%;
     justify-content: center;
-    min-height: 44px;
-    padding: 12px 16px;
-    font-size: 14px;
-  }
-
-  .SecondaryAction {
-    min-height: 40px;
-    padding: 8px 12px;
-    font-size: 13px;
   }
 
   .StatsGrid {
-    grid-template-columns: 1fr !important;
-    gap: 10px;
-  }
-
-  .StatCard {
-    padding: 14px 14px;
-    border-radius: 14px;
-  }
-
-  .StatIcon {
-    width: 42px;
-    height: 42px;
-    font-size: 20px;
-  }
-
-  .StatValue {
-    font-size: 22px;
-  }
-
-  .StatLabel {
-    font-size: 11px;
-  }
-
-  .Section {
-    padding: 16px 14px;
-    border-radius: 16px;
-    gap: 12px;
-  }
-
-  .SectionTitle {
-    font-size: 17px;
-  }
-
-  .SectionSub {
-    font-size: 12px;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .SectionHeader {
-    gap: 10px;
-    align-items: stretch;
-  }
-
-  .EmployeeGrid,
-  .ServicesGrid {
-    grid-template-columns: 1fr !important;
-    gap: 10px;
-  }
-
-  .EmployeeCard {
-    padding: 12px;
-  }
-
-  .EmployeeAvatar {
-    width: 36px;
-    height: 36px;
-    font-size: 13px;
-  }
-
-  .EmployeeName {
-    font-size: 14px;
-  }
-
-  .EmployeeMeta {
-    font-size: 11px;
-  }
-
-  .EmployeeMetaText {
-    max-width: 220px;
-  }
-
-  .ServiceCard {
-    padding: 14px;
-  }
-
-  .ServiceName {
-    font-size: 14px;
-  }
-
-  .ServiceMeta {
-    font-size: 12px;
-    padding: 3px 8px;
-  }
-
-  .EmptyState {
-    padding: 22px 14px;
-  }
-}
-
-@media (max-width: 380px) {
-  .PropertyTitle {
-    font-size: 20px;
-  }
-
-  .StatValue {
-    font-size: 20px;
-  }
-}
-
-/* =========================================================================
-   Manager Section
-   ========================================================================= */
-.ManagerSection {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 18px;
-  padding: 24px 24px 22px 24px;
-  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
-
-.ManagerSectionHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  flex-wrap: wrap;
-}
-
-.ManagerHeading {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: #1e293b;
-  margin: 0;
-  letter-spacing: -0.01em;
-}
-
-.ManagerMenuWrapper {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-}
-
-.ManagerMenuToggle {
-  width: 36px;
-  height: 36px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  border: 1px solid transparent;
-  background: transparent;
-  color: #475569;
-  font-size: 1.3rem;
-  line-height: 1;
-  cursor: pointer;
-  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
-}
-
-.ManagerMenuToggle:hover,
-.ManagerMenuToggle[aria-expanded="true"] {
-  background: #eef2ff;
-  color: #4338ca;
-  border-color: #c7d2fe;
-}
-
-.ManagerMenuDropdown {
-  position: absolute;
-  top: calc(100% + 6px);
-  right: 0;
-  z-index: 30;
-  min-width: 160px;
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 12px;
-  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.12);
-  padding: 6px;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  animation: managerMenuFadeIn 0.12s ease-out;
-}
-
-@keyframes managerMenuFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-4px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.ManagerMenuItem {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 8px 12px;
-  border-radius: 8px;
-  border: none;
-  background: transparent;
-  color: #1e293b;
-  font-size: 0.88rem;
-  font-weight: 500;
-  cursor: pointer;
-  text-align: left;
-  transition: background 0.12s ease, color 0.12s ease;
-}
-
-.ManagerMenuItem:hover {
-  background: #eef2ff;
-  color: #4338ca;
-}
-
-.ManagerMenuItemDanger {
-  color: #b91c1c;
-}
-
-.ManagerMenuItemDanger:hover {
-  background: #fef2f2;
-  color: #991b1b;
-}
-
-.ManagerCard {
-  display: flex;
-  align-items: stretch;
-  gap: 18px;
-  padding: 18px;
-  border-radius: 16px;
-  background: linear-gradient(135deg, #f8faff 0%, #f3e8ff 100%);
-  border: 1px solid #e0e7ff;
-  position: relative;
-  overflow: hidden;
-}
-
-.ManagerCard::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  width: 4px;
-  background: linear-gradient(180deg, #6366f1 0%, #a855f7 100%);
-}
-
-.ManagerAvatar {
-  flex-shrink: 0;
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
-  color: #ffffff;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.4rem;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  box-shadow: 0 8px 18px rgba(99, 102, 241, 0.25);
-}
-
-.ManagerBody {
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.ManagerNameRow {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.ManagerName {
-  font-size: 1.15rem;
-  font-weight: 700;
-  color: #1e293b;
-  margin: 0;
-  line-height: 1.2;
-}
-
-.ManagerBadge {
-  display: inline-flex;
-  align-items: center;
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  padding: 3px 10px;
-  border-radius: 999px;
-  border: 1px solid transparent;
-}
-
-.ManagerBadgeStaff {
-  background: #ede9fe;
-  color: #6d28d9;
-  border-color: #ddd6fe;
-}
-
-.ManagerBadgeOwner {
-  background: #fef3c7;
-  color: #92400e;
-  border-color: #fde68a;
-}
-
-.ManagerContactGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 10px;
-}
-
-.ManagerContactItem {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 12px;
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 10px;
-  text-decoration: none;
-  color: inherit;
-  transition: border-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
-  min-width: 0;
-}
-
-.ManagerContactItem:hover {
-  border-color: #c7d2fe;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 10px rgba(99, 102, 241, 0.08);
-}
-
-.ManagerContactIcon {
-  flex-shrink: 0;
-  width: 32px;
-  height: 32px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 8px;
-  background: #eef2ff;
-  color: #4338ca;
-  font-size: 0.95rem;
-}
-
-.ManagerContactText {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-}
-
-.ManagerContactLabel {
-  font-size: 0.66rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: #94a3b8;
-}
-
-.ManagerContactValue {
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: #1e293b;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.ManagerEmpty {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 18px;
-  border-radius: 14px;
-  border: 1px dashed #cbd5e1;
-  background: #f8fafc;
-  flex-wrap: wrap;
-}
-
-.ManagerEmptyBody {
-  flex: 1;
-  min-width: 200px;
-}
-
-.AddManagerButton {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 16px;
-  border-radius: 10px;
-  border: 1px solid transparent;
-  background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
-  color: #ffffff;
-  font-size: 0.9rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-  box-shadow: 0 4px 10px rgba(99, 102, 241, 0.2);
-}
-
-.AddManagerButton:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 14px rgba(99, 102, 241, 0.28);
-}
-
-.ManagerEmptyIcon {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: #e0e7ff;
-  color: #4338ca;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.3rem;
-}
-
-.ManagerEmptyTitle {
-  margin: 0 0 4px 0;
-  font-size: 1rem;
-  font-weight: 700;
-  color: #1e293b;
-}
-
-.ManagerEmptyText {
-  margin: 0;
-  font-size: 0.88rem;
-  color: #64748b;
-  line-height: 1.45;
-}
-
-@media (max-width: 640px) {
-  .ManagerCard {
     flex-direction: column;
-    align-items: flex-start;
+    gap: 10px;
   }
 
-  .ManagerAvatar {
-    width: 56px;
-    height: 56px;
-    font-size: 1.2rem;
+  .SectionControls {
+    width: 100%;
+    flex-wrap: wrap;
   }
 
-  .ManagerContactGrid {
-    grid-template-columns: 1fr;
+  .DateInput {
+    flex: 1;
+  }
+
+  .TodayRow {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+  }
+
+  .StatusList {
+    max-width: none;
+  }
+
+  .ApptRow {
+    flex-wrap: wrap;
+    gap: 8px 12px;
+  }
+
+  .ApptBody {
+    padding-left: 0;
+    border-left: none;
+    flex-basis: 100%;
+    order: 3;
+  }
+
+  .PersonGrid,
+  .ServicesGrid {
+    grid-template-columns: minmax(0, 1fr);
   }
 }
+
 
 /* =========================================================================
-   Remove-manager confirmation dialog
+   Receptionist list — consumed by ManageReceptionists.jsx via its
+   `rcpStyles` import of this stylesheet. Kept here so that page keeps
+   working; PropertyDetails itself doesn't use these.
    ========================================================================= */
-.ConfirmOverlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(15, 23, 42, 0.55);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 16px;
-  z-index: 1000;
-  backdrop-filter: blur(2px);
-}
-
-.ConfirmCard {
-  background: #ffffff;
-  border-radius: 16px;
-  padding: 24px 24px 20px 24px;
-  width: 100%;
-  max-width: 440px;
-  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.25);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
-
-.ConfirmIcon {
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  background: #fef3c7;
-  color: #b45309;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.6rem;
-  margin-bottom: 14px;
-}
-
-.ConfirmTitle {
-  margin: 0 0 8px 0;
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: #1e293b;
-}
-
-.ConfirmBody {
-  margin: 0 0 18px 0;
-  font-size: 0.92rem;
-  color: #475569;
-  line-height: 1.5;
-}
-
-.ConfirmError {
-  width: 100%;
-  margin: 0 0 14px 0;
-  padding: 10px 12px;
-  border-radius: 10px;
-  background: #fef2f2;
-  border: 1px solid #fecaca;
-  color: #b91c1c;
-  font-size: 0.85rem;
-  font-weight: 500;
-  text-align: left;
-}
-
-.ConfirmActions {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 10px;
-  width: 100%;
-}
-
-.DangerAction {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10px 16px;
-  border-radius: 10px;
-  border: 1px solid transparent;
-  background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
-  color: #ffffff;
-  font-size: 0.9rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
-  box-shadow: 0 4px 10px rgba(239, 68, 68, 0.25);
-}
-
-.DangerAction:hover:not(:disabled) {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 14px rgba(239, 68, 68, 0.32);
-}
-
-.DangerAction:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
-}
-
-/* =========================================================================
-   Receptionist Section
-   ========================================================================= */
-.ReceptionistSection {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 18px;
-  padding: 24px 24px 22px 24px;
-  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
-
-.ReceptionistSectionHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  flex-wrap: wrap;
-}
-
-.ReceptionistHeading {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: #1e293b;
-  margin: 0;
-  letter-spacing: -0.01em;
-}
 
 .ReceptionistMenuWrapper {
   position: relative;
@@ -1196,13 +1183,6 @@
   transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
 }
 
-.ReceptionistMenuToggle:hover,
-.ReceptionistMenuToggle[aria-expanded="true"] {
-  background: #eef2ff;
-  color: #4338ca;
-  border-color: #c7d2fe;
-}
-
 .ReceptionistMenuDropdown {
   position: absolute;
   top: calc(100% + 6px);
@@ -1218,17 +1198,6 @@
   flex-direction: column;
   gap: 2px;
   animation: receptionistMenuFadeIn 0.12s ease-out;
-}
-
-@keyframes receptionistMenuFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-4px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
 .ReceptionistMenuItem {
@@ -1470,21 +1439,4 @@
   font-size: 0.88rem;
   color: #64748b;
   line-height: 1.45;
-}
-
-@media (max-width: 640px) {
-  .ReceptionistCard {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .ReceptionistAvatar {
-    width: 56px;
-    height: 56px;
-    font-size: 1.2rem;
-  }
-
-  .ReceptionistContactGrid {
-    grid-template-columns: 1fr;
-  }
 }

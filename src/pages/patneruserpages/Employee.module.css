@@ -1,360 +1,736 @@
-/* ====================================================================
-   Employee Page — modern, clean redesign
-   Layered to mirror PropertyDetails for visual consistency.
-   ==================================================================== */
+/* =========================================================================
+   Employees
+   Same visual language as the property pages: hairline #eef0f4 borders,
+   12–18px radii, one blue accent (#1a4f9c), weights capped at 600.
+   ========================================================================= */
 
 .MainContainer {
   min-height: 100vh;
   background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  color: #111827;
+  min-width: 0;
+  overflow-x: hidden;
 }
 
 .HeaderContainer {
   position: sticky;
   top: 0;
   z-index: 50;
+  background: #ffffff;
 }
 
 .BodyContainer {
-  /* Full-width inside the layout column so content sits flush against
-     the sidebar instead of centered. */
+  flex: 1;
+  width: 100%;
+  box-sizing: border-box;
   max-width: none;
-  margin: 0;
-  padding: 24px 32px 56px;
+  padding: 22px 32px 56px;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 16px;
+  min-width: 0;
 }
 
-/* ----- Top bar (back link) ----- */
+.BodyContainer * {
+  box-sizing: border-box;
+}
+
+/* ---------- Back ---------- */
+
 .TopBar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 10px;
 }
 
 .BackLink {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 7px;
+  padding: 6px 12px 6px 8px;
+  border: none;
+  border-radius: 9px;
   background: transparent;
-  border: 1px solid transparent;
-  padding: 8px 12px;
-  border-radius: 10px;
-  color: #4f46e5;
-  font-weight: 600;
-  font-size: 0.95rem;
+  color: #667085;
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 500;
   cursor: pointer;
-  transition: background 0.18s ease, color 0.18s ease;
-}
-.BackLink:hover {
-  background: #eef2ff;
+  transition: background 0.15s ease, color 0.15s ease;
 }
 
-/* ----- Hero card ----- */
+.BackLink:hover {
+  background: #f8fafc;
+  color: #344054;
+}
+
+/* ---------- Hero ---------- */
+
 .HeroCard {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 20px;
-  padding: 28px 28px 24px 28px;
-  box-shadow: 0 4px 24px rgba(15, 23, 42, 0.04);
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
+  padding: 18px 20px;
+  background: #fbfcfe;
+  border: 1px solid #eef0f4;
+  border-radius: 18px;
 }
 
 .HeroHeader {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 20px;
+  gap: 16px;
   flex-wrap: wrap;
 }
 
 .HeroHeading {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
   min-width: 0;
 }
 
 .PageTitle {
-  font-size: 28px;
-  line-height: 1.2;
   margin: 0;
-  font-weight: 700;
+  font-size: 21px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
   color: #0f172a;
-  letter-spacing: -0.01em;
+  line-height: 1.2;
 }
 
 .SubLine {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: 8px;
-  margin: 0;
-  color: #64748b;
-  font-size: 0.95rem;
   flex-wrap: wrap;
+  gap: 7px;
+  margin: 5px 0 0;
+  font-size: 13.5px;
+  font-weight: 400;
+  color: #667085;
 }
+
 .SubAccent {
-  color: #4f46e5;
-  font-weight: 600;
+  font-weight: 500;
+  color: #1a4f9c;
 }
+
 .SubDot {
   color: #cbd5e1;
 }
+
 .SubText {
-  color: #64748b;
+  color: #98a2b3;
 }
 
-/* ----- Hero actions / Primary buttons ----- */
-.HeroActions {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
-}
+/* ---------- Stats ---------- */
 
-.PrimaryAction {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: linear-gradient(135deg, #6366f1 0%, #7c3aed 100%);
-  color: #ffffff;
-  border: none;
-  padding: 11px 18px;
-  border-radius: 12px;
-  font-size: 0.95rem;
-  font-weight: 600;
-  cursor: pointer;
-  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.3);
-  transition: transform 0.18s ease, box-shadow 0.18s ease;
-}
-.PrimaryAction:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 18px rgba(99, 102, 241, 0.42);
-}
-.PrimaryAction:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
-  transform: none;
-}
-
-.SecondaryAction {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: #f1f5f9;
-  color: #1e293b;
-  border: 1px solid #e2e8f0;
-  padding: 9px 14px;
-  border-radius: 10px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
-}
-.SecondaryAction:hover {
-  background: #eef2ff;
-  border-color: #c7d2fe;
-  color: #4338ca;
-}
-.SecondaryAction:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.DangerAction {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-  color: #ffffff;
-  border: none;
-  padding: 11px 18px;
-  border-radius: 10px;
-  font-size: 0.95rem;
-  font-weight: 600;
-  cursor: pointer;
-  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
-  transition: transform 0.18s ease, box-shadow 0.18s ease;
-}
-.DangerAction:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(239, 68, 68, 0.4);
-}
-.DangerAction:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
-  transform: none;
-}
-
-/* ----- Stats grid ----- */
 .StatsGrid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 14px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 16px;
 }
 
 .StatCard {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 16px 18px;
+  gap: 13px;
+  padding: 13px 15px;
+  border: 1px solid #eef0f4;
   border-radius: 14px;
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
-}
-
-.StatTotal {
-  background: linear-gradient(135deg, #eef2ff 0%, #f5f3ff 100%);
-  border-color: #c7d2fe;
-}
-.StatActive {
-  background: linear-gradient(135deg, #ecfdf5 0%, #f0fdf4 100%);
-  border-color: #bbf7d0;
-}
-.StatInactive {
-  background: linear-gradient(135deg, #fffbeb 0%, #fff7ed 100%);
-  border-color: #fed7aa;
+  background: #ffffff;
+  min-width: 0;
 }
 
 .StatIcon {
-  font-size: 24px;
-  width: 44px;
-  height: 44px;
+  flex-shrink: 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.7);
-  border-radius: 12px;
-  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
+  border-radius: 11px;
+  background: #f1f3f7;
+  color: #667085;
+}
+
+.StatTotal .StatIcon {
+  background: #dbeafe;
+  color: #1a4f9c;
+}
+
+.StatActive .StatIcon {
+  background: #ecfdf3;
+  color: #12783d;
+}
+
+.StatInactive .StatIcon {
+  background: #fffaeb;
+  color: #b54708;
 }
 
 .StatBody {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
   min-width: 0;
 }
 
 .StatLabel {
-  font-size: 0.78rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: #475569;
+  font-size: 12px;
+  font-weight: 400;
+  color: #98a2b3;
 }
 
 .StatValue {
-  font-size: 1.6rem;
+  font-size: 22px;
   font-weight: 700;
-  color: #0f172a;
-  line-height: 1.1;
+  line-height: 1.2;
+  color: #111827;
 }
 
 .StatSub {
-  font-size: 0.78rem;
-  color: #64748b;
+  font-size: 12px;
+  font-weight: 400;
+  color: #98a2b3;
 }
+
+/* ---------- Buttons ---------- */
+
+.PrimaryAction {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 16px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: #1a4f9c;
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.PrimaryAction:hover:not(:disabled) {
+  background: #16437f;
+}
+
+.PrimaryAction:disabled {
+  opacity: 0.65;
+  cursor: default;
+}
+
+.SecondaryAction {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 7px 13px;
+  border: 1px solid #e2e6ee;
+  border-radius: 9px;
+  background: #ffffff;
+  color: #344054;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.SecondaryAction:hover:not(:disabled) {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+.DangerAction {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 15px;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  background: #b42318;
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.DangerAction:hover:not(:disabled) {
+  background: #971d14;
+}
+
+.DangerAction:disabled {
+  opacity: 0.65;
+  cursor: default;
+}
+
+/* ---------- Error ---------- */
 
 .ErrorBanner {
-  margin-top: 4px;
-  padding: 12px 14px;
-  border-radius: 10px;
-  background: #fef2f2;
-  color: #991b1b;
-  border: 1px solid #fecaca;
-  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 14px;
+  padding: 11px 14px;
+  border: 1px solid #fecdca;
+  border-radius: 12px;
+  background: #fef3f2;
+  color: #b42318;
+  font-size: 13.5px;
 }
 
-/* ----- Section ----- */
+/* ---------- Section ---------- */
+
 .Section {
+  padding: 16px 18px;
+  border: 1px solid #eef0f4;
+  border-radius: 18px;
   background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 20px;
-  padding: 22px 24px;
-  box-shadow: 0 4px 24px rgba(15, 23, 42, 0.04);
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
 }
 
 .SectionHeader {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 16px;
-  flex-wrap: wrap;
+  margin-bottom: 14px;
 }
 
 .SectionTitle {
   margin: 0;
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: #0f172a;
-}
-.SectionSub {
-  margin: 4px 0 0 0;
-  color: #64748b;
-  font-size: 0.85rem;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: #1f2937;
 }
 
-/* ----- Search ----- */
-.SearchBar {
-  position: relative;
+.SectionSub {
+  margin: 3px 0 0;
+  font-size: 13px;
+  font-weight: 400;
+  color: #98a2b3;
+}
+
+/* ---------- Employee cards ---------- */
+
+/* One full-width row per person — a card grid left most of the page empty
+   for small teams, and the row uses the horizontal space for the
+   availability strip instead. */
+
+.EmployeeList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.EmployeeRow {
+  display: grid;
+  grid-template-columns:
+    minmax(190px, 1.1fr) auto minmax(180px, 1fr)
+    minmax(230px, 1.2fr) auto;
+  align-items: center;
+  gap: 18px;
+  padding: 13px 16px;
+  border: 1px solid #eef0f4;
+  border-radius: 14px;
+  background: #ffffff;
+  min-width: 0;
+  transition: border-color 0.15s ease;
+}
+
+.EmployeeRow:hover {
+  border-color: #dfe3ea;
+}
+
+.RowIdentity {
   display: flex;
   align-items: center;
-  min-width: 240px;
-  max-width: 320px;
-  flex: 1;
-}
-.SearchIcon {
-  position: absolute;
-  left: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #94a3b8;
-  font-size: 0.9rem;
-  pointer-events: none;
-}
-.SearchInput {
-  width: 100%;
-  padding: 10px 12px 10px 36px;
-  border: 1px solid #e2e8f0;
-  border-radius: 10px;
-  background: #f8fafc;
-  font-size: 0.92rem;
-  color: #0f172a;
-  outline: none;
-  transition: border-color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
-}
-.SearchInput::placeholder {
-  color: #94a3b8;
-}
-.SearchInput:focus {
-  border-color: #6366f1;
-  background: #ffffff;
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.18);
+  gap: 12px;
+  min-width: 0;
 }
 
-/* ----- Loading + empty states ----- */
+/* Kept for the grid + card layouts still used elsewhere on this page. */
+.EmployeesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 12px;
+}
+
+.EmployeeCard {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 15px 16px;
+  border: 1px solid #eef0f4;
+  border-radius: 14px;
+  background: #ffffff;
+  min-width: 0;
+  transition: border-color 0.15s ease;
+}
+
+.EmployeeCard:hover {
+  border-color: #dfe3ea;
+}
+
+.EmployeeCardHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.EmployeeAvatar {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #dbeafe;
+  color: #1a4f9c;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.EmployeeIdentity {
+  flex: 1;
+  min-width: 0;
+}
+
+.EmployeeName {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 500;
+  color: #111827;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.EmployeeRole {
+  margin: 2px 0 0;
+  font-size: 12.5px;
+  font-weight: 400;
+  color: #98a2b3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Kebab menu */
+
+.EmployeeMenuWrapper {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.MenuToggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 1px solid #e2e6ee;
+  border-radius: 9px;
+  background: #ffffff;
+  color: #475467;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.MenuToggle:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+.MenuDropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  z-index: 30;
+  min-width: 160px;
+  padding: 5px;
+  border: 1px solid #eef0f4;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 12px 28px -10px rgba(16, 24, 40, 0.18);
+}
+
+.MenuOption {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  padding: 8px 10px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: #344054;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.MenuOption:hover {
+  background: #f8fafc;
+}
+
+.MenuOptionDelete {
+  color: #b42318;
+}
+
+.MenuOptionDelete:hover {
+  background: #fef3f2;
+}
+
+/* Status */
+
+.StatusRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.StatusPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 500;
+}
+
+.StatusDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.StatusActive {
+  background: #ecfdf3;
+  color: #12783d;
+}
+
+.StatusInactive {
+  background: #fffaeb;
+  color: #b54708;
+}
+
+.TooltipWrap {
+  position: relative;
+  display: inline-flex;
+}
+
+.InfoButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  border: 1px solid #e2e6ee;
+  border-radius: 50%;
+  background: #ffffff;
+  color: #667085;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.InfoButton:hover {
+  border-color: #cbd5e1;
+  color: #344054;
+}
+
+.TooltipPopup {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  z-index: 30;
+  width: 220px;
+  padding: 10px 26px 10px 12px;
+  border: 1px solid #eef0f4;
+  border-radius: 10px;
+  background: #ffffff;
+  box-shadow: 0 12px 24px -8px rgba(16, 24, 40, 0.18);
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: #667085;
+}
+
+.TooltipPopup p {
+  margin: 0;
+}
+
+.TooltipClose {
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  padding: 2px;
+  border: none;
+  background: none;
+  color: #98a2b3;
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+/* Details */
+
+.EmployeeDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.DetailRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.DetailIcon {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #98a2b3;
+}
+
+.DetailText {
+  font-size: 12.5px;
+  font-weight: 400;
+  color: #667085;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Availability */
+
+.AvailabilityBlock {
+  padding: 11px 12px;
+  border: 1px solid #eef0f4;
+  border-radius: 12px;
+  background: #fbfcfe;
+}
+
+.AvailabilityHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 9px;
+}
+
+.AvailabilityLabel {
+  font-size: 12px;
+  font-weight: 500;
+  color: #667085;
+}
+
+.AvailabilityCount {
+  font-size: 11.5px;
+  font-weight: 500;
+  color: #98a2b3;
+}
+
+.DayStrip {
+  display: flex;
+  gap: 5px;
+}
+
+.DayPill {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 0;
+  border-radius: 7px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+.DayPillOn {
+  background: #dbeafe;
+  color: #1a4f9c;
+}
+
+.DayPillOff {
+  background: #f1f3f7;
+  color: #b6bcc7;
+}
+
+.BookingWindow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 9px;
+  font-size: 12px;
+  font-weight: 400;
+  color: #98a2b3;
+}
+
+.EmployeeActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Inside a row the buttons size to their labels rather than splitting the
+   width the way they did in the old card footer. */
+.EmployeeRow .SecondaryAction {
+  flex: 0 0 auto;
+}
+
+.EmployeeRow .AvailabilityBlock {
+  min-width: 0;
+}
+
+.EmployeeRow .EmployeeDetails {
+  min-width: 0;
+}
+
+/* ---------- Loading + empty ---------- */
+
 .LoadingContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   gap: 12px;
-  padding: 48px 16px;
-  color: #475569;
+  padding: 40px 20px;
+  color: #98a2b3;
+  font-size: 13.5px;
 }
+
+.LoadingContainer p {
+  margin: 0;
+}
+
 .LoadingSpinner {
-  width: 32px;
-  height: 32px;
-  border: 3px solid #e2e8f0;
-  border-top-color: #6366f1;
+  width: 26px;
+  height: 26px;
+  border: 2.5px solid #eef0f4;
+  border-top-color: #1a4f9c;
   border-radius: 50%;
-  animation: spin 0.8s linear infinite;
+  animation: spin 0.85s linear infinite;
 }
+
 @keyframes spin {
   to {
     transform: rotate(360deg);
@@ -365,762 +741,331 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 6px;
-  padding: 48px 24px;
   text-align: center;
-  color: #475569;
+  padding: 34px 20px;
+  color: #98a2b3;
 }
+
 .EmptyIcon {
-  font-size: 40px;
-  margin-bottom: 6px;
-  color: #94a3b8;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #98a2b3;
 }
+
+.EmptyState h2,
 .EmptyState h3 {
-  margin: 4px 0 0 0;
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: #0f172a;
-}
-.EmptyState p {
-  margin: 0;
-  font-size: 0.92rem;
-  color: #64748b;
-}
-.EmptyState .PrimaryAction,
-.EmptyState .SecondaryAction {
-  margin-top: 14px;
-}
-
-/* ----- Employees grid ----- */
-.EmployeesGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 14px;
-}
-
-.EmployeeCard {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 16px;
-  padding: 18px 18px 16px 18px;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-  position: relative;
-}
-.EmployeeCard:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(99, 102, 241, 0.12);
-  border-color: #c7d2fe;
-}
-
-.EmployeeCardHeader {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.EmployeeAvatar {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  color: #ffffff;
-  font-weight: 700;
-  font-size: 1.05rem;
-  letter-spacing: 0.02em;
-  flex-shrink: 0;
-  text-transform: uppercase;
-  box-shadow: 0 4px 10px rgba(99, 102, 241, 0.25);
-}
-
-.EmployeeIdentity {
-  flex: 1;
-  min-width: 0;
-}
-
-.EmployeeName {
-  font-size: 1.05rem;
-  font-weight: 700;
-  margin: 0;
-  color: #0f172a;
-  line-height: 1.25;
-  word-break: break-word;
-}
-.EmployeeRole {
-  font-size: 0.82rem;
-  color: #64748b;
-  margin: 2px 0 0 0;
-  text-transform: capitalize;
-}
-
-/* ----- Status pill ----- */
-.StatusRow {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.StatusPill {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 4px 10px;
-  border-radius: 999px;
-  font-size: 0.78rem;
+  margin: 12px 0 4px;
+  font-size: 15px;
   font-weight: 600;
-  letter-spacing: 0.01em;
-}
-.StatusActive {
-  background: #ecfdf5;
-  color: #047857;
-  border: 1px solid #a7f3d0;
-}
-.StatusInactive {
-  background: #fef3c7;
-  color: #92400e;
-  border: 1px solid #fcd34d;
-}
-.StatusDot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: currentColor;
-  display: inline-block;
+  color: #111827;
 }
 
-.TooltipWrap {
-  position: relative;
-  display: inline-block;
-}
-.InfoButton {
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  border: none;
-  background: #e2e8f0;
-  color: #475569;
-  font-size: 0.78rem;
-  font-weight: 700;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.18s ease, color 0.18s ease;
-}
-.InfoButton:hover {
-  background: #cbd5e1;
-  color: #0f172a;
-}
-.TooltipPopup {
-  position: absolute;
-  top: calc(100% + 6px);
-  left: 0;
-  width: 220px;
-  background: #1e293b;
-  color: #f8fafc;
-  border-radius: 10px;
-  padding: 10px 12px;
-  font-size: 0.82rem;
-  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.18);
-  z-index: 5;
-}
-.TooltipPopup p {
-  margin: 0;
-}
-.TooltipClose {
-  position: absolute;
-  top: 4px;
-  right: 6px;
-  background: transparent;
-  border: none;
-  color: #cbd5e1;
-  font-size: 1rem;
-  cursor: pointer;
-  line-height: 1;
-}
-.TooltipClose:hover {
-  color: #ffffff;
+.EmptyState p {
+  margin: 0 auto 14px;
+  max-width: 380px;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.55;
+  color: #667085;
 }
 
-/* ----- Employee details ----- */
-.EmployeeDetails {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-.DetailRow {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: #475569;
-  font-size: 0.9rem;
-  min-width: 0;
-}
-.DetailIcon {
-  font-size: 0.95rem;
-  color: #94a3b8;
-  width: 18px;
-  display: inline-flex;
-  justify-content: center;
-  flex-shrink: 0;
-}
-.DetailText {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  flex: 1;
-  min-width: 0;
-}
+/* ---------- Modals ---------- */
 
-/* ----- Employee actions ----- */
-.EmployeeActions {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-top: 2px;
-}
-.EmployeeActions .SecondaryAction {
-  flex: 1;
-  justify-content: center;
-  min-width: 120px;
-}
-
-/* ----- Card menu ----- */
-.EmployeeMenuWrapper {
-  position: relative;
-  flex-shrink: 0;
-}
-.MenuToggle {
-  background: transparent;
-  border: 1px solid transparent;
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
-  color: #475569;
-  font-size: 1.2rem;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
-}
-.MenuToggle:hover {
-  background: #f1f5f9;
-  color: #0f172a;
-  border-color: #e2e8f0;
-}
-.MenuDropdown {
-  position: absolute;
-  right: 0;
-  top: calc(100% + 6px);
-  min-width: 160px;
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 10px;
-  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.14);
-  z-index: 6;
-  overflow: hidden;
-}
-.MenuOption {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 14px;
-  background: transparent;
-  border: none;
-  font-size: 0.9rem;
-  color: #1e293b;
-  cursor: pointer;
-  text-align: left;
-  transition: background 0.16s ease;
-}
-.MenuOption:hover {
-  background: #f1f5f9;
-}
-.MenuOption:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-.MenuOptionDelete {
-  color: #b91c1c;
-}
-.MenuOptionDelete:hover {
-  background: #fef2f2;
-}
-
-/* ====================================================================
-   Modal — used for Services list and Delete confirm
-   ==================================================================== */
 .ModalOverlay {
   position: fixed;
   inset: 0;
-  background: rgba(15, 23, 42, 0.55);
-  backdrop-filter: blur(2px);
+  z-index: 100;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
   padding: 20px;
-  animation: overlayIn 0.18s ease;
-}
-@keyframes overlayIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  background: rgba(16, 24, 40, 0.45);
 }
 
 .ModalCard {
-  background: #ffffff;
-  border-radius: 18px;
   width: 100%;
-  max-width: 540px;
-  max-height: 88vh;
+  max-width: 520px;
+  max-height: 85vh;
   display: flex;
   flex-direction: column;
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 24px 48px -12px rgba(16, 24, 40, 0.25);
   overflow: hidden;
-  box-shadow: 0 20px 60px rgba(15, 23, 42, 0.3);
-  animation: modalIn 0.22s ease;
-}
-@keyframes modalIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px) scale(0.98);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
 }
 
 .ModalHeader {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  padding: 20px 22px;
-  background: linear-gradient(135deg, #6366f1 0%, #7c3aed 100%);
-  color: #ffffff;
+  gap: 14px;
+  padding: 16px 18px;
+  border-bottom: 1px solid #eef0f4;
+  background: #fbfcfe;
 }
+
 .ModalIdentity {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
   min-width: 0;
 }
+
 .ModalAvatar {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
+  flex-shrink: 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: #ffffff;
-  font-weight: 700;
-  font-size: 1rem;
-  text-transform: uppercase;
-  border: 2px solid rgba(255, 255, 255, 0.5);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #dbeafe;
+  color: #1a4f9c;
+  font-size: 13px;
+  font-weight: 600;
 }
+
 .ModalTitle {
-  font-size: 1.1rem;
-  font-weight: 700;
-  line-height: 1.2;
+  font-size: 15px;
+  font-weight: 600;
+  color: #111827;
 }
+
 .ModalSub {
-  font-size: 0.82rem;
-  opacity: 0.9;
+  margin-top: 2px;
+  font-size: 12.5px;
+  font-weight: 400;
+  color: #98a2b3;
 }
+
 .ModalClose {
-  background: rgba(255, 255, 255, 0.2);
-  border: none;
-  color: #ffffff;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  font-size: 1.05rem;
-  cursor: pointer;
+  flex-shrink: 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.18s ease;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 1px solid #e2e6ee;
+  border-radius: 9px;
+  background: #ffffff;
+  color: #475467;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
 }
+
 .ModalClose:hover {
-  background: rgba(255, 255, 255, 0.3);
+  background: #f8fafc;
+  border-color: #cbd5e1;
 }
 
 .ModalBody {
-  background: #f8fafc;
-  padding: 18px 18px;
-  flex: 1;
+  padding: 16px 18px;
   overflow-y: auto;
 }
 
 .ModalFooter {
-  background: #ffffff;
-  border-top: 1px solid #e2e8f0;
-  padding: 14px 18px;
   display: flex;
-  justify-content: stretch;
-}
-.ModalFooter .PrimaryAction {
-  flex: 1;
-  justify-content: center;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 14px 18px;
+  border-top: 1px solid #eef0f4;
+  background: #fbfcfe;
 }
 
-/* ----- Services list inside modal ----- */
+/* Services inside the modal */
+
 .ServicesList {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-}
-.ServiceItem {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 12px;
-  padding: 14px 16px;
-  display: flex;
-  flex-direction: column;
   gap: 10px;
-  transition: border-color 0.18s ease, box-shadow 0.18s ease;
 }
-.ServiceItem:hover {
-  border-color: #c7d2fe;
-  box-shadow: 0 6px 18px rgba(99, 102, 241, 0.1);
+
+.ServiceItem {
+  padding: 12px 14px;
+  border: 1px solid #eef0f4;
+  border-radius: 12px;
+  background: #ffffff;
 }
+
 .ServiceItemHeader {
   display: flex;
-  justify-content: space-between;
   align-items: flex-start;
-  gap: 12px;
+  justify-content: space-between;
+  gap: 10px;
 }
+
 .ServiceItemName {
-  font-size: 1rem;
-  font-weight: 700;
-  color: #0f172a;
-  margin-bottom: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #111827;
+  min-width: 0;
 }
+
 .ServiceItemMetaRow {
   display: flex;
-  gap: 12px;
   flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
 }
+
 .ServiceMeta {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  font-size: 0.85rem;
-  color: #475569;
-  background: #f1f5f9;
-  padding: 3px 8px;
-  border-radius: 6px;
-}
-.ServiceDescription {
-  margin: 0;
-  font-size: 0.9rem;
-  color: #475569;
-  line-height: 1.5;
-  padding-top: 8px;
-  border-top: 1px dashed #e2e8f0;
-}
-.ServiceItemActions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 8px;
-}
-.RemoveServiceButton {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 12px;
-  background: #fef2f2;
-  color: #b91c1c;
-  border: 1px solid #fecaca;
-  border-radius: 8px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
-}
-.RemoveServiceButton:hover {
-  background: #ef4444;
-  color: #ffffff;
-  border-color: #ef4444;
-}
-
-/* ----- Delete confirm dialog ----- */
-.ConfirmCard {
-  max-width: 420px;
-  padding: 26px 24px 22px 24px;
-  text-align: center;
-  align-items: stretch;
-}
-.ConfirmIcon {
-  font-size: 32px;
-  width: 60px;
-  height: 60px;
-  margin: 0 auto 12px auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #fef2f2;
-  color: #dc2626;
-  border-radius: 50%;
-}
-.ConfirmTitle {
-  margin: 0 0 4px 0;
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: #0f172a;
-}
-.ConfirmName {
-  margin: 0 0 12px 0;
-  font-weight: 700;
-  color: #4f46e5;
-  font-size: 1rem;
-}
-.ConfirmBody {
-  margin: 0 0 20px 0;
-  color: #64748b;
-  font-size: 0.92rem;
-  line-height: 1.5;
-}
-.ConfirmActions {
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-}
-.ConfirmActions .SecondaryAction,
-.ConfirmActions .DangerAction {
-  flex: 1;
-  justify-content: center;
-}
-
-/* ====================================================================
-   Mobile (≤640px) — collapse, full-width tap targets
-   ==================================================================== */
-@media (max-width: 640px) {
-  .BodyContainer {
-    padding: 14px 12px 40px 12px;
-    gap: 16px;
-  }
-  .HeroCard {
-    padding: 18px 16px;
-    border-radius: 16px;
-    gap: 16px;
-  }
-  .PageTitle {
-    font-size: 22px;
-  }
-  .HeroHeader {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 14px;
-  }
-  .HeroActions {
-    width: 100%;
-  }
-  .HeroActions .PrimaryAction {
-    width: 100%;
-    justify-content: center;
-    min-height: 44px;
-  }
-  .StatsGrid {
-    grid-template-columns: 1fr !important;
-    gap: 10px;
-  }
-  .StatCard {
-    padding: 14px 14px;
-  }
-  .StatValue {
-    font-size: 1.4rem;
-  }
-
-  .Section {
-    padding: 16px 14px;
-    border-radius: 16px;
-  }
-  .SectionHeader {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 12px;
-  }
-  .SearchBar {
-    max-width: 100%;
-    min-width: 0;
-  }
-
-  .EmployeesGrid {
-    grid-template-columns: 1fr !important;
-    gap: 10px;
-  }
-  .EmployeeCard {
-    padding: 16px;
-  }
-
-  .EmployeeActions {
-    flex-direction: column;
-  }
-  .EmployeeActions .SecondaryAction {
-    width: 100%;
-    min-height: 44px;
-  }
-
-  .ModalOverlay {
-    padding: 0;
-    align-items: flex-end;
-  }
-  .ModalCard {
-    max-width: 100%;
-    border-radius: 18px 18px 0 0;
-    max-height: 92vh;
-  }
-  .ModalHeader {
-    padding: 16px 16px;
-  }
-  .ModalBody {
-    padding: 14px 14px;
-  }
-  .ModalFooter {
-    padding: 12px 14px;
-  }
-  .ModalFooter .PrimaryAction {
-    min-height: 44px;
-  }
-
-  .ConfirmCard {
-    border-radius: 18px 18px 0 0;
-    padding: 22px 18px 18px 18px;
-  }
-  .ConfirmActions {
-    flex-direction: column;
-  }
-  .ConfirmActions .SecondaryAction,
-  .ConfirmActions .DangerAction {
-    width: 100%;
-    min-height: 44px;
-  }
-
-  .MenuToggle {
-    width: 36px;
-    height: 36px;
-  }
-}
-
-/* Ultra-small phones */
-@media (max-width: 380px) {
-  .StatIcon {
-    width: 38px;
-    height: 38px;
-    font-size: 20px;
-  }
-  .StatValue {
-    font-size: 1.25rem;
-  }
-  .EmployeeAvatar {
-    width: 42px;
-    height: 42px;
-    font-size: 0.95rem;
-  }
-}
-
-/* ====================================================================
-   Availability strip (weekly day pills + booking window)
-   ==================================================================== */
-.AvailabilityBlock {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  padding: 12px 12px;
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
-  border-radius: 12px;
-}
-
-.AvailabilityHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-}
-
-.AvailabilityLabel {
-  font-size: 0.78rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: #475569;
-}
-
-.AvailabilityCount {
-  font-size: 0.78rem;
-  font-weight: 600;
-  color: #4f46e5;
-  background: #eef2ff;
-  padding: 2px 8px;
+  gap: 5px;
+  padding: 3px 9px;
   border-radius: 999px;
-  border: 1px solid #c7d2fe;
-}
-
-.DayStrip {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 6px;
-}
-
-.DayPill {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 6px 0;
-  border-radius: 8px;
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  text-align: center;
-  border: 1px solid transparent;
-  cursor: default;
-  transition: transform 0.18s ease;
-}
-
-.DayPillOn {
-  background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
-  color: #047857;
-  border-color: #6ee7b7;
-}
-
-.DayPillOff {
-  background: #fef2f2;
-  color: #b91c1c;
-  border-color: #fecaca;
-}
-
-.DayPill:hover {
-  transform: translateY(-1px);
-}
-
-.BookingWindow {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.82rem;
-  color: #475569;
+  background: #f1f3f7;
+  color: #667085;
+  font-size: 12px;
   font-weight: 500;
 }
 
-@media (max-width: 380px) {
-  .DayPill {
-    font-size: 0.66rem;
-    padding: 5px 0;
+.ServiceDescription {
+  margin: 8px 0 0;
+  font-size: 12.5px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #98a2b3;
+}
+
+.ServiceItemActions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.RemoveServiceButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border: 1px solid #fecdca;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #b42318;
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.RemoveServiceButton:hover:not(:disabled) {
+  background: #fef3f2;
+}
+
+.RemoveServiceButton:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+/* ---------- Confirm dialog ---------- */
+
+.ConfirmCard {
+  width: 100%;
+  max-width: 420px;
+  padding: 22px;
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 24px 48px -12px rgba(16, 24, 40, 0.25);
+  text-align: center;
+}
+
+.ConfirmIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #fef3f2;
+  color: #b42318;
+}
+
+.ConfirmTitle {
+  margin: 14px 0 6px;
+  font-size: 17px;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.ConfirmBody {
+  margin: 0;
+  font-size: 13.5px;
+  font-weight: 400;
+  line-height: 1.6;
+  color: #667085;
+}
+
+.ConfirmName {
+  margin: 8px 0 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #344054;
+}
+
+.ConfirmActions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 900px) {
+  .StatsGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-  .AvailabilityLabel,
-  .AvailabilityCount {
-    font-size: 0.72rem;
+}
+
+@media (max-width: 1200px) {
+  .EmployeeRow {
+    grid-template-columns: minmax(190px, 1fr) auto minmax(180px, 1fr);
+    row-gap: 14px;
+  }
+
+  .EmployeeRow .AvailabilityBlock {
+    grid-column: 1 / -1;
+  }
+
+  .EmployeeActions {
+    grid-column: 1 / -1;
+    justify-content: flex-end;
+  }
+}
+
+@media (max-width: 700px) {
+  .BodyContainer {
+    padding: 18px 16px 44px;
+  }
+
+  .EmployeeRow {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 12px;
+  }
+
+  .EmployeeActions {
+    justify-content: flex-start;
+  }
+
+  .HeroCard {
+    padding: 16px;
+  }
+
+  .StatsGrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .SectionHeader {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .EmployeesGrid {
+    grid-template-columns: minmax(0, 1fr);
   }
 }

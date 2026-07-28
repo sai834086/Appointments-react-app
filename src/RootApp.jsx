@@ -6,6 +6,7 @@ import SupportApp from "./SupportApp";
 import AdminApp from "./AdminApp";
 import { UserProvider } from "./pages/appuserpages/context/UserProvider.jsx";
 import { PartnerAuthProvider } from "./pages/patneruserpages/context/PartnerAuthProvider";
+import NotificationProvider from "./pages/patneruserpages/context/NotificationProvider";
 import { SupportAuthProvider } from "./pages/supportpages/context/SupportAuthProvider";
 import { AdminAuthProvider } from "./pages/adminpages/context/AdminAuthProvider";
 
@@ -29,7 +30,9 @@ export default function RootApp() {
   if (location.pathname.startsWith("/partner")) {
     return (
       <PartnerAuthProvider>
-        <PartnerApp />
+        <NotificationProvider>
+          <PartnerApp />
+        </NotificationProvider>
       </PartnerAuthProvider>
     );
   }

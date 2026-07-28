@@ -1,7 +1,7 @@
 .card {
   display: flex;
-  gap: 26px;
-  padding: 24px;
+  gap: 22px;
+  padding: 18px;
   background: #ffffff;
   border: 1px solid #e9eaf0;
   border-radius: 20px;
@@ -19,9 +19,9 @@
 
 .imageTile {
   flex-shrink: 0;
-  width: 280px;
-  min-height: 260px;
-  border-radius: 18px;
+  width: 230px;
+  min-height: 190px;
+  border-radius: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -29,14 +29,9 @@
   overflow: hidden;
 }
 
-/* Soft sheen so the flat gradient reads like a photo tile.
-   Sits above the fallback letter but never blocks the upload button. */
-.imageTile::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: radial-gradient(120% 90% at 20% 0%, rgba(255, 255, 255, 0.22), transparent 55%);
+/* Empty state: flat tinted tile with a storefront icon — no photo yet. */
+.imageTileEmpty {
+  background: #d8e6fa;
 }
 
 .image {
@@ -48,12 +43,9 @@
   display: block;
 }
 
-.imageLetter {
-  font-size: 60px;
-  font-weight: 800;
-  color: rgba(255, 255, 255, 0.95);
-  letter-spacing: -0.02em;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.14);
+.imageIcon {
+  color: #1a4f9c;
+  margin-bottom: 24px;
 }
 
 /* ---------- Upload photo button ---------- */
@@ -65,29 +57,29 @@
 .uploadButton {
   position: absolute;
   z-index: 2;
-  bottom: 12px;
+  bottom: 10px;
   left: 50%;
   transform: translateX(-50%);
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  padding: 8px 14px;
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  border-radius: 999px;
-  background: rgba(17, 24, 39, 0.55);
-  -webkit-backdrop-filter: blur(6px);
-  backdrop-filter: blur(6px);
-  color: #ffffff;
+  padding: 7px 13px;
+  border: 1px solid #e2e6ee;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #344054;
   font-size: 12.5px;
-  font-weight: 700;
+  font-weight: 600;
   font-family: inherit;
   cursor: pointer;
   white-space: nowrap;
-  transition: background 0.15s ease, transform 0.15s ease;
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.06);
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
 }
 
 .uploadButton:hover {
-  background: rgba(17, 24, 39, 0.72);
+  background: #f8fafc;
+  border-color: #cbd5e1;
   transform: translateX(-50%) translateY(-1px);
 }
 
@@ -102,7 +94,7 @@
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 14px;
 }
 
 .headRow {
@@ -236,91 +228,91 @@
   line-height: 1;
 }
 
-/* ---------- Info boxes ---------- */
+/* ---------- Stats ---------- */
+
+/* The stat/manager boxes and the action row keep a natural width and sit
+   left rather than stretching across the whole card on wide screens. The
+   header row above them still spans full width so the status pill stays
+   pinned to the far right. */
+.statsWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  max-width: 640px;
+  margin-right: auto;
+}
 
 .infoGrid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
 }
 
 .infoBox {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  padding: 16px;
+  padding: 11px 14px;
   border: 1px solid #eef0f4;
   border-radius: 14px;
-  background: #fcfcfd;
+  background: #ffffff;
   min-width: 0;
 }
 
-.infoBoxHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-}
-
 .infoBoxLabel {
-  font-size: 11.5px;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: #667085;
-}
-
-.infoBoxValue {
-  font-size: 17px;
-  font-weight: 800;
-  color: #111827;
-}
-
-.infoBoxHint {
-  margin: auto 0 0;
-  font-size: 11.5px;
+  margin: 0 0 7px;
+  font-size: 12px;
   font-weight: 500;
   color: #98a2b3;
 }
 
-.circlePair {
-  display: flex;
-  justify-content: space-evenly;
-  gap: 8px;
-}
-
-.serviceIconWrap {
+.statRow {
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  margin: 0 auto;
-  border-radius: 50%;
-  background: #eef2ff;
-  color: #4338ca;
+  gap: 14px;
+}
+
+.statValue {
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1;
+  color: #111827;
+}
+
+.statBreakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+  padding-left: 12px;
+  border-left: 1px solid #eef0f4;
+}
+
+.statActive {
+  font-size: 12.5px;
+  font-weight: 500;
+  color: #12783d;
+}
+
+.statInactive {
+  font-size: 12.5px;
+  font-weight: 500;
+  color: #98a2b3;
 }
 
 /* ---------- Manager box ---------- */
 
-.managerChip {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 9px 11px;
-  border: 1px solid #eaecf0;
-  border-radius: 10px;
+.managerBox {
+  padding: 11px 14px;
+  border: 1px solid #eef0f4;
+  border-radius: 14px;
   background: #ffffff;
-  cursor: pointer;
-  font-family: inherit;
   min-width: 0;
-  transition: border-color 0.15s ease, background 0.15s ease;
-  color: #344054;
 }
 
-.managerChip:hover {
-  border-color: #c7d2fe;
-  background: #f5f7ff;
+.managerRow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
 }
 
 .managerAvatar {
@@ -328,55 +320,93 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 28px;
-  height: 28px;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #6366f1, #4338ca);
-  color: #fff;
-  font-size: 10.5px;
+  background: #dbeafe;
+  color: #1a4f9c;
+  font-size: 12px;
   font-weight: 700;
+}
+
+.managerText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+  padding-left: 14px;
+  border-left: 1px solid #eef0f4;
 }
 
 .managerName {
-  flex: 1;
-  min-width: 0;
-  font-size: 12.5px;
-  font-weight: 600;
+  font-size: 14.5px;
+  font-weight: 500;
+  color: #111827;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  text-align: left;
 }
 
-.managerAddButton {
+.managerRole {
+  font-size: 12.5px;
+  font-weight: 500;
+  color: #98a2b3;
+}
+
+.managerEditButton {
+  flex-shrink: 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 5px;
-  margin: auto 0;
-  padding: 9px 14px;
-  border: 1.5px dashed #c7d2fe;
-  border-radius: 10px;
-  background: transparent;
-  color: #4f46e5;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid #e2e6ee;
+  border-radius: 9px;
+  background: #ffffff;
+  color: #475467;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.managerEditButton:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+.managerAddButton {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border: 1px solid #e2e6ee;
+  border-radius: 9px;
+  background: #ffffff;
+  color: #344054;
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 500;
   font-family: inherit;
   cursor: pointer;
   transition: background 0.15s ease, border-color 0.15s ease;
 }
 
 .managerAddButton:hover {
-  background: #eef2ff;
-  border-color: #a5b4fc;
+  background: #f8fafc;
+  border-color: #cbd5e1;
 }
 
 /* ---------- Footer actions ---------- */
 
 .footerRow {
   display: flex;
-  gap: 12px;
+  gap: 10px;
   margin-top: auto;
+  width: 100%;
+  max-width: 640px;
+  margin-right: auto;
 }
 
 .editButton,
@@ -386,13 +416,13 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 13px 18px;
-  border-radius: 12px;
-  font-size: 14px;
+  padding: 10px 18px;
+  border-radius: 11px;
+  font-size: 13.5px;
   font-weight: 700;
   font-family: inherit;
   cursor: pointer;
-  min-height: 48px;
+  min-height: 42px;
   transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease,
     box-shadow 0.15s ease;
 }
@@ -429,8 +459,8 @@
 /* Tablets — slim the tile down so the info boxes keep room to breathe. */
 @media (max-width: 1000px) {
   .imageTile {
-    width: 210px;
-    min-height: 220px;
+    width: 180px;
+    min-height: 170px;
   }
 }
 
@@ -444,15 +474,20 @@
   .imageTile {
     width: 100%;
     min-height: 0;
-    height: 180px;
-  }
-
-  .imageLetter {
-    font-size: 46px;
+    height: 150px;
   }
 
   .infoGrid {
-    grid-template-columns: minmax(0, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .infoBox {
+    padding: 12px 14px;
+  }
+
+  .statValue {
+    font-size: 26px;
   }
 
   .footerRow {

@@ -8,14 +8,57 @@ import {
   getPropertyServices,
   removePropertyManager,
   getPropertyReceptionists,
+  getPropertyAppointments,
 } from "../../api/authService";
 import { getPersonInitials, getPersonFullName } from "../../utils/personDisplay";
+import {
+  AlertCircle,
+  AlertTriangle,
+  ArrowLeft,
+  ArrowRight,
+  CalendarCheck2,
+  CalendarDays,
+  CheckCircle2,
+  ClipboardList,
+  Clock,
+  DollarSign,
+  Mail,
+  MoreVertical,
+  Pencil,
+  Phone,
+  Plus,
+  Settings,
+  Store,
+  Trash2,
+  UserCog,
+  Users,
+  XCircle,
+} from "lucide-react";
+import {
+  SectionCard,
+  StatCircle,
+  TotalsPanel,
+  WeatherBadge,
+  WelcomeBanner,
+} from "../../components/partnercomponent/dashboard";
 import StyleSheet from "./PropertyDetails.module.css";
+
+/** Status rows in the appointments card, mirroring the partner dashboard. */
+const STATUS_ROWS = [
+  { key: "booked", label: "Booked", icon: CalendarCheck2, tone: "ToneBooked" },
+  {
+    key: "completed",
+    label: "Completed",
+    icon: CheckCircle2,
+    tone: "ToneCompleted",
+  },
+  { key: "cancelled", label: "Cancelled", icon: XCircle, tone: "ToneCancelled" },
+];
 
 export default function PropertyDetails() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { properties, refreshProperties, userType } =
+  const { properties, refreshProperties, userType, partnerProfile } =
     useContext(PartnerAuthContext) || {};
   const basePath = userType === "manager" ? "/partner/manager" : "/partner";
   const dashboardPath = `${basePath}/dashboard`;
@@ -73,6 +116,18 @@ export default function PropertyDetails() {
   // the dedicated "Manage Receptionists" page (handleViewReceptionists).
   const [receptionists, setReceptionists] = useState([]);
   const [receptionistLoading, setReceptionistLoading] = useState(false);
+
+  // Appointments for one day. The API is per-date, so the picker drives a
+  // single refetch rather than holding a range in memory.
+  const todayIso = useMemo(() => {
+    const now = new Date();
+    const offsetMs = now.getTimezoneOffset() * 60 * 1000;
+    return new Date(now.getTime() - offsetMs).toISOString().split("T")[0];
+  }, []);
+  const [selectedDate, setSelectedDate] = useState(todayIso);
+  const [appointments, setAppointments] = useState([]);
+  const [appointmentsLoading, setAppointmentsLoading] = useState(false);
+  const [appointmentsError, setAppointmentsError] = useState(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -192,23 +247,34 @@ export default function PropertyDetails() {
     );
   };
 
+  // Overview counts. Records without an explicit status are treated as
+  // ACTIVE, which matches how the dashboard renders them.
+  const countActive = (list) =>
+    list.filter((x) => (x.status || "ACTIVE").toUpperCase() === "ACTIVE").length;
+
   const employeeCount = employees.length;
+  const activeEmployees = countActive(employees);
+
   const serviceCount = services.length;
-  const activeEmployees = employees.filter(
-    (e) => (e.status || "ACTIVE").toUpperCase() === "ACTIVE",
-  ).length;
+  const activeServices = countActive(services);
+
+  const receptionistCount = receptionists.length;
+  const activeReceptionists = countActive(receptionists);
+
+  const appointmentsByStatus = useMemo(() => {
+    const tally = { total: appointments.length, booked: 0, cancelled: 0, completed: 0 };
+    appointments.forEach((a) => {
+      const s = String(a.status || "").toUpperCase();
+      if (s === "CANCELLED") tally.cancelled += 1;
+      else if (s === "COMPLETED") tally.completed += 1;
+      else tally.booked += 1;
+    });
+    return tally;
+  }, [appointments]);
 
   const propertyName = property?.propertyName || property?.name || "Property";
   const propertyStatus = property?.status || "ACTIVE";
-  const streetPart = [property?.buildingNo, property?.street]
-    .filter(Boolean)
-    .join(" ");
-  const cityPart = [property?.city, property?.state, property?.zipCode]
-    .filter(Boolean)
-    .join(", ");
-  const fullAddress = [streetPart, cityPart, property?.country]
-    .filter(Boolean)
-    .join(", ");
+  const isInactive = String(propertyStatus).toUpperCase() === "INACTIVE";
 
   // A "dedicated" manager is one that's not the partner themselves. Owner
   // standing in (manager.isOwner === true) is treated the same as "no manager
@@ -268,6 +334,36 @@ export default function PropertyDetails() {
     }
   };
 
+  useEffect(() => {
+    if (!propertyId || !selectedDate) return undefined;
+
+    let cancelled = false;
+
+    const load = async () => {
+      setAppointmentsLoading(true);
+      setAppointmentsError(null);
+      try {
+        const res = await getPropertyAppointments(propertyId, selectedDate);
+        if (cancelled) return;
+        const records = res?.data?.data?.appointments;
+        setAppointments(Array.isArray(records) ? records : []);
+      } catch {
+        if (cancelled) return;
+        setAppointmentsError("Couldn't load appointments for this day.");
+        setAppointments([]);
+      } finally {
+        if (!cancelled) setAppointmentsLoading(false);
+      }
+    };
+
+    load();
+    return () => {
+      cancelled = true;
+    };
+  }, [propertyId, selectedDate]);
+
+  const isToday = selectedDate === todayIso;
+
   const getReceptionistInitials = getPersonInitials;
   const getReceptionistFullName = getPersonFullName;
 
@@ -278,103 +374,229 @@ export default function PropertyDetails() {
       </div>
 
       <div className={StyleSheet.BodyContainer}>
-        <div className={StyleSheet.TopBar}>
-          <button
-            type="button"
-            className={StyleSheet.BackButton}
-            onClick={() => navigate(dashboardPath)}
+        <button
+          type="button"
+          className={StyleSheet.BackButton}
+          onClick={() => navigate(dashboardPath)}
+        >
+          <ArrowLeft size={16} strokeWidth={2.25} aria-hidden="true" />
+          Back to dashboard
+        </button>
+
+        <WelcomeBanner
+          name={partnerProfile?.firstName}
+          subtitle={
+            <span className={StyleSheet.BannerSubtitle}>
+              {propertyName}
+              <span
+                className={`${StyleSheet.StatusPill} ${
+                  isInactive
+                    ? StyleSheet.StatusPillWarning
+                    : StyleSheet.StatusPillSuccess
+                }`}
+              >
+                <span className={StyleSheet.StatusDot} aria-hidden="true" />
+                {propertyStatus}
+              </span>
+            </span>
+          }
+          actions={<WeatherBadge />}
+        />
+
+        {error && (
+          <div className={StyleSheet.ErrorBanner} role="alert">
+            <AlertCircle size={16} strokeWidth={2.25} aria-hidden="true" />
+            {error}
+          </div>
+        )}
+
+        {/* ---------- Summary: appointments + overview ---------- */}
+        <div className={StyleSheet.SummaryRow}>
+          <SectionCard
+            title={`Appointments · ${isToday ? "Today" : selectedDate}`}
+            aria-label="Appointment counts"
+            actions={
+              <input
+                type="date"
+                className={StyleSheet.DateInput}
+                value={selectedDate}
+                onChange={(e) => setSelectedDate(e.target.value || todayIso)}
+                aria-label="Show appointments for date"
+              />
+            }
           >
-            <span aria-hidden="true">←</span> Back to Dashboard
-          </button>
+            <div className={StyleSheet.TodayRow}>
+              <StatCircle
+                value={appointmentsByStatus.total}
+                label="All Bookings"
+                loading={appointmentsLoading}
+                error={Boolean(appointmentsError)}
+                unit="appointments"
+              />
+              <ul className={StyleSheet.StatusList} aria-busy={appointmentsLoading}>
+                {STATUS_ROWS.map((row) => {
+                  const { key, label, tone } = row;
+                  const RowIcon = row.icon;
+                  return (
+                  <li key={key} className={StyleSheet.StatusRow}>
+                    <span
+                      className={`${StyleSheet.StatusIcon} ${StyleSheet[tone]}`}
+                      aria-hidden="true"
+                    >
+                      <RowIcon size={15} strokeWidth={2.25} />
+                    </span>
+                    <span className={StyleSheet.StatusLabel}>{label}</span>
+                    <span className={StyleSheet.StatusValue}>
+                      {appointmentsLoading ? "—" : appointmentsByStatus[key]}
+                    </span>
+                  </li>
+                  );
+                })}
+              </ul>
+            </div>
+
+            <button
+              type="button"
+              className={`${StyleSheet.PrimaryAction} ${StyleSheet.CardFooterAction}`}
+              onClick={handleViewAppointments}
+            >
+              <CalendarDays size={15} strokeWidth={2.25} aria-hidden="true" />
+              View appointments
+            </button>
+          </SectionCard>
+
+          <div className={StyleSheet.OverviewWrap}>
+          <TotalsPanel
+            loading={loading}
+            items={[
+              {
+                key: "employees",
+                label: "Employees",
+                icon: Users,
+                total: employeeCount,
+                breakdown: {
+                  active: activeEmployees,
+                  inactive: employeeCount - activeEmployees,
+                },
+              },
+              {
+                key: "services",
+                label: "Services",
+                icon: Settings,
+                total: serviceCount,
+                breakdown: {
+                  active: activeServices,
+                  inactive: serviceCount - activeServices,
+                },
+              },
+              {
+                key: "receptionists",
+                label: "Receptionists",
+                icon: ClipboardList,
+                total: receptionistCount,
+                breakdown: {
+                  active: activeReceptionists,
+                  inactive: receptionistCount - activeReceptionists,
+                },
+              },
+            ]}
+          />
+          </div>
         </div>
 
-        {/* Property Hero */}
-        <section className={StyleSheet.HeroCard}>
-          <div className={StyleSheet.HeroHeader}>
-            <div className={StyleSheet.HeroHeading}>
-              <h1 className={StyleSheet.PropertyTitle}>{propertyName}</h1>
-              {fullAddress && (
-                <p className={StyleSheet.AddressLine}>
-                  <span aria-hidden="true">📍</span> {fullAddress}
-                </p>
-              )}
-            </div>
+        {/* ---------- Manager ---------- */}
+        <section className={StyleSheet.ManagerCard}>
+          <p className={StyleSheet.StatLabel}>Manager</p>
 
-            <div className={StyleSheet.HeroActions}>
+          {manager ? (
+            <div className={StyleSheet.ManagerRow}>
+              <span className={StyleSheet.ManagerAvatar} aria-hidden="true">
+                {managerInitials}
+              </span>
+              <div className={StyleSheet.ManagerText}>
+                <span className={StyleSheet.ManagerName}>
+                  {managerFullName || "Manager"}
+                </span>
+                <span className={StyleSheet.ManagerMeta}>{manager.email}</span>
+              </div>
+
+              <div className={StyleSheet.MenuWrap}>
+                <button
+                  type="button"
+                  className={StyleSheet.IconButton}
+                  aria-label="Manager actions"
+                  aria-expanded={isManagerMenuOpen}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setIsManagerMenuOpen((open) => !open);
+                  }}
+                >
+                  <MoreVertical size={16} strokeWidth={2.25} aria-hidden="true" />
+                </button>
+
+                {isManagerMenuOpen && (
+                  <div
+                    className={StyleSheet.Menu}
+                    role="menu"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <button
+                      type="button"
+                      role="menuitem"
+                      className={StyleSheet.MenuItem}
+                      onClick={() => handleOpenManagerModal("edit")}
+                    >
+                      <Pencil size={15} strokeWidth={2} aria-hidden="true" />
+                      Edit manager
+                    </button>
+                    <button
+                      type="button"
+                      role="menuitem"
+                      className={`${StyleSheet.MenuItem} ${StyleSheet.MenuItemDanger}`}
+                      onClick={() => {
+                        setIsManagerMenuOpen(false);
+                        setManagerError(null);
+                        setIsConfirmingManagerDelete(true);
+                      }}
+                    >
+                      <Trash2 size={15} strokeWidth={2} aria-hidden="true" />
+                      Remove manager
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+          ) : (
+            <div className={StyleSheet.ManagerRow}>
+              <span
+                className={`${StyleSheet.ManagerAvatar} ${StyleSheet.ManagerAvatarEmpty}`}
+                aria-hidden="true"
+              >
+                <UserCog size={17} strokeWidth={2} />
+              </span>
+              <div className={StyleSheet.ManagerText}>
+                <span className={StyleSheet.ManagerName}>
+                  No manager assigned
+                </span>
+                <span className={StyleSheet.ManagerMeta}>
+                  You&apos;re managing this property yourself.
+                </span>
+              </div>
               <button
                 type="button"
-                className={StyleSheet.PrimaryAction}
-                onClick={handleViewAppointments}
+                className={StyleSheet.SecondaryAction}
+                onClick={() => handleOpenManagerModal("add")}
               >
-                <span aria-hidden="true">📅</span> View Appointments
+                <Plus size={15} strokeWidth={2.5} aria-hidden="true" />
+                Add manager
               </button>
-            </div>
-          </div>
-
-          {/* Stats */}
-          <div className={StyleSheet.StatsGrid}>
-            <div
-              className={`${StyleSheet.StatCard} ${StyleSheet.StatCardEmployees}`}
-            >
-              <div className={StyleSheet.StatIcon} aria-hidden="true">
-                👥
-              </div>
-              <div className={StyleSheet.StatBody}>
-                <div className={StyleSheet.StatLabel}>Employees</div>
-                <div className={StyleSheet.StatValue}>
-                  {loading ? "…" : employeeCount}
-                </div>
-                <div className={StyleSheet.StatSub}>
-                  {loading ? " " : `${activeEmployees} active`}
-                </div>
-              </div>
-            </div>
-
-            <div
-              className={`${StyleSheet.StatCard} ${StyleSheet.StatCardServices}`}
-            >
-              <div className={StyleSheet.StatIcon} aria-hidden="true">
-                ⚙
-              </div>
-              <div className={StyleSheet.StatBody}>
-                <div className={StyleSheet.StatLabel}>Services</div>
-                <div className={StyleSheet.StatValue}>
-                  {loading ? "…" : serviceCount}
-                </div>
-                <div className={StyleSheet.StatSub}>
-                  {loading ? " " : "Active services"}
-                </div>
-              </div>
-            </div>
-
-            <div
-              className={`${StyleSheet.StatCard} ${StyleSheet.StatCardStatus}`}
-            >
-              <div className={StyleSheet.StatIcon} aria-hidden="true">
-                🏢
-              </div>
-              <div className={StyleSheet.StatBody}>
-                <div className={StyleSheet.StatLabel}>Status</div>
-                <div className={StyleSheet.StatValue}>{propertyStatus}</div>
-                <div className={StyleSheet.StatSub}>
-                  {propertyStatus.toUpperCase() === "INACTIVE"
-                    ? "Add an employee to activate"
-                    : "Currently accepting bookings"}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {error && (
-            <div className={StyleSheet.ErrorBanner} role="alert">
-              {error}
             </div>
           )}
         </section>
 
-        {/* Employees Section */}
+        {/* ---------- Employees ---------- */}
         <section className={StyleSheet.Section}>
-          <div className={StyleSheet.SectionHeader}>
+          <header className={StyleSheet.SectionHeader}>
             <div>
               <h2 className={StyleSheet.SectionTitle}>Employees</h2>
               <p className={StyleSheet.SectionSub}>
@@ -383,32 +605,32 @@ export default function PropertyDetails() {
             </div>
             <button
               type="button"
-              className={StyleSheet.SecondaryAction}
+              className={`${StyleSheet.SecondaryAction} ${StyleSheet.ManageAction}`}
               onClick={handleViewEmployees}
             >
-              Manage Employees →
+              Manage
+              <ArrowRight size={15} strokeWidth={2.25} aria-hidden="true" />
             </button>
-          </div>
+          </header>
 
           {loading ? (
-            <div className={StyleSheet.EmptyState}>
-              <p>Loading employees…</p>
-            </div>
+            <p className={StyleSheet.LoadingText}>Loading employees…</p>
           ) : employees.length === 0 ? (
             <div className={StyleSheet.EmptyState}>
-              <div className={StyleSheet.EmptyIcon}>👥</div>
+              <Users size={26} strokeWidth={1.75} aria-hidden="true" />
               <h3>No employees yet</h3>
               <p>Add your first employee to start taking appointments.</p>
               <button
                 type="button"
-                className={StyleSheet.PrimaryAction}
+                className={StyleSheet.SecondaryAction}
                 onClick={handleViewEmployees}
               >
-                Add Employee
+                <Plus size={15} strokeWidth={2.5} aria-hidden="true" />
+                Add employee
               </button>
             </div>
           ) : (
-            <div className={StyleSheet.EmployeeGrid}>
+            <ul className={StyleSheet.PersonGrid}>
               {employees.map((emp) => {
                 const empId = emp.employeeId || emp.id;
                 const firstName = emp.firstName || "";
@@ -416,50 +638,47 @@ export default function PropertyDetails() {
                 const initials =
                   (firstName[0] || "E").toUpperCase() +
                   (lastName[0] || "").toUpperCase();
-                const statusRaw = (emp.status || "ACTIVE").toUpperCase();
+                const inactive = (emp.status || "ACTIVE").toUpperCase() === "INACTIVE";
+
                 return (
-                  <div key={empId} className={StyleSheet.EmployeeCard}>
-                    <div className={StyleSheet.EmployeeAvatar}>{initials}</div>
-                    <div className={StyleSheet.EmployeeBody}>
-                      <div className={StyleSheet.EmployeeName}>
-                        {firstName} {lastName}
-                      </div>
+                  <li key={empId} className={StyleSheet.PersonCard}>
+                    <span className={StyleSheet.PersonAvatar} aria-hidden="true">
+                      {initials}
+                    </span>
+                    <div className={StyleSheet.PersonBody}>
+                      <span className={StyleSheet.PersonName}>
+                        {`${firstName} ${lastName}`.trim() || "Employee"}
+                      </span>
                       {emp.email && (
-                        <div className={StyleSheet.EmployeeMeta}>
-                          <span aria-hidden="true">✉</span>
-                          <span className={StyleSheet.EmployeeMetaText}>
-                            {emp.email}
-                          </span>
-                        </div>
+                        <span className={StyleSheet.PersonMeta}>
+                          <Mail size={13} strokeWidth={2} aria-hidden="true" />
+                          {emp.email}
+                        </span>
                       )}
                       {emp.phoneNumber && (
-                        <div className={StyleSheet.EmployeeMeta}>
-                          <span aria-hidden="true">📞</span>
-                          <span className={StyleSheet.EmployeeMetaText}>
-                            {emp.phoneNumber}
-                          </span>
-                        </div>
+                        <span className={StyleSheet.PersonMeta}>
+                          <Phone size={13} strokeWidth={2} aria-hidden="true" />
+                          {emp.phoneNumber}
+                        </span>
                       )}
                     </div>
                     <span
-                      className={StyleSheet.EmployeeStatus}
-                      style={{
-                        backgroundColor:
-                          statusRaw === "INACTIVE" ? "#f59e0b" : "#10b981",
-                      }}
+                      className={`${StyleSheet.Tag} ${
+                        inactive ? StyleSheet.TagWarning : StyleSheet.TagSuccess
+                      }`}
                     >
-                      {statusRaw}
+                      {inactive ? "Inactive" : "Active"}
                     </span>
-                  </div>
+                  </li>
                 );
               })}
-            </div>
+            </ul>
           )}
         </section>
 
-        {/* Services Section */}
+        {/* ---------- Services ---------- */}
         <section className={StyleSheet.Section}>
-          <div className={StyleSheet.SectionHeader}>
+          <header className={StyleSheet.SectionHeader}>
             <div>
               <h2 className={StyleSheet.SectionTitle}>Services</h2>
               <p className={StyleSheet.SectionSub}>
@@ -468,49 +687,65 @@ export default function PropertyDetails() {
             </div>
             <button
               type="button"
-              className={StyleSheet.SecondaryAction}
+              className={`${StyleSheet.SecondaryAction} ${StyleSheet.ManageAction}`}
               onClick={handleViewServices}
             >
-              Manage Services →
+              Manage
+              <ArrowRight size={15} strokeWidth={2.25} aria-hidden="true" />
             </button>
-          </div>
+          </header>
 
           {loading ? (
-            <div className={StyleSheet.EmptyState}>
-              <p>Loading services…</p>
-            </div>
+            <p className={StyleSheet.LoadingText}>Loading services…</p>
           ) : services.length === 0 ? (
             <div className={StyleSheet.EmptyState}>
-              <div className={StyleSheet.EmptyIcon}>⚙</div>
+              <Settings size={26} strokeWidth={1.75} aria-hidden="true" />
               <h3>No services yet</h3>
               <p>Add services so customers can book appointments.</p>
               <button
                 type="button"
-                className={StyleSheet.PrimaryAction}
+                className={StyleSheet.SecondaryAction}
                 onClick={handleViewServices}
               >
-                Add Service
+                <Plus size={15} strokeWidth={2.5} aria-hidden="true" />
+                Add service
               </button>
             </div>
           ) : (
-            <div className={StyleSheet.ServicesGrid}>
+            <ul className={StyleSheet.ServicesGrid}>
               {services.map((svc) => {
                 const svcId = svc.serviceId || svc.id;
                 const name = svc.serviceName || svc.name || "Service";
                 const duration = svc.serviceDuration || svc.duration || null;
                 const price = svc.servicePrice ?? svc.price ?? null;
+
+                const inactive =
+                  (svc.status || "ACTIVE").toUpperCase() === "INACTIVE";
+
                 return (
-                  <div key={svcId} className={StyleSheet.ServiceCard}>
-                    <div className={StyleSheet.ServiceName}>{name}</div>
+                  <li key={svcId} className={StyleSheet.ServiceCard}>
+                    <div className={StyleSheet.ServiceHead}>
+                      <span className={StyleSheet.ServiceName}>{name}</span>
+                      <span
+                        className={`${StyleSheet.Tag} ${
+                          inactive
+                            ? StyleSheet.TagWarning
+                            : StyleSheet.TagSuccess
+                        }`}
+                      >
+                        {inactive ? "Inactive" : "Active"}
+                      </span>
+                    </div>
                     <div className={StyleSheet.ServiceMetaRow}>
                       {duration != null && (
                         <span className={StyleSheet.ServiceMeta}>
-                          <span aria-hidden="true">⏱</span> {duration} min
+                          <Clock size={13} strokeWidth={2} aria-hidden="true" />
+                          {duration} min
                         </span>
                       )}
                       {price != null && (
                         <span className={StyleSheet.ServiceMeta}>
-                          <span aria-hidden="true">💲</span>
+                          <DollarSign size={13} strokeWidth={2} aria-hidden="true" />
                           {price}
                         </span>
                       )}
@@ -520,91 +755,84 @@ export default function PropertyDetails() {
                         {svc.description}
                       </p>
                     )}
-                  </div>
+                  </li>
                 );
               })}
-            </div>
+            </ul>
           )}
         </section>
 
-        {/* Receptionists Section — front-desk, read-only access to this
-            property's appointments. Preview only; add/edit/remove lives on
-            the dedicated Manage Receptionists page. */}
+        {/* ---------- Receptionists ----------
+            Front-desk, read-only access to this property's appointments.
+            Preview only; add/edit/remove lives on the dedicated page. */}
         <section className={StyleSheet.Section}>
-          <div className={StyleSheet.SectionHeader}>
+          <header className={StyleSheet.SectionHeader}>
             <div>
               <h2 className={StyleSheet.SectionTitle}>Receptionists</h2>
               <p className={StyleSheet.SectionSub}>
-                Front-desk access — can only view this property's
+                Front-desk access — can only view this property&apos;s
                 appointments.
               </p>
             </div>
             <button
               type="button"
-              className={StyleSheet.SecondaryAction}
+              className={`${StyleSheet.SecondaryAction} ${StyleSheet.ManageAction}`}
               onClick={handleViewReceptionists}
             >
-              Manage Receptionists →
+              Manage
+              <ArrowRight size={15} strokeWidth={2.25} aria-hidden="true" />
             </button>
-          </div>
+          </header>
 
           {receptionistLoading ? (
-            <div className={StyleSheet.EmptyState}>
-              <p>Loading receptionists…</p>
-            </div>
+            <p className={StyleSheet.LoadingText}>Loading receptionists…</p>
           ) : receptionists.length === 0 ? (
             <div className={StyleSheet.EmptyState}>
-              <div className={StyleSheet.EmptyIcon}>📋</div>
+              <ClipboardList size={26} strokeWidth={1.75} aria-hidden="true" />
               <h3>No receptionists yet</h3>
               <p>
-                Add a receptionist to give front-desk staff a simple,
-                read-only view of this property's appointments.
+                Give front-desk staff a simple, read-only view of this
+                property&apos;s appointments.
               </p>
               <button
                 type="button"
-                className={StyleSheet.PrimaryAction}
+                className={StyleSheet.SecondaryAction}
                 onClick={handleViewReceptionists}
               >
-                Add Receptionist
+                <Plus size={15} strokeWidth={2.5} aria-hidden="true" />
+                Add receptionist
               </button>
             </div>
           ) : (
-            <div className={StyleSheet.EmployeeGrid}>
+            <ul className={StyleSheet.PersonGrid}>
               {receptionists.map((r) => (
-                <div key={r.userId} className={StyleSheet.EmployeeCard}>
-                  <div className={StyleSheet.EmployeeAvatar}>
+                <li key={r.userId} className={StyleSheet.PersonCard}>
+                  <span className={StyleSheet.PersonAvatar} aria-hidden="true">
                     {getReceptionistInitials(r)}
-                  </div>
-                  <div className={StyleSheet.EmployeeBody}>
-                    <div className={StyleSheet.EmployeeName}>
+                  </span>
+                  <div className={StyleSheet.PersonBody}>
+                    <span className={StyleSheet.PersonName}>
                       {getReceptionistFullName(r) || "Receptionist"}
-                    </div>
+                    </span>
                     {r.email && (
-                      <div className={StyleSheet.EmployeeMeta}>
-                        <span aria-hidden="true">✉</span>
-                        <span className={StyleSheet.EmployeeMetaText}>
-                          {r.email}
-                        </span>
-                      </div>
+                      <span className={StyleSheet.PersonMeta}>
+                        <Mail size={13} strokeWidth={2} aria-hidden="true" />
+                        {r.email}
+                      </span>
                     )}
                     {r.phoneNumber && (
-                      <div className={StyleSheet.EmployeeMeta}>
-                        <span aria-hidden="true">📞</span>
-                        <span className={StyleSheet.EmployeeMetaText}>
-                          {r.phoneNumber}
-                        </span>
-                      </div>
+                      <span className={StyleSheet.PersonMeta}>
+                        <Phone size={13} strokeWidth={2} aria-hidden="true" />
+                        {r.phoneNumber}
+                      </span>
                     )}
                   </div>
-                  <span
-                    className={StyleSheet.EmployeeStatus}
-                    style={{ backgroundColor: "#10b981" }}
-                  >
+                  <span className={`${StyleSheet.Tag} ${StyleSheet.TagNeutral}`}>
                     Read-only
                   </span>
-                </div>
+                </li>
               ))}
-            </div>
+            </ul>
           )}
         </section>
       </div>
@@ -634,9 +862,9 @@ export default function PropertyDetails() {
             aria-labelledby="confirm-delete-manager-title"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className={StyleSheet.ConfirmIcon} aria-hidden="true">
-              ⚠
-            </div>
+            <span className={StyleSheet.ConfirmIcon} aria-hidden="true">
+              <AlertTriangle size={20} strokeWidth={2} />
+            </span>
             <h3
               id="confirm-delete-manager-title"
               className={StyleSheet.ConfirmTitle}
@@ -674,7 +902,6 @@ export default function PropertyDetails() {
           </div>
         </div>
       )}
-
     </div>
   );
 }

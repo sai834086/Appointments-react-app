@@ -15,9 +15,11 @@ import {
 } from "lucide-react";
 import styles from "./PartnerSidebar.module.css";
 import { PartnerAuthContext } from "../../pages/patneruserpages/context/PartnerAuthContext";
+import { NotificationContext } from "../../pages/patneruserpages/context/NotificationContext";
 
 export default function PartnerSidebar({ expanded = false, onExpandedChange }) {
   const { userType } = useContext(PartnerAuthContext) || {};
+  const { unreadCount = 0 } = useContext(NotificationContext) || {};
   const [open, setOpen] = useState(false);
   const [sidebarHovered, setSidebarHovered] = useState(false);
 
@@ -57,7 +59,9 @@ export default function PartnerSidebar({ expanded = false, onExpandedChange }) {
       to: withBase("/notifications"),
       label: "Notifications",
       icon: Bell,
-      hasDot: true,
+      // Only badge the bell when there's actually something to read.
+      hasDot: unreadCount > 0,
+      badgeCount: unreadCount,
     },
     { to: withBase("/account"), label: "Profile", icon: UserCircle },
     { to: withBase("/settings"), label: "Settings", icon: Settings },
@@ -149,7 +153,10 @@ export default function PartnerSidebar({ expanded = false, onExpandedChange }) {
         {/* Primary nav */}
         <nav className={styles.Nav} aria-label="Primary">
           <ul className={styles.NavList}>
-            {navItems.map(({ to, label, icon: Icon, hasDot }) => (
+            {navItems.map((navItem) => {
+              const { to, label, hasDot, badgeCount } = navItem;
+              const Icon = navItem.icon;
+              return (
               <li key={to} className={styles.NavItem}>
                 <NavLink
                   to={to}
@@ -169,6 +176,11 @@ export default function PartnerSidebar({ expanded = false, onExpandedChange }) {
                   {expanded ? (
                     <>
                       <span className={styles.NavLabel}>{label}</span>
+                      {badgeCount > 0 && (
+                        <span className={styles.NavCount}>
+                          {badgeCount > 99 ? "99+" : badgeCount}
+                        </span>
+                      )}
                       <span
                         className={styles.NavIndicator}
                         aria-hidden="true"
@@ -177,7 +189,8 @@ export default function PartnerSidebar({ expanded = false, onExpandedChange }) {
                   ) : null}
                 </NavLink>
               </li>
-            ))}
+              );
+            })}
           </ul>
         </nav>
 

@@ -294,3 +294,20 @@ export const getPropertyAppointments = (propertyId, date) =>
 /* Partner Dashboard Stats */
 export const getDashboardStats = (period = "MONTH") =>
   api.get(`partnerUser/dashboard/stats`, { params: { period } });
+
+/* Partner Notifications End Points */
+export const getPartnerNotifications = ({
+  unread = false,
+  page = 0,
+  size = 30,
+} = {}) =>
+  api.get("partnerUser/notifications", { params: { unread, page, size } });
+
+export const getPartnerUnreadCount = () =>
+  api.get("partnerUser/notifications/unreadCount");
+
+export const markPartnerNotificationRead = (notificationId) =>
+  api.patch(`partnerUser/notifications/${notificationId}/read`);
+
+export const markAllPartnerNotificationsRead = () =>
+  api.patch("partnerUser/notifications/markAllRead");

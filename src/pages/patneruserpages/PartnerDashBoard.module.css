@@ -1627,7 +1627,9 @@ body {
 .PropertyCardList > * {
   width: 100%;
   max-width: 1020px;
-  margin: 0 auto;
+  /* Left-aligned rather than centered — on wide screens the cards used to
+     float in the middle with a large gap under the section heading. */
+  margin: 0 auto 0 0;
 }
 
 /* Compact Add button for the Properties section header, sitting next to

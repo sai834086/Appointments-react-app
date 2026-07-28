@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect } from "react";
-import StatCircle from "./StatCircle";
 import styles from "./PropertyCard.module.css";
-import { MapPin, Settings, Pencil, Eye, Plus, Camera } from "lucide-react";
+import { MapPin, Pencil, Eye, Plus, Camera, Store } from "lucide-react";
 
 /**
  * PropertyCard — one property in the portfolio.
@@ -12,9 +11,8 @@ import { MapPin, Settings, Pencil, Eye, Plus, Camera } from "lucide-react";
  *             | [Edit Property]        [View Property]
  *
  * The image slot shows the property's uploaded photo when available; until
- * one is set it falls back to a deterministic gradient tile with the
- * property's initial (same property → same color). Users can upload a photo
- * via the "Upload photo" button. NOTE: this is frontend-only for now — the
+ * one is set it falls back to a neutral tinted tile with a storefront icon.
+ * Users can upload a photo via the "Add photo" button. NOTE: this is frontend-only for now — the
  * selected image is previewed locally (object URL) and NOT yet sent to the
  * backend / S3. Wiring persistence is a follow-up once the bucket exists.
  *
@@ -24,29 +22,6 @@ import { MapPin, Settings, Pencil, Eye, Plus, Camera } from "lucide-react";
  *   onEdit    (property) => void — deletion lives inside the Edit modal
  *   onManage  (property, mode: "add" | "edit") => void
  */
-
-const AVATAR_GRADIENTS = [
-  "linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)",
-  "linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%)",
-  "linear-gradient(135deg, #10b981 0%, #059669 100%)",
-  "linear-gradient(135deg, #f59e0b 0%, #d97706 100%)",
-  "linear-gradient(135deg, #ec4899 0%, #db2777 100%)",
-  "linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%)",
-  "linear-gradient(135deg, #14b8a6 0%, #0d9488 100%)",
-  "linear-gradient(135deg, #f43f5e 0%, #e11d48 100%)",
-];
-
-function getAvatar(property) {
-  const name = property?.propertyName || property?.name || "Property";
-  let hash = 0;
-  for (let i = 0; i < name.length; i += 1) {
-    hash = (hash * 31 + name.charCodeAt(i)) >>> 0;
-  }
-  return {
-    letter: name.charAt(0).toUpperCase() || "P",
-    gradient: AVATAR_GRADIENTS[hash % AVATAR_GRADIENTS.length],
-  };
-}
 
 function buildAddressLine(property) {
   return [
@@ -102,7 +77,6 @@ export default function PropertyCard({ property, onView, onEdit, onManage }) {
     e.target.value = "";
   };
 
-  const avatar = getAvatar(property);
   const addressLine = buildAddressLine(property);
   const inactive = property.status === "INACTIVE";
 
@@ -133,17 +107,17 @@ export default function PropertyCard({ property, onView, onEdit, onManage }) {
 
   return (
     <article className={styles.card} aria-label={name}>
-      {/* ---------- Image tile (uploaded photo, or gradient + initial) ---------- */}
-      <div
-        className={styles.imageTile}
-        style={imageUrl ? undefined : { background: avatar.gradient }}
-      >
+      {/* ---------- Image tile (uploaded photo, or tinted storefront icon) ---------- */}
+      <div className={`${styles.imageTile} ${imageUrl ? "" : styles.imageTileEmpty}`}>
         {imageUrl ? (
           <img src={imageUrl} alt={`${name} property`} className={styles.image} />
         ) : (
-          <span className={styles.imageLetter} aria-hidden="true">
-            {avatar.letter}
-          </span>
+          <Store
+            className={styles.imageIcon}
+            size={52}
+            strokeWidth={1.75}
+            aria-hidden="true"
+          />
         )}
 
         <input
@@ -162,7 +136,7 @@ export default function PropertyCard({ property, onView, onEdit, onManage }) {
           onClick={handlePickImage}
         >
           <Camera size={14} strokeWidth={2.25} aria-hidden="true" />
-          {imageUrl ? "Change photo" : "Upload photo"}
+          {imageUrl ? "Change photo" : "Add photo"}
         </button>
       </div>
 
@@ -218,69 +192,79 @@ export default function PropertyCard({ property, onView, onEdit, onManage }) {
           </div>
         </header>
 
-        {/* ---------- Info boxes: Employees / Services / Manager ---------- */}
-        <div className={styles.infoGrid}>
-          <section className={styles.infoBox} aria-label="Employees">
-            <header className={styles.infoBoxHeader}>
-              <span className={styles.infoBoxLabel}>Employees</span>
-              <span className={styles.infoBoxValue}>{totalEmployees}</span>
-            </header>
-            {activeEmployees != null ? (
-              <div className={styles.circlePair}>
-                <StatCircle size="sm" label="Active" value={activeEmployees} />
-                <StatCircle size="sm" label="Inactive" value={inactiveEmployees} />
+        {/* ---------- Stats: Employees / Services, then Manager below ---------- */}
+        <div className={styles.statsWrap}>
+          <div className={styles.infoGrid}>
+            <section className={styles.infoBox} aria-label="Employees">
+              <p className={styles.infoBoxLabel}>Employees</p>
+              <div className={styles.statRow}>
+                <span className={styles.statValue}>{totalEmployees}</span>
+                {activeEmployees != null ? (
+                  <div className={styles.statBreakdown}>
+                    <span className={styles.statActive}>{activeEmployees} active</span>
+                    <span className={styles.statInactive}>{inactiveEmployees} inactive</span>
+                  </div>
+                ) : (
+                  <div className={styles.statBreakdown}>
+                    <span className={styles.statInactive}>Across this property</span>
+                  </div>
+                )}
               </div>
-            ) : (
-              <p className={styles.infoBoxHint}>Across this property</p>
-            )}
-          </section>
+            </section>
 
-          <section className={styles.infoBox} aria-label="Services">
-            <header className={styles.infoBoxHeader}>
-              <span className={styles.infoBoxLabel}>Services</span>
-              <span className={styles.infoBoxValue}>{totalServices}</span>
-            </header>
-            {activeServices != null ? (
-              <div className={styles.circlePair}>
-                <StatCircle size="sm" label="Active" value={activeServices} />
-                <StatCircle size="sm" label="Inactive" value={inactiveServices} />
+            <section className={styles.infoBox} aria-label="Services">
+              <p className={styles.infoBoxLabel}>Services</p>
+              <div className={styles.statRow}>
+                <span className={styles.statValue}>{totalServices}</span>
+                {activeServices != null ? (
+                  <div className={styles.statBreakdown}>
+                    <span className={styles.statActive}>{activeServices} active</span>
+                    <span className={styles.statInactive}>{inactiveServices} inactive</span>
+                  </div>
+                ) : (
+                  <div className={styles.statBreakdown}>
+                    <span className={styles.statInactive}>Offered at this property</span>
+                  </div>
+                )}
               </div>
-            ) : (
-              <>
-                <div className={styles.serviceIconWrap} aria-hidden="true">
-                  <Settings size={22} strokeWidth={1.75} />
-                </div>
-                <p className={styles.infoBoxHint}>Offered at this property</p>
-              </>
-            )}
-          </section>
+            </section>
+          </div>
 
-          <section className={styles.infoBox} aria-label="Manager">
-            <header className={styles.infoBoxHeader}>
-              <span className={styles.infoBoxLabel}>Manager</span>
-            </header>
+          <section className={styles.managerBox} aria-label="Manager">
+            <p className={styles.infoBoxLabel}>Manager</p>
             {managed ? (
-              <button
-                type="button"
-                className={styles.managerChip}
-                onClick={() => onManage(property, "edit")}
-                title="Edit manager"
-              >
+              <div className={styles.managerRow}>
                 <span className={styles.managerAvatar} aria-hidden="true">
                   {managerInitials}
                 </span>
-                <span className={styles.managerName}>{managerName}</span>
-                <Pencil size={12} strokeWidth={2.25} aria-hidden="true" />
-              </button>
+                <div className={styles.managerText}>
+                  <span className={styles.managerName}>{managerName}</span>
+                  <span className={styles.managerRole}>Property manager</span>
+                </div>
+                <button
+                  type="button"
+                  className={styles.managerEditButton}
+                  onClick={() => onManage(property, "edit")}
+                  aria-label="Edit manager"
+                  title="Edit manager"
+                >
+                  <Pencil size={14} strokeWidth={2.25} aria-hidden="true" />
+                </button>
+              </div>
             ) : (
-              <button
-                type="button"
-                className={styles.managerAddButton}
-                onClick={() => onManage(property, "add")}
-              >
-                <Plus size={14} strokeWidth={2.5} aria-hidden="true" />
-                Add
-              </button>
+              <div className={styles.managerRow}>
+                <div className={styles.managerText}>
+                  <span className={styles.managerRole}>No manager assigned yet</span>
+                </div>
+                <button
+                  type="button"
+                  className={styles.managerAddButton}
+                  onClick={() => onManage(property, "add")}
+                >
+                  <Plus size={14} strokeWidth={2.5} aria-hidden="true" />
+                  Add manager
+                </button>
+              </div>
             )}
           </section>
         </div>

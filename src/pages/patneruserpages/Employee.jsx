@@ -20,21 +20,24 @@ import Header from "../../components/partnercomponent/Header";
 import AddEmployeeModal from "../../components/partnercomponent/AddEmployeeModal";
 import EditEmployeeModal from "../../components/partnercomponent/EditEmployeeModal";
 import AddServiceToEmployeeModal from "../../components/partnercomponent/AddServiceToEmployeeModal";
+import {
+  AlertTriangle,
+  ArrowLeft,
+  Building2,
+  CalendarClock,
+  CalendarDays,
+  ConciergeBell,
+  Mail,
+  MoreVertical,
+  Pause,
+  Pencil,
+  Phone,
+  Plus,
+  Trash2,
+  Users,
+  X,
+} from "lucide-react";
 import StyleSheet from "./Employee.module.css";
-
-const AVATAR_COLORS = [
-  "linear-gradient(135deg, #667eea, #764ba2)",
-  "linear-gradient(135deg, #f093fb, #f5576c)",
-  "linear-gradient(135deg, #4facfe, #00f2fe)",
-  "linear-gradient(135deg, #43e97b, #38f9d7)",
-  "linear-gradient(135deg, #fa709a, #fee140)",
-  "linear-gradient(135deg, #a18cd1, #fbc2eb)",
-];
-
-function getAvatarColor(name) {
-  const code = (name?.charCodeAt(0) || 65) - 65;
-  return AVATAR_COLORS[Math.abs(code) % AVATAR_COLORS.length];
-}
 
 function initialsOf(employee) {
   const f = (employee?.firstName || "").trim();
@@ -480,19 +483,6 @@ export default function Employee() {
 
   const propertyName =
     propertyDetails?.propertyName || propertyDetails?.name || "Property";
-  const streetPart = [propertyDetails?.buildingNo, propertyDetails?.street]
-    .filter(Boolean)
-    .join(" ");
-  const cityPart = [
-    propertyDetails?.city,
-    propertyDetails?.state,
-    propertyDetails?.zipCode,
-  ]
-    .filter(Boolean)
-    .join(", ");
-  const fullAddress = [streetPart, cityPart, propertyDetails?.country]
-    .filter(Boolean)
-    .join(", ");
 
   if (!propertyId) {
     return (
@@ -502,7 +492,9 @@ export default function Employee() {
         </div>
         <div className={StyleSheet.BodyContainer}>
           <div className={StyleSheet.EmptyState}>
-            <div className={StyleSheet.EmptyIcon}>🏢</div>
+            <div className={StyleSheet.EmptyIcon}>
+              <Building2 size={26} strokeWidth={1.75} aria-hidden="true" />
+            </div>
             <h2>No property selected</h2>
             <p>Select a property from the dashboard to view its employees.</p>
             <button
@@ -531,65 +523,72 @@ export default function Employee() {
             className={StyleSheet.BackLink}
             onClick={handleBackToProperty}
           >
-            <span aria-hidden="true">←</span> Back to Property
+            <ArrowLeft size={16} strokeWidth={2.25} aria-hidden="true" />
+            Back to Property
           </button>
         </div>
 
-        {/* Hero */}
+        {/* ---------- Header ---------- */}
         <section className={StyleSheet.HeroCard}>
           <div className={StyleSheet.HeroHeader}>
             <div className={StyleSheet.HeroHeading}>
               <h1 className={StyleSheet.PageTitle}>Employees</h1>
               <p className={StyleSheet.SubLine}>
                 <span className={StyleSheet.SubAccent}>{propertyName}</span>
-                {fullAddress && (
-                  <>
-                    <span className={StyleSheet.SubDot} aria-hidden="true">
-                      •
-                    </span>
-                    <span className={StyleSheet.SubText}>{fullAddress}</span>
-                  </>
-                )}
+                <span className={StyleSheet.SubDot} aria-hidden="true">
+                  •
+                </span>
+                <span className={StyleSheet.SubText}>
+                  {loading
+                    ? "Loading…"
+                    : `${totalCount} ${totalCount === 1 ? "person" : "people"}`}
+                </span>
               </p>
             </div>
+
+            <button
+              type="button"
+              className={StyleSheet.PrimaryAction}
+              onClick={handleAddEmployee}
+            >
+              <Plus size={15} strokeWidth={2.25} aria-hidden="true" />
+              Add Employee
+            </button>
           </div>
 
           <div className={StyleSheet.StatsGrid}>
             <div className={`${StyleSheet.StatCard} ${StyleSheet.StatTotal}`}>
-              <div className={StyleSheet.StatIcon} aria-hidden="true">👥</div>
+              <div className={StyleSheet.StatIcon} aria-hidden="true">
+                <Users size={18} strokeWidth={2} />
+              </div>
               <div className={StyleSheet.StatBody}>
                 <div className={StyleSheet.StatLabel}>Total team</div>
                 <div className={StyleSheet.StatValue}>
-                  {loading ? "…" : totalCount}
+                  {loading ? "—" : totalCount}
                 </div>
-                <div className={StyleSheet.StatSub}>All employees</div>
               </div>
             </div>
 
             <div className={`${StyleSheet.StatCard} ${StyleSheet.StatActive}`}>
-              <div className={StyleSheet.StatIcon} aria-hidden="true">✅</div>
+              <div className={StyleSheet.StatIcon} aria-hidden="true">
+                <CalendarDays size={18} strokeWidth={2} />
+              </div>
               <div className={StyleSheet.StatBody}>
                 <div className={StyleSheet.StatLabel}>Active</div>
                 <div className={StyleSheet.StatValue}>
-                  {loading ? "…" : activeCount}
+                  {loading ? "—" : activeCount}
                 </div>
-                <div className={StyleSheet.StatSub}>Accepting bookings</div>
               </div>
             </div>
 
-            <div
-              className={`${StyleSheet.StatCard} ${StyleSheet.StatInactive}`}
-            >
-              <div className={StyleSheet.StatIcon} aria-hidden="true">⏸</div>
+            <div className={`${StyleSheet.StatCard} ${StyleSheet.StatInactive}`}>
+              <div className={StyleSheet.StatIcon} aria-hidden="true">
+                <Pause size={18} strokeWidth={2} />
+              </div>
               <div className={StyleSheet.StatBody}>
                 <div className={StyleSheet.StatLabel}>Inactive</div>
                 <div className={StyleSheet.StatValue}>
-                  {loading ? "…" : inactiveCount}
-                </div>
-                <div className={StyleSheet.StatSub}>
-                  {inactiveCount === 0
-                    ? "Everyone is active"
-                    : "Add availability to activate"}
+                  {loading ? "—" : inactiveCount}
                 </div>
               </div>
             </div>
@@ -602,26 +601,8 @@ export default function Employee() {
           )}
         </section>
 
-        {/* Employees list */}
+        {/* ---------- Employee rows ---------- */}
         <section className={StyleSheet.Section}>
-          <div className={StyleSheet.SectionHeader}>
-            <div>
-              <h2 className={StyleSheet.SectionTitle}>Employees</h2>
-              <p className={StyleSheet.SectionSub}>
-                {loading
-                  ? "Loading..."
-                  : `${totalCount} ${totalCount === 1 ? "person" : "people"}`}
-              </p>
-            </div>
-            <button
-              type="button"
-              className={StyleSheet.PrimaryAction}
-              onClick={handleAddEmployee}
-            >
-              <span aria-hidden="true">+</span> Add Employee
-            </button>
-          </div>
-
           {loading ? (
             <div className={StyleSheet.LoadingContainer}>
               <div className={StyleSheet.LoadingSpinner} aria-hidden="true" />
@@ -629,7 +610,9 @@ export default function Employee() {
             </div>
           ) : !Array.isArray(employees) || employees.length === 0 ? (
             <div className={StyleSheet.EmptyState}>
-              <div className={StyleSheet.EmptyIcon}>👥</div>
+              <div className={StyleSheet.EmptyIcon}>
+                <Users size={26} strokeWidth={1.75} aria-hidden="true" />
+              </div>
               <h3>No employees yet</h3>
               <p>Add your first employee to start taking appointments.</p>
               <button
@@ -637,11 +620,12 @@ export default function Employee() {
                 className={StyleSheet.PrimaryAction}
                 onClick={handleAddEmployee}
               >
-                <span aria-hidden="true">+</span> Add First Employee
+                <Plus size={15} strokeWidth={2.25} aria-hidden="true" />
+                Add First Employee
               </button>
             </div>
           ) : (
-            <div className={StyleSheet.EmployeesGrid}>
+            <ul className={StyleSheet.EmployeeList}>
               {employees.map((employee, index) => {
                 const employeeId = getEmployeeId(employee, index);
                 const isActive =
@@ -649,15 +633,21 @@ export default function Employee() {
                 const fullName =
                   `${employee.firstName || ""} ${employee.lastName || ""}`.trim() ||
                   "Unknown Employee";
+
+                const avail = availabilityByEmployee[employeeId];
+                const availableDays = avail?.availableDays || [];
+                const months =
+                  avail?.appointmentsOpenTillInMonths ??
+                  employee.appointmentsOpenTillInMonths;
+                const monthsNum = months ? parseInt(months, 10) : null;
+
                 return (
-                  <div key={employeeId} className={StyleSheet.EmployeeCard}>
-                    <div className={StyleSheet.EmployeeCardHeader}>
-                      <div
-                        className={StyleSheet.EmployeeAvatar}
-                        style={{ background: getAvatarColor(employee.firstName) }}
-                      >
+                  <li key={employeeId} className={StyleSheet.EmployeeRow}>
+                    {/* Identity */}
+                    <div className={StyleSheet.RowIdentity}>
+                      <span className={StyleSheet.EmployeeAvatar}>
                         {initialsOf(employee)}
-                      </div>
+                      </span>
                       <div className={StyleSheet.EmployeeIdentity}>
                         <h3 className={StyleSheet.EmployeeName}>{fullName}</h3>
                         <p className={StyleSheet.EmployeeRole}>
@@ -666,49 +656,9 @@ export default function Employee() {
                             : "Staff"}
                         </p>
                       </div>
-                      <div className={StyleSheet.EmployeeMenuWrapper}>
-                        <button
-                          type="button"
-                          className={StyleSheet.MenuToggle}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            toggleMenu(employeeId);
-                          }}
-                          aria-label="Open employee menu"
-                        >
-                          ⋮
-                        </button>
-                        {openMenuId === employeeId && (
-                          <div
-                            className={StyleSheet.MenuDropdown}
-                            onClick={(e) => e.stopPropagation()}
-                          >
-                            <button
-                              type="button"
-                              className={StyleSheet.MenuOption}
-                              onClick={() => {
-                                handleEditEmployee(employee);
-                                closeMenu();
-                              }}
-                            >
-                              <span aria-hidden="true">✏️</span> Edit
-                            </button>
-                            <button
-                              type="button"
-                              className={`${StyleSheet.MenuOption} ${StyleSheet.MenuOptionDelete}`}
-                              onClick={() => {
-                                handleDeleteEmployee(employee);
-                                closeMenu();
-                              }}
-                              disabled={loading}
-                            >
-                              <span aria-hidden="true">🗑️</span> Delete
-                            </button>
-                          </div>
-                        )}
-                      </div>
                     </div>
 
+                    {/* Status */}
                     <div className={StyleSheet.StatusRow}>
                       <span
                         className={`${StyleSheet.StatusPill} ${
@@ -717,7 +667,10 @@ export default function Employee() {
                             : StyleSheet.StatusInactive
                         }`}
                       >
-                        <span className={StyleSheet.StatusDot} aria-hidden="true" />
+                        <span
+                          className={StyleSheet.StatusDot}
+                          aria-hidden="true"
+                        />
                         {isActive ? "Active" : "Inactive"}
                       </span>
                       {!isActive && (
@@ -753,18 +706,25 @@ export default function Employee() {
                       )}
                     </div>
 
+                    {/* Contact */}
                     <div className={StyleSheet.EmployeeDetails}>
                       <div className={StyleSheet.DetailRow}>
-                        <span className={StyleSheet.DetailIcon} aria-hidden="true">
-                          ✉
+                        <span
+                          className={StyleSheet.DetailIcon}
+                          aria-hidden="true"
+                        >
+                          <Mail size={14} strokeWidth={2} />
                         </span>
                         <span className={StyleSheet.DetailText}>
                           {employee.email || "Not provided"}
                         </span>
                       </div>
                       <div className={StyleSheet.DetailRow}>
-                        <span className={StyleSheet.DetailIcon} aria-hidden="true">
-                          📞
+                        <span
+                          className={StyleSheet.DetailIcon}
+                          aria-hidden="true"
+                        >
+                          <Phone size={14} strokeWidth={2} />
                         </span>
                         <span className={StyleSheet.DetailText}>
                           {employee.phoneNumber || "Not provided"}
@@ -772,82 +732,143 @@ export default function Employee() {
                       </div>
                     </div>
 
-                    {(() => {
-                      const avail = availabilityByEmployee[employeeId];
-                      const availableDays = avail?.availableDays || [];
-                      const months =
-                        avail?.appointmentsOpenTillInMonths ??
-                        employee.appointmentsOpenTillInMonths;
-                      const monthsNum = months ? parseInt(months, 10) : null;
-                      return (
-                        <div className={StyleSheet.AvailabilityBlock}>
-                          <div className={StyleSheet.AvailabilityHeader}>
-                            <span className={StyleSheet.AvailabilityLabel}>
-                              Weekly availability
+                    {/* Availability */}
+                    <div className={StyleSheet.AvailabilityBlock}>
+                      <div className={StyleSheet.AvailabilityHeader}>
+                        <span className={StyleSheet.AvailabilityLabel}>
+                          Weekly availability
+                        </span>
+                        <span className={StyleSheet.AvailabilityCount}>
+                          {availableDays.length}/7 days
+                        </span>
+                      </div>
+                      <div
+                        className={StyleSheet.DayStrip}
+                        role="list"
+                        aria-label="Days available for booking"
+                      >
+                        {DAY_LABELS.map((d) => {
+                          const isAvail = availableDays.includes(d.full);
+                          return (
+                            <span
+                              key={d.full}
+                              className={`${StyleSheet.DayPill} ${
+                                isAvail
+                                  ? StyleSheet.DayPillOn
+                                  : StyleSheet.DayPillOff
+                              }`}
+                              role="listitem"
+                              title={`${d.full.charAt(0)}${d.full
+                                .slice(1)
+                                .toLowerCase()}: ${
+                                isAvail ? "available" : "unavailable"
+                              }`}
+                            >
+                              {d.short}
                             </span>
-                            <span className={StyleSheet.AvailabilityCount}>
-                              {availableDays.length}/7 days
-                            </span>
-                          </div>
-                          <div
-                            className={StyleSheet.DayStrip}
-                            role="list"
-                            aria-label="Days available for booking"
-                          >
-                            {DAY_LABELS.map((d) => {
-                              const isAvail = availableDays.includes(d.full);
-                              return (
-                                <span
-                                  key={d.full}
-                                  className={`${StyleSheet.DayPill} ${
-                                    isAvail
-                                      ? StyleSheet.DayPillOn
-                                      : StyleSheet.DayPillOff
-                                  }`}
-                                  role="listitem"
-                                  title={`${d.full.charAt(0)}${d.full
-                                    .slice(1)
-                                    .toLowerCase()}: ${
-                                    isAvail ? "available" : "unavailable"
-                                  }`}
-                                >
-                                  {d.short}
-                                </span>
-                              );
-                            })}
-                          </div>
-                          <div className={StyleSheet.BookingWindow}>
-                            <span aria-hidden="true">📆</span>
-                            {monthsNum != null && monthsNum > 0
-                              ? `Bookings open for ${monthsNum} month${
-                                  monthsNum === 1 ? "" : "s"
-                                }`
-                              : "Booking window not set"}
-                          </div>
-                        </div>
-                      );
-                    })()}
+                          );
+                        })}
+                      </div>
+                      <div className={StyleSheet.BookingWindow}>
+                        <CalendarClock
+                          size={14}
+                          strokeWidth={2.25}
+                          aria-hidden="true"
+                        />
+                        {monthsNum != null && monthsNum > 0
+                          ? `Bookings open for ${monthsNum} month${
+                              monthsNum === 1 ? "" : "s"
+                            }`
+                          : "Booking window not set"}
+                      </div>
+                    </div>
 
+                    {/* Actions */}
                     <div className={StyleSheet.EmployeeActions}>
                       <button
                         type="button"
                         className={StyleSheet.SecondaryAction}
                         onClick={() => handleViewAvailability(employee)}
                       >
-                        <span aria-hidden="true">📅</span> Availability
+                        <CalendarDays
+                          size={14}
+                          strokeWidth={2.25}
+                          aria-hidden="true"
+                        />
+                        Availability
                       </button>
                       <button
                         type="button"
                         className={StyleSheet.SecondaryAction}
                         onClick={() => handleViewServices(employee)}
                       >
-                        <span aria-hidden="true">🛎️</span> Services
+                        <ConciergeBell
+                          size={14}
+                          strokeWidth={2.25}
+                          aria-hidden="true"
+                        />
+                        Services
                       </button>
+                      <div className={StyleSheet.EmployeeMenuWrapper}>
+                        <button
+                          type="button"
+                          className={StyleSheet.MenuToggle}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            toggleMenu(employeeId);
+                          }}
+                          aria-label="Open employee menu"
+                        >
+                          <MoreVertical
+                            size={16}
+                            strokeWidth={2.25}
+                            aria-hidden="true"
+                          />
+                        </button>
+                        {openMenuId === employeeId && (
+                          <div
+                            className={StyleSheet.MenuDropdown}
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            <button
+                              type="button"
+                              className={StyleSheet.MenuOption}
+                              onClick={() => {
+                                handleEditEmployee(employee);
+                                closeMenu();
+                              }}
+                            >
+                              <Pencil
+                                size={14}
+                                strokeWidth={2.25}
+                                aria-hidden="true"
+                              />
+                              Edit
+                            </button>
+                            <button
+                              type="button"
+                              className={`${StyleSheet.MenuOption} ${StyleSheet.MenuOptionDelete}`}
+                              onClick={() => {
+                                handleDeleteEmployee(employee);
+                                closeMenu();
+                              }}
+                              disabled={loading}
+                            >
+                              <Trash2
+                                size={14}
+                                strokeWidth={2.25}
+                                aria-hidden="true"
+                              />
+                              Delete
+                            </button>
+                          </div>
+                        )}
+                      </div>
                     </div>
-                  </div>
+                  </li>
                 );
               })}
-            </div>
+            </ul>
           )}
         </section>
       </div>
@@ -870,9 +891,6 @@ export default function Employee() {
               <div className={StyleSheet.ModalIdentity}>
                 <span
                   className={StyleSheet.ModalAvatar}
-                  style={{
-                    background: getAvatarColor(viewServicesEmployee.firstName),
-                  }}
                 >
                   {initialsOf(viewServicesEmployee)}
                 </span>
@@ -893,7 +911,7 @@ export default function Employee() {
                 className={StyleSheet.ModalClose}
                 aria-label="Close"
               >
-                ✕
+                <X size={16} strokeWidth={2.25} aria-hidden="true" />
               </button>
             </div>
 
@@ -913,11 +931,11 @@ export default function Employee() {
                           </div>
                           <div className={StyleSheet.ServiceItemMetaRow}>
                             <span className={StyleSheet.ServiceMeta}>
-                              <span aria-hidden="true">⏱</span>{" "}
+                              <CalendarClock size={13} strokeWidth={2.25} aria-hidden="true" />{" "}
                               {service.eachServiceTimeInMinus} min
                             </span>
                             <span className={StyleSheet.ServiceMeta}>
-                              <span aria-hidden="true">💰</span> $
+                              <CalendarDays size={13} strokeWidth={2.25} aria-hidden="true" /> $
                               {service.serviceFee}
                             </span>
                           </div>
@@ -936,7 +954,7 @@ export default function Employee() {
                             handleRemoveServiceFromEmployee(service)
                           }
                         >
-                          <span aria-hidden="true">🗑️</span> Remove
+                          <Trash2 size={14} strokeWidth={2.25} aria-hidden="true" /> Remove
                         </button>
                       </div>
                     </div>
@@ -944,7 +962,9 @@ export default function Employee() {
                 </div>
               ) : (
                 <div className={StyleSheet.EmptyState}>
-                  <div className={StyleSheet.EmptyIcon}>🛎️</div>
+                  <div className={StyleSheet.EmptyIcon}>
+                  <ConciergeBell size={26} strokeWidth={1.75} aria-hidden="true" />
+                </div>
                   <h3>No services assigned</h3>
                   <p>Add a service to get this employee bookable.</p>
                 </div>
@@ -959,7 +979,7 @@ export default function Employee() {
                   handleOpenAddServiceToEmployee(viewServicesEmployee)
                 }
               >
-                <span aria-hidden="true">+</span> Add Service
+                <Plus size={15} strokeWidth={2.25} aria-hidden="true" /> Add Service
               </button>
             </div>
           </div>
@@ -995,7 +1015,7 @@ export default function Employee() {
             aria-labelledby="delete-confirm-title"
           >
             <div className={StyleSheet.ConfirmIcon} aria-hidden="true">
-              ⚠
+              <AlertTriangle size={20} strokeWidth={2} />
             </div>
             <h3 id="delete-confirm-title" className={StyleSheet.ConfirmTitle}>
               Delete employee?
